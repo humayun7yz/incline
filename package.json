@@ -1,0 +1,14 @@
+{
+  "name": "a11y-scanner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0",
+    "axe-core": "^4.10.0",
+    "express": "^4.21.0"
+  }
+}

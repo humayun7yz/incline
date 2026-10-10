@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Incline — accessibility check</title>
+<style>
+  :root {
+    --accent: #6e7bff;
+    --accent-strong: #5862e0;
+    --ink: #1a1a2e;
+    --muted: #6b7280;
+    --bg: #fafafc;
+    --card: #ffffff;
+    --border: #e6e6ef;
+    --critical: #d9372c;
+    --serious: #e2793a;
+    --moderate: #d9a82f;
+    --minor: #5a8fd9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 28px;
+    max-width: 46ch;
+  }
+  form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  input[type="url"] {
+    flex: 1;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  input[type="url"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+  }
+  button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  button:hover:not(:disabled) { background: var(--accent-strong); }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .hint { color: var(--muted); font-size: 12.5px; margin-bottom: 32px; }
+  .status { font-size: 13.5px; color: var(--muted); margin: 16px 0; font-style: italic; }
+  .summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .summary .site { font-size: 14px; color: var(--muted); word-break: break-all; }
+  .pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+  .pill-clean { background: #e7f6ee; color: #1f8a53; }
+  .pill-issues { background: #fdecea; color: var(--critical); }
+  .finding {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .finding-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .marker {
+    width: 11px;
+    height: 11px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .marker.critical { background: var(--critical); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+  .marker.serious  { background: var(--serious); border-radius: 2px; }
+  .marker.moderate { background: var(--moderate); border-radius: 2px; transform: rotate(45deg); }
+  .marker.minor    { background: var(--minor); border-radius: 50%; }
+  .finding-title { font-size: 14.5px; font-weight: 600; }
+  .finding-impact {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: var(--muted);
+  }
+  .finding-explain { font-size: 13.5px; line-height: 1.5; margin: 0 0 10px; color: #333; }
+  .finding-meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .finding-meta a { color: var(--accent); text-decoration: none; }
+  pre.fix {
+    background: #f4f4fa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 0;
+  }
+  .error {
+    background: #fdecea;
+    color: var(--critical);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Incline — accessibility scanning</h1>
+    <p class="sub">Paste a live URL and Incline will check it with the same engine serious accessibility tools use (axe-core), then explain what it finds in plain English with a suggested fix for each.</p>
+    <form id="scanForm">
+      <input type="url" id="urlInput" placeholder="https://yourstore.com" required />
+      <button type="submit" id="scanBtn">Scan</button>
+    </form>
+    <div class="hint">Takes 10–20 seconds — we're actually loading the page and checking it.</div>
+    <div id="output"></div>
+  </div>
+
+<script>
+const form = document.getElementById("scanForm");
+const urlInput = document.getElementById("urlInput");
+const scanBtn = document.getElementById("scanBtn");
+const output = document.getElementById("output");
+
+const IMPACT_LABEL = { critical: "Critical", serious: "Serious", moderate: "Moderate", minor: "Minor" };
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const url = urlInput.value.trim();
+  if (!url) return;
+  scanBtn.disabled = true;
+  output.innerHTML = '<div class="status">Scanning ' + escapeHtml(url) + '…</div>';
+
+  try {
+    const res = await fetch("/api/scan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      output.innerHTML = '<div class="error">' + escapeHtml(data.error || "Scan failed.") + '</div>';
+      return;
+    }
+    render(data);
+  } catch (err) {
+    output.innerHTML = '<div class="error">Network error: ' + escapeHtml(err.message) + '</div>';
+  } finally {
+    scanBtn.disabled = false;
+  }
+});
+
+function render(data) {
+  const parts = [];
+  parts.push('<div class="summary">');
+  parts.push('<span class="site">' + escapeHtml(data.title || data.url) + '</span>');
+  if (data.violationCount === 0) {
+    parts.push('<span class="pill pill-clean">All clear</span>');
+  } else {
+    parts.push('<span class="pill pill-issues">' + data.violationCount + (data.violationCount === 1 ? " issue" : " issues") + '</span>');
+  }
+  parts.push('</div>');
+
+  if (!data.aiAvailable && data.violationCount > 0) {
+    parts.push('<div class="status">(No AI key configured on this server — showing raw findings without plain-English explanations or fixes.)</div>');
+  }
+
+  for (const v of data.violations) {
+    const sevClass = ["critical", "serious", "moderate", "minor"].includes(v.impact) ? v.impact : "minor";
+    parts.push('<div class="finding">');
+    parts.push('<div class="finding-head">');
+    parts.push('<div class="marker ' + sevClass + '"></div>');
+    parts.push('<div><div class="finding-title">' + escapeHtml(v.help) + '</div>');
+    parts.push('<div class="finding-impact">' + (IMPACT_LABEL[sevClass] || sevClass) + '</div></div>');
+    parts.push('</div>');
+    if (v.explain) {
+      parts.push('<p class="finding-explain">' + escapeHtml(v.explain) + '</p>');
+    }
+    parts.push('<div class="finding-meta">Found on ' + v.nodeCount + ' element' + (v.nodeCount === 1 ? '' : 's') + ' · <a href="' + v.helpUrl + '" target="_blank" rel="noopener">WCAG reference</a></div>');
+    if (v.fix) {
+      parts.push('<pre class="fix">' + escapeHtml(v.fix) + '</pre>');
+    } else if (v.exampleHtml) {
+      parts.push('<pre class="fix">' + escapeHtml(v.exampleHtml) + '</pre>');
+    }
+    parts.push('</div>');
+  }
+
+  output.innerHTML = parts.join("");
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+</script>
+</body>
+</html>
