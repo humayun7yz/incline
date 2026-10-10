@@ -31,6 +31,12 @@ async function scanUrl(url) {
   const launchOptions = { headless: true };
   if (fs.existsSync(CHROMIUM_PATH)) {
     launchOptions.executablePath = CHROMIUM_PATH;
+  } else {
+    // On hosts like Render we only install the regular Chromium build
+    // (not the separate "headless shell" variant Playwright defaults to
+    // in headless mode), so force the "chromium" channel to use the
+    // build that's actually present.
+    launchOptions.channel = "chromium";
   }
   const browser = await chromium.launch(launchOptions);
   try {
