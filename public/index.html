@@ -162,18 +162,20 @@
   .steps-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+    gap: 40px;
     margin: 48px 0 0;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
 
   .steps-strip .step {
-    padding: 20px 20px 20px 0;
-    border-right: 1px solid var(--line);
+    padding: 24px 0;
   }
 
-  .steps-strip .step:last-child { border-right: none; padding-right: 0; }
+  .steps-strip .step:not(:first-child) {
+    border-left: 1px solid var(--line);
+    padding-left: 40px;
+  }
 
   .steps-strip .step-num {
     font-family: var(--mono);
@@ -443,8 +445,13 @@
   @media (max-width: 640px) {
     h1 { font-size: 27px; }
     form { flex-direction: column; }
-    .steps-strip { grid-template-columns: 1fr; }
-    .steps-strip .step { border-right: none; border-bottom: 1px solid var(--line); padding: 16px 0; }
+    .steps-strip { grid-template-columns: 1fr; gap: 0; }
+    .steps-strip .step,
+    .steps-strip .step:not(:first-child) {
+      border-left: none;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
     .steps-strip .step:last-child { border-bottom: none; }
     .finding { grid-template-columns: 1fr; }
     .finding-num { display: none; }
