@@ -3,152 +3,506 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Incline — accessibility check</title>
+<title>Incline — accessibility audits, explained</title>
+<meta name="description" content="Paste a live URL. Incline scans it with axe-core, the engine serious accessibility tools run on, then turns every violation into a plain-English, step-by-step client report." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent: #6e7bff;
-    --accent-strong: #5862e0;
-    --ink: #1a1a2e;
-    --muted: #6b7280;
-    --bg: #fafafc;
-    --card: #ffffff;
-    --border: #e6e6ef;
-    --critical: #d9372c;
-    --serious: #e2793a;
-    --moderate: #d9a82f;
-    --minor: #5a8fd9;
+    --ink: #14171c;
+    --paper: #f7f6f2;
+    --panel: #ffffff;
+    --line: #e2e0d9;
+    --line-strong: #c9c6bc;
+    --muted: #6b6f76;
+    --accent: #1f6f5c;
+    --accent-ink: #164f41;
+    --accent-tint: #e8f3ef;
+    --critical: #b3261e;
+    --critical-tint: #fbeae8;
+    --serious: #a8571a;
+    --serious-tint: #fcf0e4;
+    --moderate: #78600f;
+    --moderate-tint: #faf4df;
+    --minor: #2f5fa8;
+    --minor-tint: #e9eff8;
+    --radius: 6px;
+    --serif: "IBM Plex Serif", Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
   }
+
   * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg);
+    font-family: var(--sans);
+    background: var(--paper);
     color: var(--ink);
+    line-height: 1.5;
   }
-  .wrap {
-    max-width: 720px;
+
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-ink); }
+
+  :focus-visible {
+    outline: 2.5px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ---------- layout shell ---------- */
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 920px;
     margin: 0 auto;
-    padding: 48px 20px 80px;
+    padding: 28px 24px 0;
   }
-  h1 {
-    font-size: 22px;
+
+  .wordmark {
+    font-family: var(--serif);
+    font-size: 19px;
     font-weight: 600;
-    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
   }
-  .sub {
+
+  .wordmark:hover { color: var(--ink); }
+
+  .engine-badge {
+    font-family: var(--mono);
+    font-size: 12px;
     color: var(--muted);
-    font-size: 14px;
-    margin: 0 0 28px;
-    max-width: 46ch;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 5px 12px;
+    white-space: nowrap;
   }
+
+  main { max-width: 920px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- hero / scan form ---------- */
+
+  .hero { padding: 56px 0 8px; max-width: 640px; }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 34px;
+    line-height: 1.18;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 32px;
+    max-width: 52ch;
+  }
+
   form {
     display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 10px;
+    max-width: 620px;
   }
+
   input[type="url"] {
     flex: 1;
-    padding: 11px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    min-width: 0;
+    padding: 13px 16px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius);
+    font-family: var(--mono);
     font-size: 14px;
+    background: var(--panel);
+    color: var(--ink);
   }
+
+  input[type="url"]::placeholder { color: #9b9890; }
+
   input[type="url"]:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: -1px;
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-tint);
   }
-  button {
-    padding: 11px 18px;
+
+  button.primary {
+    padding: 13px 22px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius);
     background: var(--accent);
     color: #fff;
+    font-family: var(--sans);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+
+  button.primary:hover:not(:disabled) { background: var(--accent-ink); }
+  button.primary:disabled { opacity: 0.55; cursor: default; }
+
+  .hint {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 12px 0 0;
+  }
+
+  /* ---------- how it works strip ---------- */
+
+  .steps-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 48px 0 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .steps-strip .step {
+    padding: 20px 20px 20px 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .steps-strip .step:last-child { border-right: none; padding-right: 0; }
+
+  .steps-strip .step-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .steps-strip .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .steps-strip .step-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---------- status / error ---------- */
+
+  .status {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 40px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--line);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinner { animation: none; }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error {
+    background: var(--critical-tint);
+    color: var(--critical);
+    border: 1px solid #f0cdc8;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 14px;
+    margin: 40px 0;
+  }
+
+  /* ---------- report panel ---------- */
+
+  .report {
+    margin-top: 44px;
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .report-head {
+    padding: 22px 26px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .report-head .site-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    word-break: break-word;
+  }
+
+  .report-head .site-url {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+
+  .report-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  button.ghost {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    background: transparent;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 7px 13px;
     cursor: pointer;
   }
-  button:hover:not(:disabled) { background: var(--accent-strong); }
-  button:disabled { opacity: 0.5; cursor: default; }
-  .hint { color: var(--muted); font-size: 12.5px; margin-bottom: 32px; }
-  .status { font-size: 13.5px; color: var(--muted); margin: 16px 0; font-style: italic; }
-  .summary {
+
+  button.ghost:hover { border-color: var(--ink); }
+
+  .pill-clean {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent-tint);
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .tally { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .tally-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .tally-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tally-item.critical .tally-dot { background: var(--critical); }
+  .tally-item.serious .tally-dot { background: var(--serious); }
+  .tally-item.moderate .tally-dot { background: var(--moderate); }
+  .tally-item.minor .tally-dot { background: var(--minor); }
+  .tally-item.critical { color: var(--critical); }
+  .tally-item.serious { color: var(--serious); }
+  .tally-item.moderate { color: var(--moderate); }
+  .tally-item.minor { color: var(--minor); }
+
+  .ai-note {
+    font-size: 12.5px;
+    color: var(--muted);
+    padding: 10px 26px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ---------- findings ---------- */
+
+  .finding {
+    padding: 26px;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .finding:last-child { border-bottom: none; }
+  .finding > .finding-body { min-width: 0; }
+
+  .finding-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+
+  .finding-title-row {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 18px;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
   }
-  .summary .site { font-size: 14px; color: var(--muted); word-break: break-all; }
-  .pill {
-    font-size: 12px;
+
+  .finding-title {
+    font-size: 16px;
     font-weight: 600;
-    padding: 4px 11px;
+    letter-spacing: -0.005em;
+  }
+
+  .sev-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 9px;
     border-radius: 100px;
     flex-shrink: 0;
   }
-  .pill-clean { background: #e7f6ee; color: #1f8a53; }
-  .pill-issues { background: #fdecea; color: var(--critical); }
-  .finding {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
+
+  .sev-badge.critical { background: var(--critical-tint); color: var(--critical); }
+  .sev-badge.serious { background: var(--serious-tint); color: var(--serious); }
+  .sev-badge.moderate { background: var(--moderate-tint); color: var(--moderate); }
+  .sev-badge.minor { background: var(--minor-tint); color: var(--minor); }
+
+  .finding-explain {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #2b2e33;
+    margin: 0 0 16px;
+    max-width: 68ch;
   }
-  .finding-head {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .marker {
-    width: 11px;
-    height: 11px;
-    margin-top: 3px;
-    flex-shrink: 0;
-  }
-  .marker.critical { background: var(--critical); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
-  .marker.serious  { background: var(--serious); border-radius: 2px; }
-  .marker.moderate { background: var(--moderate); border-radius: 2px; transform: rotate(45deg); }
-  .marker.minor    { background: var(--minor); border-radius: 50%; }
-  .finding-title { font-size: 14.5px; font-weight: 600; }
-  .finding-impact {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: capitalize;
-    color: var(--muted);
-  }
-  .finding-explain { font-size: 13.5px; line-height: 1.5; margin: 0 0 10px; color: #333; }
-  .finding-meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
-  .finding-meta a { color: var(--accent); text-decoration: none; }
-  pre.fix {
-    background: #f4f4fa;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
+
+  .finding-section { margin-bottom: 16px; }
+
+  .finding-section:last-child { margin-bottom: 0; }
+
+  .section-label {
     font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+
+  ol.fix-steps {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  ol.fix-steps li { padding-left: 2px; }
+
+  pre.fix {
+    background: #1b1d21;
+    color: #e7e6e1;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
     overflow-x: auto;
     margin: 0;
   }
-  .error {
-    background: #fdecea;
-    color: var(--critical);
-    border-radius: 8px;
-    padding: 12px 14px;
+
+  .also-note {
     font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    border-left: 2.5px solid var(--line-strong);
+    padding: 2px 0 2px 14px;
+    margin: 0;
+  }
+
+  .finding-meta {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+
+  .finding-meta a { text-decoration: none; }
+  .finding-meta a:hover { text-decoration: underline; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    max-width: 920px;
+    margin: 64px auto 0;
+    padding: 24px 24px 0;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 640px) {
+    h1 { font-size: 27px; }
+    form { flex-direction: column; }
+    .steps-strip { grid-template-columns: 1fr; }
+    .steps-strip .step { border-right: none; border-bottom: 1px solid var(--line); padding: 16px 0; }
+    .steps-strip .step:last-child { border-bottom: none; }
+    .finding { grid-template-columns: 1fr; }
+    .finding-num { display: none; }
+    .report-head { flex-direction: column; }
+  }
+
+  /* ---------- print ---------- */
+
+  @media print {
+    .topbar, .hero, .steps-strip, form, button.ghost, footer { display: none; }
+    body { background: #fff; }
+    .report { border: none; }
+    main { padding: 0; max-width: 100%; }
+    pre.fix { background: #f4f4f0; color: #111; border: 1px solid #ccc; }
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Incline — accessibility scanning</h1>
-    <p class="sub">Paste a live URL and Incline will check it with the same engine serious accessibility tools use (axe-core), then explain what it finds in plain English with a suggested fix for each.</p>
-    <form id="scanForm">
-      <input type="url" id="urlInput" placeholder="https://yourstore.com" required />
-      <button type="submit" id="scanBtn">Scan</button>
-    </form>
-    <div class="hint">Takes 10–20 seconds — we're actually loading the page and checking it.</div>
-    <div id="output"></div>
+  <div class="topbar">
+    <a class="wordmark" href="/">Incline</a>
+    <span class="engine-badge">axe-core &middot; WCAG 2.1 / 2.2</span>
   </div>
+
+  <main>
+    <section class="hero">
+      <h1>See your site the way an automated accessibility audit sees it.</h1>
+      <p>Paste a live URL. Incline loads the real page in a browser, runs axe-core — the same engine behind most professional accessibility tools — and turns every violation into a report a client can actually read and a developer can actually act on.</p>
+      <form id="scanForm">
+        <input type="url" id="urlInput" placeholder="https://yourstore.com" required />
+        <button type="submit" class="primary" id="scanBtn">Scan site</button>
+      </form>
+      <p class="hint">Takes 10–20 seconds — we're actually loading the page, not guessing from a screenshot.</p>
+    </section>
+
+    <div class="steps-strip">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Paste a URL</div>
+        <div class="step-body">Any live, public page. No install, no account.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Real browser scan</div>
+        <div class="step-body">axe-core audits the rendered DOM, not static HTML.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Plain-English report</div>
+        <div class="step-body">Each issue explained, with steps and a code fix.</div>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </main>
+
+  <footer>
+    Incline runs axe-core, the open-source engine also used in Chrome DevTools' own accessibility panel. A clean scan is a strong signal, not a legal guarantee of WCAG compliance.
+  </footer>
 
 <script>
 const form = document.getElementById("scanForm");
@@ -156,6 +510,7 @@ const urlInput = document.getElementById("urlInput");
 const scanBtn = document.getElementById("scanBtn");
 const output = document.getElementById("output");
 
+const SEVERITY_ORDER = ["critical", "serious", "moderate", "minor"];
 const IMPACT_LABEL = { critical: "Critical", serious: "Serious", moderate: "Moderate", minor: "Minor" };
 
 form.addEventListener("submit", async (e) => {
@@ -163,7 +518,10 @@ form.addEventListener("submit", async (e) => {
   const url = urlInput.value.trim();
   if (!url) return;
   scanBtn.disabled = true;
-  output.innerHTML = '<div class="status">Scanning ' + escapeHtml(url) + '…</div>';
+  output.innerHTML =
+    '<div class="status"><span class="spinner" aria-hidden="true"></span>Scanning ' +
+    escapeHtml(url) +
+    '&hellip;</div>';
 
   try {
     const res = await fetch("/api/scan", {
@@ -173,12 +531,12 @@ form.addEventListener("submit", async (e) => {
     });
     const data = await res.json();
     if (!res.ok) {
-      output.innerHTML = '<div class="error">' + escapeHtml(data.error || "Scan failed.") + '</div>';
+      output.innerHTML = '<div class="error">' + escapeHtml(data.error || "Scan failed.") + "</div>";
       return;
     }
     render(data);
   } catch (err) {
-    output.innerHTML = '<div class="error">Network error: ' + escapeHtml(err.message) + '</div>';
+    output.innerHTML = '<div class="error">Network error: ' + escapeHtml(err.message) + "</div>";
   } finally {
     scanBtn.disabled = false;
   }
@@ -186,40 +544,108 @@ form.addEventListener("submit", async (e) => {
 
 function render(data) {
   const parts = [];
-  parts.push('<div class="summary">');
-  parts.push('<span class="site">' + escapeHtml(data.title || data.url) + '</span>');
+  parts.push('<div class="report">');
+
+  // Head: title/url + action + either clean pill or severity tally
+  parts.push('<div class="report-head">');
+  parts.push("<div>");
+  parts.push('<p class="site-title">' + escapeHtml(data.title || "Scan result") + "</p>");
+  parts.push('<p class="site-url">' + escapeHtml(data.url) + "</p>");
+  parts.push("</div>");
+  parts.push('<div class="report-actions">');
   if (data.violationCount === 0) {
-    parts.push('<span class="pill pill-clean">All clear</span>');
+    parts.push('<span class="pill-clean">All clear — 0 issues found</span>');
   } else {
-    parts.push('<span class="pill pill-issues">' + data.violationCount + (data.violationCount === 1 ? " issue" : " issues") + '</span>');
+    parts.push('<button class="ghost" id="printBtn" type="button">Print report</button>');
+    parts.push(tally(data.violations));
   }
-  parts.push('</div>');
+  parts.push("</div>");
+  parts.push("</div>");
 
   if (!data.aiAvailable && data.violationCount > 0) {
-    parts.push('<div class="status">(No AI key configured on this server — showing raw findings without plain-English explanations or fixes.)</div>');
+    parts.push(
+      '<div class="ai-note">No AI key configured on this server — showing raw axe-core findings without the plain-English explanation, steps, or fix.</div>'
+    );
   }
 
-  for (const v of data.violations) {
-    const sevClass = ["critical", "serious", "moderate", "minor"].includes(v.impact) ? v.impact : "minor";
+  data.violations.forEach((v, i) => {
+    const sevClass = SEVERITY_ORDER.includes(v.impact) ? v.impact : "minor";
     parts.push('<div class="finding">');
-    parts.push('<div class="finding-head">');
-    parts.push('<div class="marker ' + sevClass + '"></div>');
-    parts.push('<div><div class="finding-title">' + escapeHtml(v.help) + '</div>');
-    parts.push('<div class="finding-impact">' + (IMPACT_LABEL[sevClass] || sevClass) + '</div></div>');
-    parts.push('</div>');
-    if (v.explain) {
-      parts.push('<p class="finding-explain">' + escapeHtml(v.explain) + '</p>');
-    }
-    parts.push('<div class="finding-meta">Found on ' + v.nodeCount + ' element' + (v.nodeCount === 1 ? '' : 's') + ' · <a href="' + v.helpUrl + '" target="_blank" rel="noopener">WCAG reference</a></div>');
-    if (v.fix) {
-      parts.push('<pre class="fix">' + escapeHtml(v.fix) + '</pre>');
-    } else if (v.exampleHtml) {
-      parts.push('<pre class="fix">' + escapeHtml(v.exampleHtml) + '</pre>');
-    }
-    parts.push('</div>');
-  }
+    parts.push('<div class="finding-num">' + String(i + 1).padStart(2, "0") + "</div>");
+    parts.push('<div class="finding-body">');
 
+    parts.push('<div class="finding-title-row">');
+    parts.push('<span class="finding-title">' + escapeHtml(v.help) + "</span>");
+    parts.push('<span class="sev-badge ' + sevClass + '">' + (IMPACT_LABEL[sevClass] || sevClass) + "</span>");
+    parts.push("</div>");
+
+    if (v.explain) {
+      parts.push('<p class="finding-explain">' + escapeHtml(v.explain) + "</p>");
+    }
+
+    if (v.steps && v.steps.length) {
+      parts.push('<div class="finding-section">');
+      parts.push('<p class="section-label">How to fix it</p>');
+      parts.push(
+        '<ol class="fix-steps">' + v.steps.map((s) => "<li>" + escapeHtml(s) + "</li>").join("") + "</ol>"
+      );
+      parts.push("</div>");
+    }
+
+    const code = v.fix || v.exampleHtml;
+    if (code) {
+      parts.push('<div class="finding-section">');
+      parts.push('<p class="section-label">' + (v.fix ? "Suggested fix" : "Current markup") + "</p>");
+      parts.push('<pre class="fix">' + escapeHtml(code) + "</pre>");
+      parts.push("</div>");
+    }
+
+    if (v.also) {
+      parts.push('<div class="finding-section">');
+      parts.push('<p class="also-note">' + escapeHtml(v.also) + "</p>");
+      parts.push("</div>");
+    }
+
+    parts.push(
+      '<div class="finding-meta">Found on ' +
+        v.nodeCount +
+        " element" +
+        (v.nodeCount === 1 ? "" : "s") +
+        ' &middot; <a href="' +
+        v.helpUrl +
+        '" target="_blank" rel="noopener">WCAG reference</a></div>'
+    );
+
+    parts.push("</div>"); // .finding right column
+    parts.push("</div>"); // .finding
+  });
+
+  parts.push("</div>"); // .report
   output.innerHTML = parts.join("");
+
+  const printBtn = document.getElementById("printBtn");
+  if (printBtn) printBtn.addEventListener("click", () => window.print());
+}
+
+function tally(violations) {
+  const counts = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+  for (const v of violations) {
+    const key = SEVERITY_ORDER.includes(v.impact) ? v.impact : "minor";
+    counts[key]++;
+  }
+  const items = SEVERITY_ORDER.filter((k) => counts[k] > 0)
+    .map(
+      (k) =>
+        '<span class="tally-item ' +
+        k +
+        '"><span class="tally-dot"></span>' +
+        counts[k] +
+        " " +
+        IMPACT_LABEL[k] +
+        "</span>"
+    )
+    .join("");
+  return '<div class="tally">' + items + "</div>";
 }
 
 function escapeHtml(str) {

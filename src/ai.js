@@ -20,7 +20,7 @@ function callOpenAiCompatible(provider, apiKey, model, system, userText) {
   const hostname = provider === "deepseek" ? "api.deepseek.com" : "api.openai.com";
   const body = JSON.stringify({
     model,
-    max_tokens: 2500,
+    max_tokens: 4500,
     messages: [
       { role: "system", content: system },
       { role: "user", content: userText },
@@ -61,7 +61,7 @@ function callOpenAiCompatible(provider, apiKey, model, system, userText) {
 function callClaude(apiKey, model, system, userText) {
   const body = JSON.stringify({
     model,
-    max_tokens: 2500,
+    max_tokens: 4500,
     system,
     messages: [{ role: "user", content: userText }],
   });

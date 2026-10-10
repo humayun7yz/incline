@@ -55,7 +55,9 @@ app.post("/api/scan", async (req, res) => {
       nodeCount: v.nodes.length,
       exampleHtml: v.nodes[0]?.html || "",
       explain: explanations[v.id]?.explain || "",
+      steps: explanations[v.id]?.steps || [],
       fix: explanations[v.id]?.fix || null,
+      also: explanations[v.id]?.also || "",
     }));
 
     res.json({
