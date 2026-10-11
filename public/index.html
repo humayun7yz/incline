@@ -420,6 +420,16 @@
     margin: 0;
   }
 
+  .risk-note {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #5c4a14;
+    background: var(--moderate-tint);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin: 0;
+  }
+
   .finding-meta {
     font-size: 12.5px;
     color: var(--muted);
@@ -604,6 +614,13 @@ function render(data) {
       parts.push('<div class="finding-section">');
       parts.push('<p class="section-label">' + (v.fix ? "Suggested fix" : "Current markup") + "</p>");
       parts.push('<pre class="fix">' + escapeHtml(code) + "</pre>");
+      parts.push("</div>");
+    }
+
+    if (v.risk) {
+      parts.push('<div class="finding-section">');
+      parts.push('<p class="section-label">Why it matters for your business</p>');
+      parts.push('<p class="risk-note">' + escapeHtml(v.risk) + "</p>");
       parts.push("</div>");
     }
 

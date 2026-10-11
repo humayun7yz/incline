@@ -57,6 +57,7 @@ app.post("/api/scan", async (req, res) => {
       explain: explanations[v.id]?.explain || "",
       steps: explanations[v.id]?.steps || [],
       fix: explanations[v.id]?.fix || null,
+      risk: explanations[v.id]?.risk || "",
       also: explanations[v.id]?.also || "",
     }));
 

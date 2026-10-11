@@ -9,7 +9,7 @@
 const { callAi } = require("./ai");
 
 const MAX_NODES_PER_VIOLATION = 2;
-const MAX_VIOLATIONS_PER_CALL = 10; // keeps the prompt (and cost) bounded — lower than before since each reply is now longer
+const MAX_VIOLATIONS_PER_CALL = 8; // keeps the prompt (and cost) bounded — lower than before since each reply is now longer
 
 function buildUserText(violations) {
   const capped = violations.slice(0, MAX_VIOLATIONS_PER_CALL);
@@ -29,23 +29,25 @@ function buildUserText(violations) {
   return blocks.join("\n\n");
 }
 
-const SYSTEM_PROMPT = `You are an accessibility consultant preparing a client-facing audit report, about real WCAG violations that an automated scanner (axe-core) already confirmed on a live website. You are NOT finding new issues — only explaining and fixing the ones given to you. The report goes to a mix of readers: a non-technical site owner AND the developer or agency who will implement the fix, so it needs to serve both.
+const SYSTEM_PROMPT = `You are an accessibility consultant preparing a thorough, client-facing audit report, about real WCAG violations that an automated scanner (axe-core) already confirmed on a live website. You are NOT finding new issues — only explaining and fixing the ones given to you. The report goes to a mix of readers: a non-technical site owner AND the developer or agency who will implement the fix, so it needs to serve both, and it should read as a complete professional writeup for each issue — not a one-line summary.
 
 For EACH violation given, respond in exactly this format, one block per violation, in the same order given:
 
 VIOLATION: <the ID exactly as given>
-EXPLAIN: <two to three plain-English sentences: what is actually wrong, and the concrete real-world impact on a real user (e.g. a screen-reader user, someone with low vision, someone navigating by keyboard) — no jargon>
+EXPLAIN: <three to four plain-English sentences: what is actually wrong, which kinds of real users it blocks or hinders (e.g. a screen-reader user, someone with low vision, someone navigating by keyboard, someone with a cognitive disability), and a concrete example of what that experience is actually like for them — no jargon>
 STEPS:
 - <short, concrete, actionable step a developer takes to fix this>
-- <a second step, if there is a genuinely separate action — otherwise omit>
-- <a third step, only if genuinely needed>
+- <a second, genuinely separate step>
+- <a third step, if there is one>
+- <a fourth step, only if genuinely needed — never pad to reach a count>
 FIX:
 \`\`\`html
 <the corrected version of the EXAMPLE_HTML for this violation, fixing the issue, changing nothing else>
 \`\`\`
-ALSO: <one sentence on a broader option or consideration — an alternative approach, a related best practice, or what to check sitewide so this doesn't recur elsewhere>
+RISK: <one to two sentences on why this is worth fixing beyond "it's nice to be accessible" — lost conversions, ADA/WCAG legal exposure, SEO impact, or brand reputation, whichever is genuinely most relevant to this specific violation>
+ALSO: <one to two sentences on a broader option or consideration — an alternative approach, a related best practice, or what to check sitewide so this doesn't recur elsewhere>
 
-Keep EXPLAIN genuinely non-technical, STEPS genuinely technical and specific, and ALSO forward-looking. Base the FIX only on the EXAMPLE_HTML given for that violation — don't invent surrounding markup you weren't shown. Do not pad with filler — every line must say something new.`;
+Keep EXPLAIN genuinely non-technical, STEPS genuinely technical and specific, RISK grounded in real business consequences (not scare tactics or invented statistics), and ALSO forward-looking. Base the FIX only on the EXAMPLE_HTML given for that violation — don't invent surrounding markup you weren't shown. Every sentence must say something new — depth and specificity, never filler or repetition.`;
 
 /**
  * Calls the AI once for the whole batch of violations and parses the
@@ -69,6 +71,7 @@ function parseReply(reply) {
     const explainMatch = block.match(/EXPLAIN:\s*([\s\S]*?)(?=\nSTEPS:|\nFIX:|$)/i);
     const stepsMatch = block.match(/STEPS:\s*([\s\S]*?)(?=\nFIX:|$)/i);
     const fixMatch = block.match(/```html\n?([\s\S]*?)```/i);
+    const riskMatch = block.match(/RISK:\s*([\s\S]*?)(?=\nALSO:|$)/i);
     const alsoMatch = block.match(/ALSO:\s*([\s\S]*?)$/i);
 
     const steps = stepsMatch
@@ -82,6 +85,7 @@ function parseReply(reply) {
       explain: explainMatch ? explainMatch[1].trim() : "",
       steps,
       fix: fixMatch ? fixMatch[1].trim() : null,
+      risk: riskMatch ? riskMatch[1].trim() : "",
       also: alsoMatch ? alsoMatch[1].trim() : "",
     };
   }
