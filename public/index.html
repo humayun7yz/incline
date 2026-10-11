@@ -496,7 +496,9 @@
       <p class="hint">Takes 10–20 seconds — we're actually loading the page, not guessing from a screenshot.</p>
     </section>
 
-    <div class="steps-strip">
+    <div id="output"></div>
+
+    <div class="steps-strip" id="stepsStrip">
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-title">Paste a URL</div>
@@ -513,8 +515,6 @@
         <div class="step-body">Each issue explained, with steps and a code fix.</div>
       </div>
     </div>
-
-    <div id="output"></div>
   </main>
 
   <footer>
@@ -535,6 +535,8 @@ form.addEventListener("submit", async (e) => {
   const url = urlInput.value.trim();
   if (!url) return;
   scanBtn.disabled = true;
+  const stepsStrip = document.getElementById("stepsStrip");
+  if (stepsStrip) stepsStrip.style.display = "none";
   output.innerHTML =
     '<div class="status"><span class="spinner" aria-hidden="true"></span>Scanning ' +
     escapeHtml(url) +
