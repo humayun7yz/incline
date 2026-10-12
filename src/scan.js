@@ -45,13 +45,13 @@ async function scanUrl(url) {
     // brief moment to settle before we audit the DOM.
     await page.waitForTimeout(800);
 
-    await page.addScriptTag({ content: axeSource });
-    const axeResults = await page.evaluate(() => {
-      // eslint-disable-next-line no-undef
-      return axe.run(document, {
-        resultTypes: ["violations"],
-      });
-    });
+    // Some sites (especially agency/corporate ones) run a strict Content
+    // Security Policy that blocks addScriptTag's injected <script> tag
+    // outright. Running the axe-core source directly through evaluate()
+    // instead sidesteps that — it executes via the browser's debugging
+    // protocol rather than as a DOM script element, so the page's CSP
+    // script-src rules don't apply to it.
+    const axeResults = await page.evaluate(`${axeSource}\naxe.run(document, { resultTypes: ["violations"] });`);
 
     const title = await page.title();
     const htmlSnapshot = await page.content();
