@@ -4,6 +4,20 @@ const { scanUrl } = require("./scan");
 const { explainAndFix } = require("./report");
 const { assertPublicUrl } = require("./urlsafety");
 const { scanLimits } = require("./limits");
+const { loadGuides, buildIndex } = require("./guides");
+const { guidePage, indexPage, notFoundPage } = require("./pages");
+
+// Public address of the site, used for canonical links and the sitemap.
+// Set SITE_URL on Render when a custom domain is connected.
+const SITE_URL = (process.env.SITE_URL || "https://incline.onrender.com").replace(/\/+$/, "");
+
+// Guides are read from disk and rendered once at startup, then served from
+// memory. Redeploying picks up any content changes.
+const guideIndex = buildIndex(loadGuides());
+const guideHtml = new Map(guideIndex.all.map((g) => [g.id, guidePage(g, SITE_URL)]));
+const guidesIndexHtml = indexPage(guideIndex, SITE_URL);
+const notFoundHtml = notFoundPage(SITE_URL);
+console.log(`Loaded ${guideIndex.all.length} fix guides.`);
 
 const app = express();
 // Render puts one proxy in front of the app; trusting exactly one hop makes
@@ -20,6 +34,18 @@ const AI_CONFIG = {
   apiKey: process.env.A11Y_AI_KEY || "",
   model: process.env.A11Y_AI_MODEL || "",
 };
+
+const PAGE_CACHE = "public, max-age=3600";
+
+app.get("/guides", (req, res) => {
+  res.set("Cache-Control", PAGE_CACHE).type("html").send(guidesIndexHtml);
+});
+
+app.get("/guides/:id", (req, res) => {
+  const html = guideHtml.get(req.params.id);
+  if (!html) return res.status(404).type("html").send(notFoundHtml);
+  res.set("Cache-Control", PAGE_CACHE).type("html").send(html);
+});
 
 app.post("/api/scan", scanLimits, async (req, res) => {
   const { url } = req.body || {};

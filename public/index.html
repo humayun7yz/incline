@@ -75,6 +75,10 @@
 
   .wordmark:hover { color: var(--ink); }
 
+  .topbar-right { display: flex; align-items: center; gap: 18px; }
+  .guides-link { font-size: 15px; color: var(--ink); text-underline-offset: 3px; }
+  @media (max-width: 560px) { .engine-badge { display: none; } }
+
   .engine-badge {
     font-family: var(--mono);
     font-size: 12px;
@@ -480,10 +484,13 @@
 </style>
 </head>
 <body>
-  <div class="topbar">
+  <header class="topbar">
     <a class="wordmark" href="/">Incline</a>
-    <span class="engine-badge">axe-core &middot; WCAG 2.1 / 2.2</span>
-  </div>
+    <div class="topbar-right">
+      <a class="guides-link" href="/guides">Fix guides</a>
+      <span class="engine-badge">axe-core &middot; WCAG 2.1 / 2.2</span>
+    </div>
+  </header>
 
   <main>
     <section class="hero">

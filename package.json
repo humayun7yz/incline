@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node scripts/test-urlsafety.js"
+    "test": "node scripts/test-urlsafety.js && node scripts/test-guides.js"
   },
   "dependencies": {
     "playwright": "^1.48.0",
