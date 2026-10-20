@@ -1,0 +1,27 @@
+{
+  "id": "select-name",
+  "title": "Dropdown menus need a label",
+  "typicalImpact": "critical",
+  "summary": "A select dropdown has no accessible name, so screen readers cannot say what it chooses. Add a label that is linked to the select.",
+  "problem": "A <select> element has no label, aria-label or aria-labeledby. The options may be clear to a sighted person from the nearby layout, but the control itself has no name that assistive technology can read out.",
+  "whoItAffects": "Screen reader users hear \"combo box\" or \"pop-up button\" followed by the first option, with no idea whether they are choosing a size, a country or a delivery date. Voice control users cannot target the dropdown by name.",
+  "whyItMatters": "Dropdowns often hold required choices such as shipping country or quantity. If a person cannot tell what the choice is, they may pick wrongly or abandon the form. This is a failure of WCAG 4.1.2 at Level A.",
+  "steps": [
+    "Find the <select> in the scan result and give it an id if it has none.",
+    "Add a <label> with a for attribute that matches that id, and put the question in its text, such as \"Size\".",
+    "If a visible label is not possible, add aria-label to the <select> with the same wording.",
+    "Avoid using the first option, such as \"Choose one\", as the only name. It is announced as a value, not as a name."
+  ],
+  "before": "<p>Pick a size</p>\n<select name=\"size\">\n  <option>Small</option>\n  <option>Medium</option>\n  <option>Large</option>\n</select>",
+  "after": "<label for=\"size\">Size</label>\n<select id=\"size\" name=\"size\">\n  <option>Small</option>\n  <option>Medium</option>\n  <option>Large</option>\n</select>",
+  "doc": false,
+  "howToCheck": "Select the dropdown in the browser accessibility inspector and read its Name. It should match the visible question, such as \"Size\". An empty Name means the label is missing or not connected.",
+  "related": [
+    "label",
+    "label-title-only",
+    "aria-input-field-name",
+    "form-field-multiple-labels",
+    "autocomplete-valid",
+    "button-name"
+  ]
+}

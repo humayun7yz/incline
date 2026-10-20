@@ -1,0 +1,24 @@
+{
+  "id": "document-title",
+  "title": "Every page needs a title",
+  "typicalImpact": "serious",
+  "summary": "The page has no title element, or it is empty. Add a short, unique title that describes the page, since it shows in tabs and search results.",
+  "problem": "The page has no <title> element in its <head>, or the title is empty. The title is what appears in the browser tab, in bookmarks and as the headline of a search result.",
+  "whoItAffects": "Screen reader users hear the title first when a page loads, and use it to know where they are. People with many tabs open, and anyone who bookmarks or searches, also depend on it. Search engines use it too.",
+  "whyItMatters": "Without a title, browsers show the web address instead, which tells nobody what the page is. This is a WCAG 2.4.2 failure at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Open the page template or theme file that prints the <head> section.",
+    "Add a <title> element inside <head> with a short, specific description of this page.",
+    "Put the unique part first, then the site name, such as Returns policy | Fernwood Garden Supply.",
+    "Make sure every page gets its own title, rather than one shared across the site."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "howToCheck": "Look at the browser tab, or view the page source and search for <title>. It should be present, not empty, and different from your other pages.",
+  "related": [
+    "page-has-heading-one",
+    "html-has-lang",
+    "meta-viewport"
+  ]
+}

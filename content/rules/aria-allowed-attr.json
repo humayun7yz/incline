@@ -1,0 +1,27 @@
+{
+  "id": "aria-allowed-attr",
+  "title": "ARIA attributes must be supported by the role",
+  "typicalImpact": "critical",
+  "summary": "An element uses an ARIA attribute its role does not support, so assistive technology may ignore it. Remove it or use the right one.",
+  "problem": "An element has an aria-* attribute that is not defined for its role (or its native element). For example, aria-checked is not supported on role=\"button\". Assistive technology may ignore the attribute, so the state you meant to expose never reaches the user.",
+  "whoItAffects": "Screen reader users rely on ARIA states and properties to know whether something is pressed, expanded or selected. When the attribute is unsupported, they get no state or a wrong one, and cannot tell what a control is doing.",
+  "steps": [
+    "Read the scan result to find the element, its role and the unsupported attribute.",
+    "Look up the role in the WAI-ARIA specification and check which states and properties it supports. Every role supports the global ones, such as aria-label.",
+    "Swap the attribute for one the role supports. A toggle button uses aria-pressed, a disclosure button uses aria-expanded, and a checkbox uses aria-checked.",
+    "If the attribute is the right one, change the role to match instead. If you can, use a native element such as <button> or <input type=\"checkbox\">, which brings the correct semantics with it."
+  ],
+  "before": "<div role=\"button\" tabindex=\"0\" aria-checked=\"true\">Email me about restocks</div>",
+  "after": "<div role=\"button\" tabindex=\"0\" aria-pressed=\"true\">Email me about restocks</div>",
+  "doc": false,
+  "whyItMatters": "Custom controls only work for assistive technology users if their states are exposed correctly. A wrong attribute is quietly ignored, so the control looks fine to you and stays confusing to them. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan. You can also select the element in your browser's accessibility inspector and check that the state you expect is listed for its role.",
+  "related": [
+    "aria-valid-attr",
+    "aria-valid-attr-value",
+    "aria-required-attr",
+    "aria-prohibited-attr",
+    "aria-roles",
+    "aria-allowed-role"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "marquee",
+  "title": "Remove scrolling <marquee> text from your pages",
+  "typicalImpact": "serious",
+  "summary": "The <marquee> element scrolls text across the page and cannot be paused. Replace it with static text or a control that lets people stop movement.",
+  "problem": "The page uses the <marquee> element, an obsolete tag that scrolls text across the screen. It has no built-in way to pause or stop, and it is a non-standard element that is not part of current HTML.",
+  "whoItAffects": "People with reading or attention difficulties cannot keep up with moving text. Screen magnifier users see the text slide in and out of view, and people with cognitive disabilities may find the movement distracting.",
+  "steps": [
+    "Search your templates for <marquee> tags. The scan result shows the exact markup.",
+    "Replace each one with a normal element such as <p>, so the text stays still and everyone can read it.",
+    "If you have several messages, show them as a short list or let visitors step through them with buttons.",
+    "If you keep any movement, provide a visible pause button and avoid motion that starts on its own."
+  ],
+  "before": "<marquee>Free delivery on orders over 50 dollars</marquee>",
+  "after": "<p>Free delivery on orders over 50 dollars</p>",
+  "doc": false,
+  "whyItMatters": "Moving content that starts on its own and lasts more than five seconds must be pausable under WCAG 2.2.2 (pause, stop, hide), a Level A criterion. The <marquee> element offers no such control.",
+  "howToCheck": "Search the page source for \"<marquee\", or look for text that scrolls on its own. Any match means the element is still in use.",
+  "related": [
+    "blink",
+    "no-autoplay-audio",
+    "meta-refresh",
+    "video-caption",
+    "scrollable-region-focusable",
+    "region"
+  ]
+}

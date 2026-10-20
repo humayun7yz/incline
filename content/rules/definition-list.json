@@ -1,0 +1,24 @@
+{
+  "id": "definition-list",
+  "title": "Definition lists need dt and dd children",
+  "typicalImpact": "serious",
+  "summary": "A <dl> contains elements other than dt and dd groups. Put only properly ordered dt and dd elements inside it, optionally wrapped in div.",
+  "problem": "A <dl> element has direct children that are not allowed, such as a <p>, or its <dt> and <dd> elements are out of order. A definition list should hold <dt> terms followed by <dd> descriptions, optionally grouped in <div>, plus <script> and <template>.",
+  "whoItAffects": "Screen reader users hear a list of terms and descriptions as a related set. When the list is built wrongly, the relationship between each term and description can be lost or announced inconsistently.",
+  "steps": [
+    "Find the <dl> in the markup that the scan reports.",
+    "Move text sitting directly inside the <dl> into a <dd> that belongs to the right <dt>.",
+    "Order the contents as one or more <dt> followed by one or more <dd>. You can group each pair in a <div> for styling.",
+    "If the content is not term and description pairs, use a <ul>, <ol> or ordinary paragraphs instead of a <dl>."
+  ],
+  "before": "<dl>\n  <dt>Delivery</dt>\n  <dd>2 working days</dd>\n  <p>Free over 50 pounds</p>\n</dl>",
+  "after": "<dl>\n  <dt>Delivery</dt>\n  <dd>2 working days</dd>\n  <dt>Free delivery</dt>\n  <dd>Orders over 50 pounds</dd>\n</dl>",
+  "doc": false,
+  "whyItMatters": "The structure of a list is information, and it has to be in the code, not only in how it looks. This is WCAG's info and relationships criterion at Level A, the level that accessibility regulations commonly build on.",
+  "howToCheck": "View the <dl> in your browser's element inspector. Its direct children should be only dt, dd (or div wrappers of them), script or template. A screen reader should announce the list correctly.",
+  "related": [
+    "dlitem",
+    "list",
+    "listitem"
+  ]
+}

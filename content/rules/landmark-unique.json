@@ -1,0 +1,26 @@
+{
+  "id": "landmark-unique",
+  "title": "Landmarks need unique names",
+  "typicalImpact": "moderate",
+  "summary": "Two landmarks of the same type have the same accessible name. Give each one a distinct aria-label so people can tell them apart.",
+  "problem": "Two or more landmarks share the same role and the same accessible name, or both have no name. A common case is two <nav> elements with no label. A screen reader then lists them identically.",
+  "whoItAffects": "Screen reader users who open a list of landmarks see two entries that look the same, such as \"navigation\" twice, and have to open each one to find out which is the main menu and which is the footer menu.",
+  "steps": [
+    "Find the repeated landmarks, such as several <nav> elements or several <aside> elements.",
+    "Give each one a short, distinct aria-label, such as aria-label=\"Main\" and aria-label=\"Footer\". Or point to a visible heading with aria-labeledby.",
+    "Do not include the role word in the name. Screen readers already announce \"navigation\", so use \"Main\", not \"Main navigation\".",
+    "If one of the landmarks is not needed, replace it with a <div> so only one remains."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <nav>\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <nav>\n      <a href=\"/delivery\">Delivery</a>\n      <a href=\"/returns\">Returns</a>\n    </nav>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <nav aria-label=\"Main\">\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <nav aria-label=\"Footer\">\n      <a href=\"/delivery\">Delivery</a>\n      <a href=\"/returns\">Returns</a>\n    </nav>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Names are what make a landmark list useful. Without them a page with several navigation areas is a guessing game for people using screen readers.",
+  "howToCheck": "Open the browser accessibility inspector, select each landmark and read its Name. Landmarks of the same type should each have a different one.",
+  "related": [
+    "landmark-one-main",
+    "landmark-no-duplicate-banner",
+    "landmark-no-duplicate-contentinfo",
+    "region",
+    "aria-allowed-role"
+  ]
+}

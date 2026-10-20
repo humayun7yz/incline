@@ -1,0 +1,27 @@
+{
+  "id": "blink",
+  "title": "Remove the <blink> element from your pages",
+  "typicalImpact": "serious",
+  "summary": "The <blink> element makes text flash on and off and cannot be paused. Replace it with static text and use styling to draw attention instead.",
+  "problem": "The page uses the <blink> element, an obsolete tag that makes text flash on and off. Visitors cannot pause or stop it, and modern browsers no longer support it as a standard feature of HTML.",
+  "whoItAffects": "People with attention or reading difficulties, such as those with ADHD or dyslexia, find flashing text hard to read and distracting. It can also make a page uncomfortable for people with low vision.",
+  "steps": [
+    "Search your templates for <blink> tags. The scan result shows the exact markup.",
+    "Replace each one with a normal element such as <strong> or <p>, so the text stays still.",
+    "If the text must stand out, use a static style such as bold weight or a contrasting background color.",
+    "Avoid CSS animations that make text flash, or give visitors a control to pause them."
+  ],
+  "before": "<blink>Sale ends tonight</blink>",
+  "after": "<strong>Sale ends tonight</strong>",
+  "doc": false,
+  "whyItMatters": "Blinking content that lasts more than five seconds must be pausable under WCAG 2.2.2 (pause, stop, hide), a Level A criterion. The <blink> element offers no way to stop it, so it fails.",
+  "howToCheck": "Search the page source for the text \"<blink\", or watch the page for text that flashes on and off. Any match means the element is still in use.",
+  "related": [
+    "marquee",
+    "no-autoplay-audio",
+    "meta-refresh",
+    "video-caption",
+    "image-alt",
+    "region"
+  ]
+}

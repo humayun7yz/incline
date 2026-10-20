@@ -1,0 +1,28 @@
+{
+  "id": "nested-interactive",
+  "title": "Buttons and links must not contain other controls",
+  "typicalImpact": "serious",
+  "summary": "A button or link contains another link or control, which screen readers may skip and keyboards may mishandle. Place them side by side.",
+  "problem": "An interactive element such as a button, link or element with a widget role contains another focusable control. For example, a link inside a <button>. HTML does not allow this, and assistive technology often announces only the outer control, so the inner one is lost.",
+  "whoItAffects": "Screen reader users may never learn that the inner link exists. Keyboard and voice users may find focus behaves oddly, with one tab stop for two actions, or no way to reach the inner one.",
+  "steps": [
+    "Find the outer and inner controls in the scan result.",
+    "Decide whether they are two separate actions. If so, make them siblings instead of parent and child.",
+    "Use CSS, not nesting, to place them next to each other or to make a whole card look clickable.",
+    "If the outer element is a custom widget with role=\"button\" or similar, remove the nested focusable item or move it outside.",
+    "Test with Tab that each action has its own stop and its own name."
+  ],
+  "before": "<button type=\"button\">Open <a href=\"/delivery\">delivery details</a></button>",
+  "after": "<button type=\"button\">Open</button>\n<a href=\"/delivery\">delivery details</a>",
+  "doc": false,
+  "whyItMatters": "A control that cannot be found or reached by assistive technology may as well not be there. This is a WCAG 4.1.2 Level A requirement (Name, Role, Value), the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Press Tab through the control. Each action should receive focus separately and be announced by name with a screen reader. Two actions sharing one stop means nesting remains.",
+  "related": [
+    "aria-hidden-focus",
+    "aria-text",
+    "button-name",
+    "link-name",
+    "focus-order-semantics",
+    "scrollable-region-focusable"
+  ]
+}

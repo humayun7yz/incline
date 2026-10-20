@@ -1,0 +1,27 @@
+{
+  "id": "input-button-name",
+  "title": "Input buttons need visible text",
+  "typicalImpact": "critical",
+  "summary": "An <input type=\"button\"> has no value, so it has no name. Give it a value attribute that says what the button does.",
+  "problem": "An <input> with type=\"button\" has no value attribute, no aria-label and no title, so the button shows nothing and announces no name. Submit and reset inputs get a default name from the browser, but a plain button does not.",
+  "whoItAffects": "Screen reader users hear only \"button\" and cannot tell what it does. Voice control users cannot say its name to press it. Sighted users see an empty button, unless a background image is carrying the meaning.",
+  "whyItMatters": "A button with no name is a dead end for anyone who relies on assistive technology, whether it opens a menu or starts a payment. This is a failure of WCAG 4.1.2 at Level A.",
+  "steps": [
+    "Find the <input type=\"button\"> in the scan result.",
+    "Add a value attribute with short text that says what the button does, such as value=\"Print receipt\". The browser shows this text on the button.",
+    "If the button must show only an icon, add an aria-label that describes the action instead, and keep it short.",
+    "Consider changing it to a <button> element, which lets you put text and icons inside it."
+  ],
+  "before": "<input type=\"button\" onclick=\"window.print()\">",
+  "after": "<input type=\"button\" value=\"Print receipt\" onclick=\"window.print()\">",
+  "doc": false,
+  "howToCheck": "Select the button in the browser accessibility inspector and read its Name. An empty Name confirms the problem. The fixed button should show its text and announce the same words.",
+  "related": [
+    "button-name",
+    "link-name",
+    "input-image-alt",
+    "label",
+    "aria-command-name",
+    "summary-name"
+  ]
+}

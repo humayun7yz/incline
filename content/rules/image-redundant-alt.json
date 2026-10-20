@@ -1,0 +1,27 @@
+{
+  "id": "image-redundant-alt",
+  "title": "Image alt text repeats the text next to it",
+  "typicalImpact": "minor",
+  "summary": "An image's alt text matches the link or button text beside it, so screen readers say it twice. Use an empty alt on the image.",
+  "problem": "An image inside a link or button has alt text identical to the visible text next to it, such as a cart icon with alt=\"Shopping cart\" beside the words \"Shopping cart\". A screen reader announces the same phrase twice.",
+  "whoItAffects": "Screen reader users hear the same words twice for every such control, which slows them down when they move through a menu or toolbar. Sighted users are not affected.",
+  "steps": [
+    "Find images placed next to text that says the same thing. The scan result shows the exact markup.",
+    "Set the image's alt to an empty value (alt=\"\") so the screen reader skips the image and reads only the visible text.",
+    "Keep the visible text as the name of the link or button.",
+    "If the image says something the text does not, keep a short alt that adds that information."
+  ],
+  "before": "<a href=\"/cart\">\n  <img src=\"/images/cart.png\" width=\"24\" height=\"24\" alt=\"Shopping cart\">\n  Shopping cart\n</a>",
+  "after": "<a href=\"/cart\">\n  <img src=\"/images/cart.png\" width=\"24\" height=\"24\" alt=\"\">\n  Shopping cart\n</a>",
+  "doc": false,
+  "whyItMatters": "This is a recommended practice, not a WCAG failure. Removing the repeat makes menus and toolbars quicker to move through with a screen reader and keeps the spoken name of each control clean.",
+  "howToCheck": "Select the link or button in the browser accessibility inspector and read its Name. If the same phrase appears twice, the image alt text duplicates the visible text.",
+  "related": [
+    "image-alt",
+    "link-name",
+    "button-name",
+    "role-img-alt",
+    "svg-img-alt",
+    "input-image-alt"
+  ]
+}

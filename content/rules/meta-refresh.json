@@ -1,0 +1,25 @@
+{
+  "id": "meta-refresh",
+  "title": "Pages must not refresh or redirect after a delay",
+  "typicalImpact": "critical",
+  "summary": "A meta refresh tag reloads or redirects the page after a delay. Remove it, and use a link or a server redirect so people stay in control.",
+  "problem": "The page has a <meta http-equiv=\"refresh\"> tag with a delay, such as content=\"5;url=/new-page\". The browser moves people to another page, or reloads this one, whether or not they have finished reading.",
+  "whoItAffects": "People who read slowly, including those with cognitive or reading disabilities, and screen reader users, who may be cut off in the middle of the page. Keyboard users lose their place on a reload.",
+  "whyItMatters": "People need time to read and act, and a timed jump takes control away from them. This is a WCAG 2.2.1 failure at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Search your templates for http-equiv=\"refresh\".",
+    "If it redirects an old address, replace it with a server-side redirect (HTTP 301 or 302) set at your host or in your site settings.",
+    "If you want people to move to a new page, show a link that they choose to follow.",
+    "If the page shows live data, update it with a button or script that the user can control, rather than reloading the whole page.",
+    "A delay of zero is allowed, but a server redirect is still better."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n  <meta http-equiv=\"refresh\" content=\"5;url=/returns-new\">\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>This page has moved.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>This page has moved. <a href=\"/returns-new\">Go to the new returns policy</a>.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "howToCheck": "View the page source and search for http-equiv=\"refresh\". If it has a number above zero in content, the page refreshes after a delay.",
+  "related": [
+    "meta-refresh-no-exceptions",
+    "document-title",
+    "meta-viewport"
+  ]
+}

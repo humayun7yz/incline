@@ -1,0 +1,27 @@
+{
+  "id": "button-name",
+  "title": "Buttons need text a screen reader can read",
+  "typicalImpact": "critical",
+  "summary": "A button has no text or accessible name, often because it holds only an icon. Add visible text or an aria-label that says what it does.",
+  "problem": "A <button> element contains no text and has no aria-label or aria-labeledby. This usually happens with icon-only buttons, such as a close \"X\" drawn with an SVG, where nothing in the markup says what the button does.",
+  "whoItAffects": "Screen reader users hear only \"button\" and have to guess its purpose. Voice control users cannot say its name, and people who use speech to click have no label to speak.",
+  "whyItMatters": "Icon buttons often handle important actions like closing a dialog, opening a menu or adding to a cart. Without a name those actions are hidden from people who cannot see the icon. This is a failure of WCAG 4.1.2 at Level A.",
+  "steps": [
+    "Find the button in the scan result and see what it looks like on the page.",
+    "Add an aria-label that names the action, such as aria-label=\"Close\". Use the action, not the picture, so say \"Close\" rather than \"X icon\".",
+    "Or put visible text inside the button. Visible text is the better choice because everyone can read it and voice users can say it.",
+    "Mark a decorative SVG inside the button with aria-hidden=\"true\" so the icon is not announced as well."
+  ],
+  "before": "<button type=\"button\" class=\"close\">\n  <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\">\n    <path d=\"M2 2l12 12M14 2L2 14\" stroke=\"black\" stroke-width=\"2\"/>\n  </svg>\n</button>",
+  "after": "<button type=\"button\" class=\"close\" aria-label=\"Close\">\n  <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\">\n    <path d=\"M2 2l12 12M14 2L2 14\" stroke=\"black\" stroke-width=\"2\"/>\n  </svg>\n</button>",
+  "doc": false,
+  "howToCheck": "Select the button in the browser accessibility inspector and read its Name. If the Name is blank, the button is unnamed. Tabbing to it with a screen reader on should announce its purpose.",
+  "related": [
+    "input-button-name",
+    "link-name",
+    "summary-name",
+    "aria-command-name",
+    "svg-img-alt",
+    "role-img-alt"
+  ]
+}

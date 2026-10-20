@@ -1,0 +1,25 @@
+{
+  "id": "tabindex",
+  "title": "Do not use tabindex above zero",
+  "typicalImpact": "serious",
+  "summary": "An element has a tabindex greater than zero, which forces an unnatural keyboard order. Remove it and fix the order in the HTML instead.",
+  "problem": "An element has a tabindex attribute with a value above zero, such as tabindex=\"3\". Those elements are visited first, in number order, before everything else on the page, which breaks the natural reading order.",
+  "whoItAffects": "Keyboard users and screen reader users expect the Tab key to follow the page from top to bottom. Positive values make focus jump around unpredictably, and elements added later by other developers or plugins end up out of sequence.",
+  "steps": [
+    "Search your templates and scripts for tabindex values greater than 0.",
+    "Remove those attributes, or change them to tabindex=\"0\" only if the element is a custom control that needs to be focusable.",
+    "If the tab order feels wrong afterwards, reorder the elements in the HTML so the source order matches the visual order.",
+    "Use tabindex=\"-1\" only for elements that scripts move focus to, such as a dialog heading."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Contact us</h1>\n    <a href=\"/phone\" tabindex=\"2\">Phone</a>\n    <a href=\"/email\" tabindex=\"1\">Email</a>\n    <a href=\"/post\">Post</a>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Contact us</h1>\n    <a href=\"/email\">Email</a>\n    <a href=\"/phone\">Phone</a>\n    <a href=\"/post\">Post</a>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure, but it is a common cause of confusing keyboard behavior that can lead to a failure of the focus order requirement. The natural order from the HTML is almost always the best one.",
+  "howToCheck": "Press Tab repeatedly from the top of the page and watch where focus goes. It should move in the same order you read the page. Search the source for tabindex values above 0.",
+  "related": [
+    "focus-order-semantics",
+    "scrollable-region-focusable",
+    "nested-interactive",
+    "bypass"
+  ]
+}

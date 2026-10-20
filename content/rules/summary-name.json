@@ -1,0 +1,27 @@
+{
+  "id": "summary-name",
+  "title": "Expandable summaries need text",
+  "typicalImpact": "serious",
+  "summary": "A <summary> element used to expand a <details> section has no text. Put a short visible heading inside it so people know what it opens.",
+  "problem": "A <summary> element, the clickable heading of a <details> disclosure widget, is empty or holds only an icon with no text alternative. The section expands and collapses, but nothing names the control.",
+  "whoItAffects": "Screen reader users hear \"disclosure triangle\" or \"button\" with no name, so they cannot decide whether to open it. Voice control users cannot say a name to expand it. Sighted users see a bare marker.",
+  "whyItMatters": "Expandable sections often hold answers, delivery terms or product details. If the toggle has no name, that content stays hidden from people who cannot guess its purpose. This is a failure of WCAG 4.1.2 at Level A.",
+  "steps": [
+    "Find the <summary> in the scan result and look at what it expands.",
+    "Write short text inside it that names the content, such as \"Delivery and returns\".",
+    "If the summary uses an icon, keep the text and mark the icon aria-hidden=\"true\", or add an aria-label to the <summary> as a fallback.",
+    "Keep the <summary> as the first child of <details>. Do not nest buttons or links inside it."
+  ],
+  "before": "<details>\n  <summary></summary>\n  <p>Orders ship within two working days.</p>\n</details>",
+  "after": "<details>\n  <summary>Delivery and returns</summary>\n  <p>Orders ship within two working days.</p>\n</details>",
+  "doc": false,
+  "howToCheck": "Select the <summary> in the browser accessibility inspector and read its Name. It should match the heading you see. Pressing Enter or Space on it should open the section.",
+  "related": [
+    "button-name",
+    "link-name",
+    "input-button-name",
+    "aria-command-name",
+    "aria-toggle-field-name",
+    "label"
+  ]
+}

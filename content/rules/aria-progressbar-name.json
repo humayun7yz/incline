@@ -1,0 +1,25 @@
+{
+  "id": "aria-progressbar-name",
+  "title": "ARIA progress bars need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "An element with role progressbar has no accessible name, so its value has no context. Add aria-label or aria-labeledby saying what is progressing.",
+  "problem": "An element with role=\"progressbar\" has no accessible name. Without one, assistive technology can announce a percentage-like value but not which task it belongs to, such as an upload or a checkout.",
+  "whoItAffects": "Screen reader users hear progress with no subject, which is confusing when a page has more than one process running. They cannot tell what is loading or how much of their task is done.",
+  "steps": [
+    "Find the element in the scan result.",
+    "Add aria-label with the task, such as \"Uploading photos\", or point aria-labeledby at a visible label.",
+    "Keep aria-valuenow, aria-valuemin and aria-valuemax up to date as progress changes.",
+    "Consider the native <progress> element, which provides this semantics without ARIA."
+  ],
+  "before": "<div role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>",
+  "after": "<div role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"Uploading photos\"></div>",
+  "doc": false,
+  "whyItMatters": "Progress that cannot be identified leaves people unsure whether a task is working, and they may leave or repeat it. This rule maps to the WCAG requirement that non-text content has a text alternative, which is a Level A requirement.",
+  "howToCheck": "Select the element in your browser's accessibility inspector and check that its Name is set. Run a screen reader and listen for the name and value together.",
+  "related": [
+    "aria-meter-name",
+    "aria-input-field-name",
+    "aria-valid-attr-value",
+    "aria-required-attr"
+  ]
+}

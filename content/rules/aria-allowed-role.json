@@ -1,0 +1,26 @@
+{
+  "id": "aria-allowed-role",
+  "title": "ARIA roles should suit the element they are on",
+  "typicalImpact": "minor",
+  "summary": "An element has a role that does not fit its native meaning, such as a heading marked as a button. Use a native element or a suitable role.",
+  "problem": "A role attribute is set on an element where that role is not recommended, such as role=\"button\" on an <h2>. The role replaces the element's own meaning, so the heading stops being a heading and its keyboard behavior is still missing.",
+  "whoItAffects": "Screen reader users who jump between headings, links or buttons find the page does not match what they expect. Keyboard users get no built-in behavior, because a role changes what is announced and does not add focus or key handling.",
+  "steps": [
+    "Find the element and its role in the scan result.",
+    "If a native element already does the job, use it. A control that acts like a button should be a <button>.",
+    "If you need both meanings, nest them: put a <button> inside the heading rather than putting a button role on the heading.",
+    "If the role is only there to remove default semantics, check whether the element needs it at all, and take the role off if not."
+  ],
+  "before": "<h2 role=\"button\" tabindex=\"0\">Shipping details</h2>",
+  "after": "<h2><button type=\"button\" aria-expanded=\"false\">Shipping details</button></h2>",
+  "doc": false,
+  "whyItMatters": "This is a best practice, not a WCAG failure. It still helps because mismatched roles hide the real structure of a page, such as its headings, and they tend to ship without keyboard support.",
+  "howToCheck": "Re-run the scan. In your browser's accessibility inspector, check that the element now reports the role you intended, and that the heading still appears in the page outline.",
+  "related": [
+    "aria-roles",
+    "aria-allowed-attr",
+    "aria-deprecated-role",
+    "aria-prohibited-attr",
+    "button-name"
+  ]
+}

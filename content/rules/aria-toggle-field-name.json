@@ -1,0 +1,26 @@
+{
+  "id": "aria-toggle-field-name",
+  "title": "ARIA toggle fields need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "A custom checkbox, switch, radio or similar has no accessible name. Label it with aria-labeledby or aria-label.",
+  "problem": "An element with a toggle role such as checkbox, switch, radio, menuitemcheckbox or option has no accessible name. The role and state can be announced, but not what is being switched on or off.",
+  "whoItAffects": "Screen reader users hear \"switch, off\" and similar with no subject, so they cannot tell what the setting does. Voice control users cannot target the control by name.",
+  "steps": [
+    "Find the element in the scan result.",
+    "If a visible label is next to it, give the label an id and reference it with aria-labeledby on the control.",
+    "If there is no visible label, add aria-label with the name of the setting.",
+    "Prefer a native <input type=\"checkbox\"> with a <label>, which needs no ARIA."
+  ],
+  "before": "<span id=\"remind-label\">Email reminders</span>\n<div role=\"switch\" aria-checked=\"false\" tabindex=\"0\"></div>",
+  "after": "<span id=\"remind-label\">Email reminders</span>\n<div role=\"switch\" aria-checked=\"false\" tabindex=\"0\" aria-labelledby=\"remind-label\"></div>",
+  "doc": false,
+  "whyItMatters": "A setting with no name cannot be changed with confidence, which matters most for privacy and notification choices. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select the control in your browser's accessibility inspector and check its Name is filled in. A screen reader should announce the name, the role and the state.",
+  "related": [
+    "aria-input-field-name",
+    "aria-command-name",
+    "aria-required-attr",
+    "label",
+    "aria-tab-name"
+  ]
+}

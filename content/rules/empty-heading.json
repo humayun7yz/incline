@@ -1,0 +1,25 @@
+{
+  "id": "empty-heading",
+  "title": "Headings must not be empty",
+  "typicalImpact": "minor",
+  "summary": "A heading element has no text, so screen readers announce a heading with nothing in it. Add text to it or remove the element.",
+  "problem": "A heading such as <h2></h2> has no text content and no accessible name. It is often left behind by a template or a page builder when a field is left blank, or it holds only an image with no alt text.",
+  "whoItAffects": "Screen reader users who move through a page by headings land on one that says nothing, which is confusing and wastes time. It also adds a meaningless entry to the page outline that search engines read.",
+  "steps": [
+    "Find the empty heading in your template, page builder or CMS. The scan result shows the exact markup.",
+    "If the heading should have a title, fill in the text, or make your template print the heading only when there is text to show.",
+    "If it exists only for spacing, delete it and use CSS margin or padding instead.",
+    "If it contains only an image, add alt text to that image so the heading has a name."
+  ],
+  "before": "<h2></h2>\n<p>Free delivery on raised beds until the end of May.</p>",
+  "after": "<h2>Delivery</h2>\n<p>Free delivery on raised beds until the end of May.</p>",
+  "doc": false,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. An empty heading is noise in the outline that people with screen readers use to find their way, and it is usually a quick template fix.",
+  "howToCheck": "Open a headings list in your browser accessibility tools or an extension and look for entries with no text. In the page source, search for heading tags with nothing between them.",
+  "related": [
+    "heading-order",
+    "page-has-heading-one",
+    "p-as-heading",
+    "link-name"
+  ]
+}

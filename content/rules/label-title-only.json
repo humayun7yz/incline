@@ -1,0 +1,27 @@
+{
+  "id": "label-title-only",
+  "title": "Form fields need a visible label, not only a title",
+  "typicalImpact": "serious",
+  "summary": "A field is named only by a title attribute. Add a visible label so everyone, including keyboard and touch users, can see what the field is for.",
+  "problem": "A form field gets its name only from a title attribute, or from a hidden label or aria-describedby. The title shows as a tooltip only when a mouse pointer hovers over it, so most people never see what the field is for.",
+  "whoItAffects": "Touch screen users and keyboard users never see a hover tooltip. People with memory or attention difficulties lose track of what a field is for when no text stays on screen. Screen readers may also handle titles inconsistently.",
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. A visible label stays on screen while someone types, enlarges the click target and gives screen reader and voice users the same name that sighted users read.",
+  "steps": [
+    "Find the field in the scan result and note its title attribute.",
+    "Add a visible <label> with a for attribute that matches the field's id, and use the title text as a starting point for the wording.",
+    "Remove the title attribute if it only repeats the label. Keep it only when it adds extra help.",
+    "If the design needs a compact form, keep the visible label small rather than hiding it."
+  ],
+  "before": "<form role=\"search\" action=\"/search\">\n  <input type=\"search\" name=\"q\" title=\"Search products\">\n  <button type=\"submit\">Go</button>\n</form>",
+  "after": "<form role=\"search\" action=\"/search\">\n  <label for=\"q\">Search products</label>\n  <input type=\"search\" id=\"q\" name=\"q\">\n  <button type=\"submit\">Go</button>\n</form>",
+  "doc": false,
+  "howToCheck": "Look at the page without moving the mouse over the field. If you cannot see text that names it, the field depends on a title or hidden label. A visible label should be on screen at all times.",
+  "related": [
+    "label",
+    "select-name",
+    "form-field-multiple-labels",
+    "autocomplete-valid",
+    "aria-input-field-name",
+    "button-name"
+  ]
+}

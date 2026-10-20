@@ -1,0 +1,26 @@
+{
+  "id": "landmark-no-duplicate-main",
+  "title": "Use only one main landmark per page",
+  "typicalImpact": "moderate",
+  "summary": "The page has more than one main landmark. Keep a single main element around the primary content and change the others to sections or divs.",
+  "problem": "The page has more than one <main> element or element with role=\"main\". A page has one primary content area, so there should be one main landmark.",
+  "whoItAffects": "Screen reader users often jump straight to the main landmark to skip the header and navigation. With two, they cannot tell which holds the primary content and may land in the wrong one or have to check both.",
+  "steps": [
+    "Find every <main> and role=\"main\" in the rendered page source.",
+    "Decide which one wraps the primary content of the page and keep it.",
+    "Change the others to <section>, <article> or <div>, depending on what they hold. Give a <section> an accessible name if you want it exposed as a landmark.",
+    "Check single-page apps and templates that load content into the page, since each view can leave an extra main behind."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <main>\n    <h2>Delivery</h2>\n    <p>Free delivery on orders over 50 pounds.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n    <section>\n      <h2>Delivery</h2>\n      <p>Free delivery on orders over 50 pounds.</p>\n    </section>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. A single main landmark is the quickest way for assistive technology users to skip repeated content. Two of them weaken that shortcut and usually mean a template is built wrongly.",
+  "howToCheck": "Search the rendered page source for <main and role=\"main\". There should be exactly one. A landmarks extension should list one main.",
+  "related": [
+    "landmark-one-main",
+    "landmark-main-is-top-level",
+    "landmark-unique",
+    "region",
+    "page-has-heading-one"
+  ]
+}

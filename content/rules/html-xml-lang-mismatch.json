@@ -1,0 +1,24 @@
+{
+  "id": "html-xml-lang-mismatch",
+  "title": "The lang and xml:lang attributes must agree",
+  "typicalImpact": "moderate",
+  "summary": "The html element has lang and xml:lang attributes with different languages. Make them match, or remove xml:lang if you do not need it.",
+  "problem": "The <html> element has both lang and xml:lang attributes, and they name different base languages, for example lang=\"en\" and xml:lang=\"fr\". Software cannot tell which language is correct.",
+  "whoItAffects": "Screen reader users, whose software may pick the wrong voice and pronunciation when the two values disagree. Translation tools can also guess wrongly.",
+  "whyItMatters": "Conflicting language information makes the page read out in a voice that does not match the text. It falls under WCAG 3.1.1 at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Find the opening <html> tag and read both attributes.",
+    "Decide which language the page is written in.",
+    "Set lang and xml:lang to the same language code, or remove xml:lang. It is only needed for pages served as XML (XHTML).",
+    "Check any template that prints both attributes, so every page gets matching values."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\" xml:lang=\"fr\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\" xml:lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "howToCheck": "View the page source and compare lang and xml:lang on <html>. They should start with the same language code.",
+  "related": [
+    "html-has-lang",
+    "html-lang-valid",
+    "valid-lang"
+  ]
+}

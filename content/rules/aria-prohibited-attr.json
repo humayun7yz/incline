@@ -1,0 +1,25 @@
+{
+  "id": "aria-prohibited-attr",
+  "title": "ARIA attributes must be permitted on the element",
+  "typicalImpact": "serious",
+  "summary": "An element has an ARIA attribute that is prohibited for its role, such as aria-label on a plain span or div. Remove it or add a suitable role.",
+  "problem": "An element uses an ARIA attribute that the specification prohibits for its role. A common case is aria-label on a <div> or <span> that has no role. Those generic elements are not meant to carry a name, so support is unreliable.",
+  "whoItAffects": "Screen reader users may not hear the label at all, so information given only through the attribute is lost. Which software ignores it varies, so the result is hard to predict.",
+  "steps": [
+    "Find the element and the prohibited attribute in the scan result.",
+    "If the label matters, put the text in the page as real content, or move it onto an element that can have a name, such as a link, button, image or landmark.",
+    "If the element should have a role, set the right one, and then check the role allows the attribute.",
+    "If the attribute was added for decoration or by habit, remove it."
+  ],
+  "before": "<span aria-label=\"Free delivery on orders over 50 dollars\"></span>",
+  "after": "<p>Free delivery on orders over 50 dollars</p>",
+  "doc": false,
+  "whyItMatters": "Labels on generic elements give a false sense of coverage: they look like an accessibility feature in the code and do nothing dependable for users. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan. For the fixed content, select it in your browser's accessibility inspector, or read the page with a screen reader and confirm the text is announced.",
+  "related": [
+    "aria-allowed-attr",
+    "aria-valid-attr",
+    "aria-allowed-role",
+    "aria-roles"
+  ]
+}

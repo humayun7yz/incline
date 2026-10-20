@@ -1,0 +1,27 @@
+{
+  "id": "area-alt",
+  "title": "Clickable image map areas need alt text",
+  "typicalImpact": "critical",
+  "summary": "A clickable <area> in an image map has no alt text, so a screen reader cannot say where it leads. Add an alt attribute to each area.",
+  "problem": "An <area> element defines a clickable region of an image map and has an href, but it has no alt attribute, aria-label or aria-labeledby. Each region works as a link, so each one needs a name that says where it goes.",
+  "whoItAffects": "Screen reader users hear a list of links with no names, or the URLs themselves, and cannot choose between regions. Keyboard and voice control users also have no label to rely on to pick the region they want.",
+  "steps": [
+    "Find <map> elements and the <area> elements inside them. The scan result shows the exact markup.",
+    "Add an alt attribute to every <area> that has an href, describing where the link goes, such as alt=\"Books\".",
+    "Make sure the image using the map also has its own alt text describing the overall picture.",
+    "If you can, replace the image map with ordinary text links, which adapt better to small screens."
+  ],
+  "before": "<img src=\"/images/floor-plan.png\" width=\"400\" height=\"200\" alt=\"Store floor plan\" usemap=\"#floor\">\n<map name=\"floor\">\n  <area shape=\"rect\" coords=\"0,0,200,100\" href=\"/books\">\n  <area shape=\"rect\" coords=\"200,0,400,100\" href=\"/toys\">\n</map>",
+  "after": "<img src=\"/images/floor-plan.png\" width=\"400\" height=\"200\" alt=\"Store floor plan\" usemap=\"#floor\">\n<map name=\"floor\">\n  <area shape=\"rect\" coords=\"0,0,200,100\" href=\"/books\" alt=\"Books\">\n  <area shape=\"rect\" coords=\"200,0,400,100\" href=\"/toys\" alt=\"Toys\">\n</map>",
+  "doc": false,
+  "whyItMatters": "Each area is a link, so its purpose must be clear. A nameless one fails WCAG 2.4.4 (link purpose) and 4.1.2 (name, role, value), both Level A, and visitors cannot reach the pages behind it.",
+  "howToCheck": "Open the browser accessibility inspector, select each <area> and read its Name. Each should say where the link goes. An empty Name means the alt attribute is missing.",
+  "related": [
+    "image-alt",
+    "server-side-image-map",
+    "link-name",
+    "input-image-alt",
+    "object-alt",
+    "role-img-alt"
+  ]
+}

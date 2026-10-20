@@ -1,0 +1,25 @@
+{
+  "id": "table-duplicate-name",
+  "title": "Table caption and summary must differ",
+  "typicalImpact": "minor",
+  "summary": "A table has a summary attribute that repeats its caption. Remove the duplicate, or make the summary say something different.",
+  "problem": "A <table> has both a <caption> and a summary attribute with the same text. The two are meant to say different things, so repeating the caption in the summary adds nothing and can be announced twice.",
+  "whoItAffects": "Screen reader users may hear the same table description twice, which wastes their time on every table that does this.",
+  "steps": [
+    "Find the table in your page that has both a caption and a summary attribute.",
+    "Keep the <caption> as the visible title of the table.",
+    "Remove the summary attribute, since it is obsolete in HTML5, or make it add information the caption does not.",
+    "If a longer explanation is needed, put it in a paragraph next to the table and link it with aria-describedby."
+  ],
+  "before": "<table summary=\"Opening hours\">\n  <caption>Opening hours</caption>\n  <tr><th scope=\"col\">Day</th><th scope=\"col\">Hours</th></tr>\n  <tr><td>Saturday</td><td>9am to 5pm</td></tr>\n</table>",
+  "after": "<table>\n  <caption>Opening hours</caption>\n  <tr><th scope=\"col\">Day</th><th scope=\"col\">Hours</th></tr>\n  <tr><td>Saturday</td><td>9am to 5pm</td></tr>\n</table>",
+  "doc": false,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Removing the duplicate keeps tables concise for assistive technology users and clears out an obsolete attribute.",
+  "howToCheck": "Search the page source for summary= on table elements and compare each one with its caption. They should not match, and the summary can usually be removed.",
+  "related": [
+    "table-fake-caption",
+    "scope-attr-valid",
+    "th-has-data-cells",
+    "td-has-header"
+  ]
+}

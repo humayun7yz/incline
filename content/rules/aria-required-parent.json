@@ -1,0 +1,26 @@
+{
+  "id": "aria-required-parent",
+  "title": "ARIA roles must sit inside their required parents",
+  "typicalImpact": "critical",
+  "summary": "An element has an ARIA role that must be inside a particular parent role, such as listitem inside list, and is not. Add the parent or use native HTML.",
+  "problem": "An element has a role that must be contained by a particular parent role. For example, role=\"listitem\" belongs inside role=\"list\". When the parent is missing, the item does not belong to any structure.",
+  "whoItAffects": "Screen reader users depend on the parent to hear context such as list size and position. Without the parent the child can be announced with no context, or ignored.",
+  "steps": [
+    "Find the child element and its role in the scan result.",
+    "Check in the WAI-ARIA specification which parent role it needs.",
+    "Wrap the elements in a parent with that role, as direct ancestors with no other roles in between.",
+    "Better still, use native HTML such as <ul> and <li>, which gives the correct structure without ARIA."
+  ],
+  "before": "<div role=\"listitem\">Tomatoes</div>\n<div role=\"listitem\">Basil</div>",
+  "after": "<div role=\"list\">\n  <div role=\"listitem\">Tomatoes</div>\n  <div role=\"listitem\">Basil</div>\n</div>",
+  "doc": false,
+  "whyItMatters": "Items without their parent are announced out of context. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan, and check the elements in your browser's accessibility tree. Each should appear under its parent role.",
+  "related": [
+    "aria-required-children",
+    "aria-roles",
+    "list",
+    "listitem",
+    "aria-allowed-attr"
+  ]
+}

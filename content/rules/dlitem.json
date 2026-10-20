@@ -1,0 +1,24 @@
+{
+  "id": "dlitem",
+  "title": "dt and dd elements must be inside a dl",
+  "typicalImpact": "serious",
+  "summary": "A <dt> or <dd> is not contained in a <dl>. Wrap the terms and descriptions in a <dl> so the relationship is exposed to assistive technology.",
+  "problem": "A <dt> or <dd> element sits outside any <dl> element. These elements only have meaning as part of a definition list, so on their own the browser has no list to attach them to.",
+  "whoItAffects": "Screen reader users depend on the list structure to hear that a term and its description belong together. Outside a <dl> that relationship is lost, so the content reads as unrelated lines of text.",
+  "steps": [
+    "Find the stray <dt> and <dd> elements reported by the scan.",
+    "Wrap the group of terms and descriptions in a <dl> element, or in a <div> directly inside a <dl>.",
+    "If the text is not a term and description pair, replace the elements with a <p>, <li> or other suitable tag.",
+    "Check the content that your CMS or editor outputs, since pasted or converted content often leaves these elements loose."
+  ],
+  "before": "<div>\n  <dt>Delivery</dt>\n  <dd>2 working days</dd>\n</div>",
+  "after": "<dl>\n  <dt>Delivery</dt>\n  <dd>2 working days</dd>\n</dl>",
+  "doc": false,
+  "whyItMatters": "List structure must be available in the code, not only visible on screen. This is WCAG's info and relationships criterion at Level A, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Inspect the dt and dd in your browser's element inspector. Their parent should be a <dl>, or a <div> whose parent is a <dl>.",
+  "related": [
+    "definition-list",
+    "listitem",
+    "list"
+  ]
+}

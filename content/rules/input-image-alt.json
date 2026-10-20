@@ -1,0 +1,27 @@
+{
+  "id": "input-image-alt",
+  "title": "Image buttons need alternative text",
+  "typicalImpact": "critical",
+  "summary": "An <input type=\"image\"> button has no alt text, so a screen reader cannot say what it does. Add an alt attribute that names the action.",
+  "problem": "An <input type=\"image\"> element is a button drawn as a picture, often a magnifying glass for search or an arrow for submit. It has no alt attribute, no aria-label and no title, so assistive technology has no name to announce for it.",
+  "whoItAffects": "People using a screen reader hear only \"button\" or the image file name, so they cannot tell a search button from a purchase button. Voice control users also have no name to say, such as \"click Search\", to activate it.",
+  "steps": [
+    "Search your templates for input elements with type=\"image\". The scan result shows the exact markup.",
+    "Add an alt attribute that names the action the button performs, such as alt=\"Search\" or alt=\"Place order\".",
+    "Describe the action, not the picture. Write alt=\"Search\", not alt=\"Magnifying glass\".",
+    "If you prefer, replace the element with a <button> that contains an <img> with the same alt text, or visible text."
+  ],
+  "before": "<form action=\"/search\">\n  <input type=\"text\" name=\"q\" aria-label=\"Search the shop\">\n  <input type=\"image\" src=\"/images/search.png\" width=\"24\" height=\"24\">\n</form>",
+  "after": "<form action=\"/search\">\n  <input type=\"text\" name=\"q\" aria-label=\"Search the shop\">\n  <input type=\"image\" src=\"/images/search.png\" width=\"24\" height=\"24\" alt=\"Search\">\n</form>",
+  "doc": false,
+  "whyItMatters": "A button without a name blocks the very action it exists for. This fails WCAG 1.1.1 (non-text content) and 4.1.2 (name, role, value), both Level A, and a visitor who cannot find the search or checkout button cannot finish their task.",
+  "howToCheck": "Open the browser accessibility inspector, select the image button and read its Name. It should be a short action such as \"Search\". An empty Name means the alt attribute is missing.",
+  "related": [
+    "image-alt",
+    "button-name",
+    "role-img-alt",
+    "svg-img-alt",
+    "area-alt",
+    "label"
+  ]
+}

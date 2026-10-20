@@ -1,0 +1,26 @@
+{
+  "id": "heading-order",
+  "title": "Heading levels should not skip",
+  "typicalImpact": "moderate",
+  "summary": "A heading jumps more than one level, such as an h1 followed by an h3. Use each level in order so the page outline makes sense.",
+  "problem": "A heading skips a level, for example an <h3> appears straight after an <h1> with no <h2> between them. Headings form an outline of the page, and a gap makes it look as if a section is missing.",
+  "whoItAffects": "Screen reader users often jump from heading to heading to scan a page, and they hear the level of each one. A skipped level makes them wonder whether they missed a section. It also makes the page harder to follow for anyone using a heading list.",
+  "steps": [
+    "Open the scan result and find the heading whose level is more than one deeper than the heading before it.",
+    "Change its tag to the next level down from the previous heading, for example h3 to h2.",
+    "Choose heading levels by the structure of the content, not by how big you want the text to look.",
+    "Keep the visual size with CSS classes so the design does not change when the tag does.",
+    "Going back up is fine: an h2 can follow an h4. Only jumps downward by more than one level are flagged."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <h3>Raised beds</h3>\n    <p>Free delivery until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <h2>Raised beds</h2>\n    <p>Free delivery until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure, but a clean heading outline is one of the main ways people with screen readers get around a page. Fixing it usually means changing a tag name and keeping the look with CSS.",
+  "howToCheck": "Use a headings list from your browser's accessibility tools or an extension and read the levels from top to bottom. No heading should be more than one level deeper than the one before it.",
+  "related": [
+    "page-has-heading-one",
+    "empty-heading",
+    "p-as-heading",
+    "landmark-one-main"
+  ]
+}

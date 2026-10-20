@@ -1,0 +1,26 @@
+{
+  "id": "scope-attr-valid",
+  "title": "Use the scope attribute correctly",
+  "typicalImpact": "moderate",
+  "summary": "A table uses the scope attribute wrongly. Use scope only on th cells, with the value col, row, colgroup or rowgroup.",
+  "problem": "The scope attribute is used in a way HTML does not allow, for example with an invalid value or on a <td> cell. The attribute is meant for <th> header cells and takes col, row, colgroup or rowgroup.",
+  "whoItAffects": "Screen reader users depend on header cells to know which row and column a data cell belongs to. A misused scope can make the table less clear for them, or be ignored.",
+  "steps": [
+    "Find the cells with a scope attribute in the table reported by the scan.",
+    "Make sure scope is only on <th> elements. If it is on a <td> that works as a header, change the <td> to a <th>.",
+    "Use scope=\"col\" for headers across the top and scope=\"row\" for headers down the side.",
+    "Remove scope from simple tables where it adds nothing, and use headers and id on complex tables."
+  ],
+  "before": "<table>\n  <caption>Opening hours</caption>\n  <tr><th scope=\"col\">Day</th><th scope=\"col\">Hours</th></tr>\n  <tr><td scope=\"row\">Saturday</td><td>9am to 5pm</td></tr>\n</table>",
+  "after": "<table>\n  <caption>Opening hours</caption>\n  <tr><th scope=\"col\">Day</th><th scope=\"col\">Hours</th></tr>\n  <tr><th scope=\"row\">Saturday</th><td>9am to 5pm</td></tr>\n</table>",
+  "doc": false,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Correct header markup is what lets assistive technology connect data cells to their headers, and invalid attributes make the table harder to maintain.",
+  "howToCheck": "Inspect the table in your browser's element inspector. Every scope attribute should be on a th element and have the value col, row, colgroup or rowgroup.",
+  "related": [
+    "td-headers-attr",
+    "th-has-data-cells",
+    "td-has-header",
+    "table-duplicate-name",
+    "table-fake-caption"
+  ]
+}

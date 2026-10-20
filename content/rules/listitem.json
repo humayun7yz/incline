@@ -1,0 +1,24 @@
+{
+  "id": "listitem",
+  "title": "List items must be inside a list",
+  "typicalImpact": "serious",
+  "summary": "An <li> is not inside a <ul> or <ol>. Wrap the items in a list element so assistive technology can announce them as a list.",
+  "problem": "An <li> element is not a child of a <ul> or <ol>. It may be inside a <div> or placed directly in the page. Without a list parent the element has no list semantics, even if the browser draws a bullet.",
+  "whoItAffects": "Screen reader users hear lists announced with an item count and can move between items. Loose list items are read as plain text, so the grouping is lost.",
+  "steps": [
+    "Find the stray <li> elements reported by the scan.",
+    "Wrap them in a <ul> for an unordered list, or an <ol> if the order matters.",
+    "If the text is not a list item, change the <li> to a <p> or <div> and remove the bullet styling.",
+    "Check the output of your CMS or editor, because deleting a wrapper there often leaves orphaned items."
+  ],
+  "before": "<div>\n  <li>Raised beds</li>\n  <li>Compost</li>\n</div>",
+  "after": "<ul>\n  <li>Raised beds</li>\n  <li>Compost</li>\n</ul>",
+  "doc": false,
+  "whyItMatters": "List structure needs to exist in the code, not only on screen. This is WCAG's info and relationships criterion at Level A, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Inspect each li in your browser's element inspector. Its parent should be a ul or ol.",
+  "related": [
+    "list",
+    "dlitem",
+    "definition-list"
+  ]
+}

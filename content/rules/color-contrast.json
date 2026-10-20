@@ -1,0 +1,25 @@
+{
+  "id": "color-contrast",
+  "title": "Text needs enough contrast with its background",
+  "typicalImpact": "serious",
+  "summary": "Text color is too close to the background color to read comfortably. Darken the text or lighten the background until it reaches 4.5 to 1.",
+  "problem": "The color of some text is too similar to the color behind it. WCAG asks for a contrast ratio of at least 4.5 to 1 for normal text, and at least 3 to 1 for large text (about 24px, or 19px bold). The light gray #999999 on white measures 2.85 to 1, so it fails.",
+  "whoItAffects": "People with low vision or color vision deficiency, and older readers whose eyes need more contrast. Anyone reading on a phone in bright sunlight or on a dim screen is affected too.",
+  "whyItMatters": "Text people cannot read might as well not be on the page: prices, delivery notes and form hints go unseen. This is a WCAG 1.4.3 failure at Level AA, the level that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Find the text and its colors in the scan result, which names the foreground color, the background color and the ratio measured.",
+    "Darken the text color or lighten the background color until the ratio reaches 4.5 to 1. For large text, 3 to 1 is enough.",
+    "Check the new pair in a contrast checker before you change your stylesheet or theme settings. For example, #595959 on white measures 7.00 to 1.",
+    "Change the color once in a shared CSS rule or theme setting, so every place that uses it is fixed together.",
+    "Check text over images and gradients at the lightest and darkest points behind it. Add a solid or semi-opaque panel behind the text if needed."
+  ],
+  "before": "<p style=\"color:#999999;background-color:#ffffff;font-size:16px\">Free delivery on orders over $50.</p>",
+  "after": "<p style=\"color:#595959;background-color:#ffffff;font-size:16px\">Free delivery on orders over $50.</p>",
+  "doc": false,
+  "howToCheck": "Open your browser's developer tools, inspect the text and look at the contrast value in the color picker. Or paste the two hex colors into a contrast checker and compare against 4.5 to 1.",
+  "related": [
+    "color-contrast-enhanced",
+    "link-in-text-block",
+    "target-size"
+  ]
+}

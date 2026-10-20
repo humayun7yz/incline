@@ -1,0 +1,24 @@
+{
+  "id": "list",
+  "title": "Lists must only contain list items",
+  "typicalImpact": "serious",
+  "summary": "A <ul> or <ol> has direct children that are not <li>. Put every item in an <li> so screen readers announce the list correctly.",
+  "problem": "A <ul> or <ol> contains a direct child other than <li>, <script> or <template>, such as a <p>, <div> or <a>. Browsers still show it, but the list is not valid and assistive technology may announce it incorrectly.",
+  "whoItAffects": "Screen reader users are told how many items a list has and can jump between items. When the list is not valid, the count and the navigation can be wrong or missing.",
+  "steps": [
+    "Find the <ul> or <ol> that the scan reports and look at its direct children.",
+    "Wrap each stray element, such as a <p> or <a>, in an <li>.",
+    "Move any content that is not a list item out of the list, before or after it.",
+    "If you need other wrappers for styling, put them inside the <li> and not between the list and the items."
+  ],
+  "before": "<ul>\n  <li>Raised beds</li>\n  <li>Compost</li>\n  <p>Tools</p>\n</ul>",
+  "after": "<ul>\n  <li>Raised beds</li>\n  <li>Compost</li>\n  <li>Tools</li>\n</ul>",
+  "doc": false,
+  "whyItMatters": "A visual list has to be a real list in the code for it to be useful to assistive technology. This is WCAG's info and relationships criterion at Level A, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Inspect the list in your browser's element inspector. The direct children of the ul or ol should only be li, script or template elements.",
+  "related": [
+    "listitem",
+    "definition-list",
+    "dlitem"
+  ]
+}

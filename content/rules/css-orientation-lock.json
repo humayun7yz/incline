@@ -1,0 +1,23 @@
+{
+  "id": "css-orientation-lock",
+  "title": "Do not lock the page to one orientation",
+  "typicalImpact": "serious",
+  "summary": "CSS media queries rotate or lock the page to one screen orientation. Remove the lock so the page works in portrait and landscape.",
+  "problem": "A stylesheet uses an orientation media query to force the display into one orientation, usually by applying a rotate transform to the page when the device is held in the other one. The content is then shown sideways or cannot be used in the way the person holds the device.",
+  "whoItAffects": "People who have a device mounted in a fixed orientation, such as on a wheelchair, and cannot rotate it. Others find one orientation easier for reading or typing. A forced rotation can make the page unusable.",
+  "steps": [
+    "Search your CSS for @media (orientation: ...) blocks.",
+    "Remove rules inside them that rotate the page, such as transform: rotate(90deg) on body or a wrapper.",
+    "Use the media query only to adapt layout, for example by changing columns or spacing, never to turn the content around.",
+    "Test in both portrait and landscape and confirm all content and controls remain usable."
+  ],
+  "before": "<style>\n  @media (orientation: landscape) {\n    .gallery { transform: rotate(90deg); }\n  }\n</style>\n<div class=\"gallery\">\n  <p>Raised beds, compost and tools.</p>\n</div>",
+  "after": "<style>\n  @media (orientation: landscape) {\n    .gallery { columns: 2; }\n  }\n</style>\n<div class=\"gallery\">\n  <p>Raised beds, compost and tools.</p>\n</div>",
+  "doc": false,
+  "whyItMatters": "WCAG's orientation criterion at Level AA says content should not be restricted to a single display orientation unless a specific orientation is essential. Accessibility regulations and procurement requirements commonly build on that level.",
+  "howToCheck": "Open the page on a device or in browser devtools device mode and rotate between portrait and landscape. Content should stay the right way up in both. Also search your CSS for rotate transforms in orientation queries.",
+  "related": [
+    "meta-viewport",
+    "avoid-inline-spacing"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "aria-conditional-attr",
+  "title": "ARIA attributes must follow the element's rules",
+  "typicalImpact": "serious",
+  "summary": "An ARIA attribute is used in a way its element does not allow, such as aria-checked on a native checkbox. Remove it and rely on the native state.",
+  "problem": "An ARIA attribute is allowed on the role but only under certain conditions, and this element breaks them. For example, a native <input type=\"checkbox\"> already has its own checked state, so adding aria-checked can disagree with it and is not permitted.",
+  "whoItAffects": "Screen reader users can be told the control is checked while the box is empty, or the reverse. They act on the announcement, so they submit the wrong choices.",
+  "steps": [
+    "Find the element and attribute in the scan result.",
+    "Check whether the element is a native control. A native checkbox, radio button or table cell already exposes its own state and position, so remove the duplicate ARIA attribute.",
+    "If you need aria-checked, use it only on a custom element with role=\"checkbox\" and no native input type.",
+    "Keep the visible state and the exposed state coming from one source, the native checked property where possible."
+  ],
+  "before": "<input type=\"checkbox\" id=\"remember\" aria-checked=\"true\">\n<label for=\"remember\">Remember my details</label>",
+  "after": "<input type=\"checkbox\" id=\"remember\" checked>\n<label for=\"remember\">Remember my details</label>",
+  "doc": false,
+  "whyItMatters": "Two sources of truth for one state drift apart, and the user hears the wrong one. This is a WCAG 4.1.2 Level A requirement (Name, Role, Value), the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan. Toggle the control and confirm in your accessibility inspector that the exposed checked state follows the visible one.",
+  "related": [
+    "aria-allowed-attr",
+    "aria-valid-attr-value",
+    "aria-required-attr",
+    "aria-prohibited-attr",
+    "aria-allowed-role"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "autocomplete-valid",
+  "title": "Autocomplete values must be valid",
+  "typicalImpact": "serious",
+  "summary": "A form field has an autocomplete value that is not in the HTML list, so browsers cannot fill it in. Use a valid token such as email or given-name.",
+  "problem": "A field has an autocomplete attribute with a value that is misspelled, invented or not allowed for that kind of field, such as autocomplete=\"email-address\". Browsers ignore invalid values, so the field is not filled in.",
+  "whoItAffects": "People with motor disabilities, tremors or dyslexia, and people with cognitive disabilities, rely on autofill to avoid retyping personal details. Password managers and assistive tools also use these values to recognize fields.",
+  "whyItMatters": "Valid autocomplete values satisfy WCAG 1.3.5 (Identify Input Purpose) at Level AA, which asks that fields collecting personal details expose their purpose. They also help anyone complete checkout faster on a phone.",
+  "steps": [
+    "Find the field in the scan result and read its autocomplete value.",
+    "Replace it with a valid token from the HTML specification, such as email, given-name, family-name, tel, street-address, postal-code or cc-number.",
+    "Use \"off\" only if autofill would be wrong for the field. Do not invent values.",
+    "Check that the token fits the input type. For example, email suits an email field, not a free text note."
+  ],
+  "before": "<form>\n  <label for=\"email\">Email address</label>\n  <input type=\"email\" id=\"email\" name=\"email\" autocomplete=\"email-address\">\n</form>",
+  "after": "<form>\n  <label for=\"email\">Email address</label>\n  <input type=\"email\" id=\"email\" name=\"email\" autocomplete=\"email\">\n</form>",
+  "doc": false,
+  "howToCheck": "Compare each autocomplete value with the list of tokens in the HTML specification. In a browser with saved details, a correct field should offer to fill itself when you click into it.",
+  "related": [
+    "label",
+    "label-title-only",
+    "select-name",
+    "form-field-multiple-labels",
+    "aria-input-field-name"
+  ]
+}

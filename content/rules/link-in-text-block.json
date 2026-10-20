@@ -1,0 +1,24 @@
+{
+  "id": "link-in-text-block",
+  "title": "Links in text must not rely on color alone",
+  "typicalImpact": "serious",
+  "summary": "A link inside a paragraph is told apart from the text only by its color. Add an underline, or another visible cue, so it stands out.",
+  "problem": "A link within a block of text has no underline, bold or other visual cue, and its color is too close to the surrounding text color. The link color here, #1a56a8, differs from the body color #333333 by a contrast ratio below 3 to 1, so the difference is easy to miss.",
+  "whoItAffects": "People with color vision deficiency, who may see the link and the text as the same color, and people with low vision. Anyone reading on a washed-out screen can also miss links that only differ in hue.",
+  "whyItMatters": "A link nobody notices is never followed, so key information and next steps are missed. This is a WCAG 1.4.1 failure at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Find the links inside paragraphs, lists and other text in the scan result.",
+    "Add text-decoration: underline to those links. This is the clearest cue and the one people expect.",
+    "If you remove underlines for design reasons, give the link a 3 to 1 contrast ratio against the surrounding text, and add another cue such as bold or an underline on hover and focus.",
+    "Keep the link color at 4.5 to 1 against the background so it stays readable."
+  ],
+  "before": "<style>\n  p { color: #333333; background: #ffffff; }\n  a { color: #1a56a8; text-decoration: none; }\n</style>\n<p>Read our <a href=\"/returns\">returns policy</a> before you order.</p>",
+  "after": "<style>\n  p { color: #333333; background: #ffffff; }\n  a { color: #1a56a8; text-decoration: underline; }\n</style>\n<p>Read our <a href=\"/returns\">returns policy</a> before you order.</p>",
+  "doc": false,
+  "howToCheck": "Look at the page in grayscale, or with a color blindness simulator in your browser's developer tools. If you cannot spot the links inside the paragraphs, they rely on color alone.",
+  "related": [
+    "color-contrast",
+    "link-name",
+    "target-size"
+  ]
+}

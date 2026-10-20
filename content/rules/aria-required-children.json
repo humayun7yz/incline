@@ -1,0 +1,26 @@
+{
+  "id": "aria-required-children",
+  "title": "ARIA roles must contain their required children",
+  "typicalImpact": "critical",
+  "summary": "An element has an ARIA role that needs particular child roles, such as list needing listitem, and they are missing. Add them or use native HTML.",
+  "problem": "An element has a role that must contain certain child roles. For example, role=\"list\" must contain role=\"listitem\" elements. Without them, the parent does not form the structure its role promises.",
+  "whoItAffects": "Screen reader users depend on this structure to hear things like how many items a list has and where they are in it. When children are missing, that information is wrong or absent.",
+  "steps": [
+    "Find the parent element and its role in the scan result.",
+    "Check in the WAI-ARIA specification which child roles that role requires.",
+    "Give the direct children the required roles, or restructure so they are direct children.",
+    "Better still, use native HTML such as <ul> and <li>, which has the right structure built in."
+  ],
+  "before": "<div role=\"list\">\n  <div>Tomatoes</div>\n  <div>Basil</div>\n</div>",
+  "after": "<div role=\"list\">\n  <div role=\"listitem\">Tomatoes</div>\n  <div role=\"listitem\">Basil</div>\n</div>",
+  "doc": false,
+  "whyItMatters": "Broken structure gives assistive technology users wrong or missing information about content. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan, and check the element in your browser's accessibility tree. The children should show the roles the parent needs.",
+  "related": [
+    "aria-required-parent",
+    "aria-roles",
+    "list",
+    "listitem",
+    "aria-allowed-attr"
+  ]
+}

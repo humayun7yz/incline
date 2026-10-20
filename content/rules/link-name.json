@@ -1,0 +1,28 @@
+{
+  "id": "link-name",
+  "title": "Links need text that says where they go",
+  "typicalImpact": "serious",
+  "summary": "A link has no text or accessible name, often an icon-only link. Add visible text or an aria-label that says where the link goes.",
+  "problem": "An <a> element with an href has no text, no image with alt text and no aria-label. A typical case is a link around an icon, such as a cart or social media logo, where nothing tells assistive technology the destination.",
+  "whoItAffects": "Screen reader users often browse by listing every link on a page. An unnamed link shows up as \"link\" or as the raw address, so they cannot pick the right one. Voice control users also cannot say a name to follow it.",
+  "whyItMatters": "Links are how people move around a site. An unnamed link fails WCAG 4.1.2 at Level A and also WCAG 2.4.4 (Link Purpose in Context) at Level A, since its purpose cannot be worked out.",
+  "steps": [
+    "Find the link in the scan result and see where it points.",
+    "Add text that names the destination, such as \"View cart\". Visible text helps everyone.",
+    "If the link must show only an icon, add aria-label to the link, such as aria-label=\"View cart\", and set aria-hidden=\"true\" on the icon.",
+    "If the link wraps an <img>, give the image an alt that describes the destination, not the picture.",
+    "Avoid names like \"click here\" that make no sense out of context."
+  ],
+  "before": "<a href=\"/cart\">\n  <svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\">\n    <circle cx=\"10\" cy=\"10\" r=\"8\"/>\n  </svg>\n</a>",
+  "after": "<a href=\"/cart\" aria-label=\"View cart\">\n  <svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" aria-hidden=\"true\">\n    <circle cx=\"10\" cy=\"10\" r=\"8\"/>\n  </svg>\n</a>",
+  "doc": false,
+  "howToCheck": "Select the link in the browser accessibility inspector and read its Name. An empty Name means the link is unnamed. A screen reader's links list should show a clear name for every entry.",
+  "related": [
+    "button-name",
+    "image-alt",
+    "identical-links-same-purpose",
+    "area-alt",
+    "role-img-alt",
+    "svg-img-alt"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "color-contrast-enhanced",
+  "title": "Text contrast for the stricter AAA level",
+  "typicalImpact": "serious",
+  "summary": "Text does not reach the stricter 7 to 1 contrast of WCAG Level AAA. This is an optional level, so treat it as a goal, not a baseline.",
+  "problem": "Text has a contrast ratio below 7 to 1 for normal text, or 4.5 to 1 for large text. This is the enhanced requirement of WCAG 1.4.6 at Level AAA, a stricter and optional level. The gray #767676 on white measures 4.54 to 1, which passes Level AA but not AAA.",
+  "whoItAffects": "People with moderately low vision, who may read comfortably only with higher contrast than the AA minimum gives. It also helps people reading in poor light or on low-quality screens.",
+  "whyItMatters": "Level AAA is not what most laws or contracts require, and the W3C does not expect every site to meet it everywhere. Where you can choose, darker text costs nothing and makes reading easier for more people. Fix the AA rule color-contrast first.",
+  "steps": [
+    "Decide if you want to meet Level AAA. Most sites aim for Level AA, and this rule is off in many scanners by default.",
+    "Find the text in the scan result, which shows its colors and the ratio measured.",
+    "Darken the text or lighten the background until normal text reaches 7 to 1. Large text needs 4.5 to 1.",
+    "Test the new pair in a contrast checker. For example, #595959 on white measures 7.00 to 1.",
+    "Update a shared CSS rule or theme setting so the improvement applies everywhere that color is used."
+  ],
+  "before": "<p style=\"color:#767676;background-color:#ffffff;font-size:16px\">Orders ship within two working days.</p>",
+  "after": "<p style=\"color:#595959;background-color:#ffffff;font-size:16px\">Orders ship within two working days.</p>",
+  "doc": false,
+  "howToCheck": "Inspect the text in your browser's developer tools and open the color picker, which shows contrast against the AA and AAA thresholds. Or enter both hex colors in a contrast checker and compare against 7 to 1.",
+  "related": [
+    "color-contrast",
+    "link-in-text-block",
+    "target-size"
+  ]
+}

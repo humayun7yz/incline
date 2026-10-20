@@ -1,0 +1,27 @@
+{
+  "id": "aria-input-field-name",
+  "title": "ARIA input fields need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "A custom input with a role such as textbox, combobox or slider has no accessible name. Label it with aria-label or aria-labeledby.",
+  "problem": "An element with an input role such as textbox, searchbox, combobox, listbox or slider has no accessible name. A native <label> does not apply to a <div>, so a name has to be supplied through ARIA.",
+  "whoItAffects": "Screen reader users reach the field and hear only its role, with no idea what to enter. Voice control users cannot target it by name, and people who return to the form later cannot tell fields apart.",
+  "steps": [
+    "Find the element in the scan result. It is a div or span with an input role.",
+    "If there is a visible label, give it an id and reference it with aria-labeledby on the field.",
+    "If the design has no visible label, add aria-label with a short description of what to enter.",
+    "Prefer a native <input> with a <label> where possible, which needs no ARIA at all."
+  ],
+  "before": "<div role=\"searchbox\" contenteditable=\"true\" tabindex=\"0\"></div>",
+  "after": "<div role=\"searchbox\" contenteditable=\"true\" tabindex=\"0\" aria-label=\"Search the shop\"></div>",
+  "doc": false,
+  "whyItMatters": "An unlabeled field is a form people abandon, and for a search box or checkout field that means lost sales or lost sign-ups. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select the field in your browser's accessibility inspector and check that its Name is filled in. Tab to it with a screen reader running and listen for the name.",
+  "related": [
+    "label",
+    "aria-toggle-field-name",
+    "aria-command-name",
+    "select-name",
+    "aria-meter-name",
+    "aria-progressbar-name"
+  ]
+}

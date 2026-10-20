@@ -1,0 +1,26 @@
+{
+  "id": "landmark-contentinfo-is-top-level",
+  "title": "Footer landmark should not be nested",
+  "typicalImpact": "moderate",
+  "summary": "A contentinfo landmark sits inside another landmark such as main. Move the site footer to the top level of the page.",
+  "problem": "An element with role=\"contentinfo\" is placed inside another landmark, here <main>. The contentinfo landmark is meant to be the site-wide footer with copyright and contact details, so it should sit outside the main content.",
+  "whoItAffects": "Screen reader users jump to the footer landmark to find contact details, policies and copyright information. When it is nested inside main, the landmark list misdescribes the page and the footer is harder to find.",
+  "steps": [
+    "Find the element with role=\"contentinfo\", or the page-level <footer>, that sits inside main or another landmark.",
+    "Move it out so it is a direct child of <body>, after <main>.",
+    "If it is only the closing part of one article or section, remove role=\"contentinfo\" and use a plain <footer> inside that element, which is not a contentinfo landmark.",
+    "Keep only one contentinfo per page."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n    <div role=\"contentinfo\">\n      <p>12 Mill Lane</p>\n    </div>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. A top-level footer gives people using assistive technology one predictable place to find contact details and legal links on every page.",
+  "howToCheck": "Open the browser accessibility tree or a landmarks extension and check that the contentinfo landmark is not shown indented under main or another landmark.",
+  "related": [
+    "landmark-no-duplicate-contentinfo",
+    "landmark-banner-is-top-level",
+    "landmark-main-is-top-level",
+    "landmark-one-main",
+    "region"
+  ]
+}

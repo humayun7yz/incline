@@ -1,0 +1,25 @@
+{
+  "id": "aria-dialog-name",
+  "title": "ARIA dialogs need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "An element with role dialog or alertdialog has no accessible name. Label it with its visible heading using aria-labeledby.",
+  "problem": "An element with role=\"dialog\" or role=\"alertdialog\" has no accessible name. When it opens, assistive technology can say a dialog appeared, but not what it is for.",
+  "whoItAffects": "Screen reader users who land in a dialog hear nothing about its purpose, such as whether it is a sign-in form or a cookie notice. They may have to explore the content to work it out.",
+  "steps": [
+    "Find the dialog element in the scan result.",
+    "If the dialog has a visible heading, give the heading an id and point to it with aria-labeledby on the dialog.",
+    "If there is no visible title, add a short aria-label that says what the dialog is for.",
+    "Keep the name short and specific, and do not include the word \"dialog\", since the role is announced already."
+  ],
+  "before": "<div role=\"dialog\">\n  <h2>Join the newsletter</h2>\n  <p>Get one email a month with new arrivals.</p>\n</div>",
+  "after": "<div role=\"dialog\" aria-labelledby=\"nl-title\">\n  <h2 id=\"nl-title\">Join the newsletter</h2>\n  <p>Get one email a month with new arrivals.</p>\n</div>",
+  "doc": false,
+  "whyItMatters": "This is a best practice, not a WCAG failure. A named dialog helps people confirm that they are in the right place, and it is a small change that is easy to carry into a reusable component.",
+  "howToCheck": "Select the dialog in your browser's accessibility inspector and check that its Name matches the heading. A screen reader should announce the name when the dialog opens.",
+  "related": [
+    "aria-command-name",
+    "aria-input-field-name",
+    "aria-hidden-focus",
+    "aria-tooltip-name"
+  ]
+}

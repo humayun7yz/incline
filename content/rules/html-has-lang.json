@@ -1,0 +1,31 @@
+{
+  "id": "html-has-lang",
+  "title": "The page needs a language attribute",
+  "typicalImpact": "serious",
+  "summary": "The html element has no lang attribute, so screen readers guess the language. Add lang=\"en\", or the right code for your page.",
+  "problem": "The <html> element has no lang attribute. Browsers and assistive technology then cannot tell what language the page is written in, and have to guess.",
+  "whoItAffects": "Screen reader users, whose software picks a voice and pronunciation rules from the page language. A wrong guess makes English read with a foreign accent, or the other way round. Translation tools and spell checkers rely on it too.",
+  "whyItMatters": "Speech that is mispronounced is hard to follow and tiring to listen to. This is a WCAG 3.1.1 failure at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Open the template or theme file that prints the opening <html> tag.",
+    "Add a lang attribute with the main language of the page, such as lang=\"en\" for English or lang=\"fr\" for French.",
+    "Use a valid language code, with a region only if it matters, such as en-GB.",
+    "If your site has several languages, set the code per page rather than hard-coding one."
+  ],
+  "before": "<!doctype html>\n<html >\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "howToCheck": "View the page source and look at the opening <html> tag. It should contain lang with a language code. The browser developer tools also show it in the Elements panel.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "Themes normally print lang with the language_attributes() function in header.php. The site language is set under Settings, General, Site Language."
+    }
+  ],
+  "related": [
+    "html-lang-valid",
+    "valid-lang",
+    "html-xml-lang-mismatch",
+    "document-title"
+  ]
+}

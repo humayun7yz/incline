@@ -1,0 +1,25 @@
+{
+  "id": "target-size",
+  "title": "Buttons and links need a big enough tap area",
+  "typicalImpact": "serious",
+  "summary": "A tap target is smaller than 24 by 24 CSS pixels and sits too close to others. Enlarge it or add spacing so people can hit it reliably.",
+  "problem": "An interactive element, such as a link or button, is smaller than 24 by 24 CSS pixels, and there is not enough clear space around it to make up the difference. These three links are about 10px wide and sit 4px apart, so a finger often lands on the wrong one.",
+  "whoItAffects": "People with hand tremors, limited dexterity or who use a mouse with difficulty, and anyone tapping on a small phone screen while walking. Mistaken taps can send people to the wrong page.",
+  "whyItMatters": "Missed taps are frustrating and can trigger the wrong action. This is a WCAG 2.5.8 requirement at Level AA, added in WCAG 2.2. Many scanners leave this rule off by default, so it may not appear in older reports.",
+  "steps": [
+    "Find the small links, buttons and icons in the scan result.",
+    "Give each target at least 24 by 24 CSS pixels, for example with min-width, min-height and padding. 44 by 44 is more comfortable.",
+    "If a target must stay small, leave enough space around it that a 24px circle centered on it does not touch a neighboring target.",
+    "Use padding rather than only changing the icon size, so the visible graphic can stay as it is.",
+    "Test on a real phone with your thumb."
+  ],
+  "before": "<style>\n  .pager a { display: inline-block; font-size: 10px; margin-right: 4px; }\n</style>\n<nav class=\"pager\" aria-label=\"Pages\">\n  <a href=\"/p/1\">1</a><a href=\"/p/2\">2</a><a href=\"/p/3\">3</a>\n</nav>",
+  "after": "<style>\n  .pager a { display: inline-block; min-width: 24px; min-height: 24px; text-align: center; font-size: 16px; margin-right: 4px; }\n</style>\n<nav class=\"pager\" aria-label=\"Pages\">\n  <a href=\"/p/1\">1</a><a href=\"/p/2\">2</a><a href=\"/p/3\">3</a>\n</nav>",
+  "doc": false,
+  "howToCheck": "Inspect each small control in your browser's developer tools and read its width and height. Anything under 24 by 24 CSS pixels needs the surrounding space checked as well.",
+  "related": [
+    "color-contrast",
+    "link-name",
+    "button-name"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "landmark-banner-is-top-level",
+  "title": "Banner landmark should not be nested",
+  "typicalImpact": "moderate",
+  "summary": "A banner landmark sits inside another landmark such as main. Move the site header to the top level of the page.",
+  "problem": "An element with role=\"banner\" is placed inside another landmark, here <main>. The banner is meant to be the site-wide header, so it should be a direct part of the page, not a piece of the content area.",
+  "whoItAffects": "Screen reader users list landmarks to understand a page. A banner nested inside main muddles that list and makes the structure harder to trust, so it is harder to tell where the site header ends and the content begins.",
+  "steps": [
+    "Find the element with role=\"banner\", or the page-level <header>, that sits inside main, aside, nav or another landmark.",
+    "Move it out so it is a direct child of <body>, before <main>.",
+    "If the element is only a heading area for one section of the content, remove role=\"banner\" and use a plain <header> inside a <section> or <article>, which is not a banner.",
+    "Keep only one banner per page."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <div role=\"banner\">\n      <p>Fernwood Garden Supply</p>\n    </div>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <p>Fernwood Garden Supply</p>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. A banner at the top level gives assistive technology a reliable landmark for the site header, which the same way every page of your site should use.",
+  "howToCheck": "Open the browser accessibility tree or a landmarks extension and check that the banner is not shown indented under main or another landmark.",
+  "related": [
+    "landmark-no-duplicate-banner",
+    "landmark-contentinfo-is-top-level",
+    "landmark-main-is-top-level",
+    "landmark-one-main",
+    "region"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "object-alt",
+  "title": "Embedded <object> content needs alternative text",
+  "typicalImpact": "serious",
+  "summary": "An <object> element has no accessible name, so assistive technology cannot say what it holds. Add an aria-label, title or fallback text.",
+  "problem": "An <object> element embeds an external file such as an SVG, PDF or other media, but it has no aria-label, aria-labeledby or title attribute, and no text inside it. Assistive technology cannot say what the embedded item is.",
+  "whoItAffects": "Screen reader users meet an unnamed embedded item and cannot tell whether it is a chart, a map or an advertisement, so they cannot decide whether to explore it or skip it.",
+  "steps": [
+    "Find <object> elements in your templates. The scan result shows the exact markup.",
+    "Add an aria-label that says what the embedded item is, such as aria-label=\"Sales by month, bar chart\".",
+    "You can instead add a title attribute, or put fallback text inside the <object> element.",
+    "If the file has a text equivalent, such as a data table, place it near the object."
+  ],
+  "before": "<object data=\"/files/sales-chart.svg\" type=\"image/svg+xml\" width=\"400\" height=\"300\"></object>",
+  "after": "<object data=\"/files/sales-chart.svg\" type=\"image/svg+xml\" width=\"400\" height=\"300\" aria-label=\"Sales by month, bar chart\"></object>",
+  "doc": false,
+  "whyItMatters": "Embedded content that carries information needs a text alternative under WCAG 1.1.1, a Level A criterion. An unnamed chart or document hides its content from people who cannot see it.",
+  "howToCheck": "Open the browser accessibility inspector, select the <object> element and read its Name. An empty Name means no alternative text is present.",
+  "related": [
+    "image-alt",
+    "svg-img-alt",
+    "role-img-alt",
+    "frame-title",
+    "input-image-alt",
+    "area-alt"
+  ]
+}

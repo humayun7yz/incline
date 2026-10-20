@@ -1,0 +1,26 @@
+{
+  "id": "landmark-no-duplicate-banner",
+  "title": "Use only one banner landmark per page",
+  "typicalImpact": "moderate",
+  "summary": "The page has more than one banner landmark. Keep one site-wide header as the banner and change any other header to a non-landmark element.",
+  "problem": "The page exposes two or more banner landmarks. A <header> that is not inside <article>, <aside>, <main>, <nav> or <section> is treated as the page banner, as is any element with role=\"banner\". A page should have only one.",
+  "whoItAffects": "Screen reader users who browse by landmarks expect one banner that holds the site name and main navigation. Two banners make the landmark list ambiguous and they have to open each one to work out which is the real site header.",
+  "steps": [
+    "List every <header> and every role=\"banner\" in your page source and decide which one is the real site header.",
+    "Keep that one as the only top-level <header>.",
+    "Move any other header inside <main>, <article> or <section> where it describes that section only, or change it to a <div>.",
+    "Check that included templates and plugins do not each print their own top-level header."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <p>Fernwood Garden Supply</p>\n  </header>\n  <header>\n    <p>Free delivery on orders over 50 pounds</p>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <p>Fernwood Garden Supply</p>\n  </header>\n  <main>\n    <div class=\"promo\">\n      <p>Free delivery on orders over 50 pounds</p>\n    </div>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Landmarks work as a map of the page for assistive technology, and a map with two entries for the same thing is harder to trust. It also usually points to a template that is printing the header twice.",
+  "howToCheck": "Search the rendered page source for <header and role=\"banner\". Only one should sit outside of main, article, aside, nav and section. A landmarks extension should list a single banner.",
+  "related": [
+    "landmark-no-duplicate-contentinfo",
+    "landmark-banner-is-top-level",
+    "landmark-one-main",
+    "landmark-unique",
+    "region"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "p-as-heading",
+  "title": "Use real headings, not styled paragraphs",
+  "typicalImpact": "serious",
+  "summary": "A <p> is styled with bold, italic or larger text to look like a heading. Use a real heading element so the structure is available to everyone.",
+  "problem": "A <p> element is styled with bold, italic or a larger font size so that it looks like a heading. Visually it works as one, but the code says it is ordinary text, so the heading structure is invisible to assistive technology.",
+  "whoItAffects": "Screen reader users often move through a page by jumping from heading to heading. A styled paragraph is not in that list, so they miss the section and may not realize the page is divided up. Heading-based navigation in other tools can miss it too.",
+  "steps": [
+    "Find the <p> that works as a title for the content below it.",
+    "Replace it with a heading element at the right level, such as <h2> for a main section or <h3> for a subsection. Do not skip levels.",
+    "Move the visual styling into your CSS for that heading, and remove the inline bold, italic or font-size from the markup.",
+    "If the text is not really a heading, such as a pull quote or a note, leave it as a <p> and drop the heading-like styling."
+  ],
+  "before": "<p style=\"font-weight: bold; font-size: 24px\">Delivery</p>\n<p>Free delivery on raised beds until the end of May.</p>",
+  "after": "<h2>Delivery</h2>\n<p>Free delivery on raised beds until the end of May.</p>",
+  "doc": false,
+  "whyItMatters": "Headings are how people with screen readers skim a page, in the same way sighted visitors scan big text. The failure is of WCAG's info and relationships idea, that structure shown visually must also be in the code. That is a Level A criterion, the level accessibility regulations commonly build on. Real headings also help search engines.",
+  "howToCheck": "Open your browser's accessibility inspector and look at the element. The role should be heading, not paragraph. A headings list in a screen reader or a headings extension should show it.",
+  "related": [
+    "page-has-heading-one",
+    "heading-order",
+    "empty-heading",
+    "landmark-one-main"
+  ]
+}

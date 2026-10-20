@@ -1,0 +1,27 @@
+{
+  "id": "aria-valid-attr-value",
+  "title": "ARIA attributes need valid values",
+  "typicalImpact": "critical",
+  "summary": "An ARIA attribute has a value it does not accept, such as aria-pressed=\"yes\". Use a value the specification allows.",
+  "problem": "An aria-* attribute has a value outside what WAI-ARIA allows for it. For example, aria-pressed accepts true, false or mixed, not \"yes\". Other attributes expect an element id that exists on the page. Assistive technology may ignore the value or misreport it.",
+  "whoItAffects": "Screen reader users get no state or a wrong one for the control, so they cannot tell whether a button is pressed, a menu is open or a field is required.",
+  "steps": [
+    "Find the element, the attribute and the rejected value in the scan result.",
+    "Look up the attribute in the WAI-ARIA specification. Boolean-style attributes take the strings true or false, and some such as aria-pressed and aria-checked also accept mixed.",
+    "For attributes that point to other elements, such as aria-labeledby or aria-describedby, make sure each id exists on the page and is spelled exactly the same.",
+    "Set the value from your script when the state changes, using the exact strings, not yes, no, on or off."
+  ],
+  "before": "<button type=\"button\" aria-pressed=\"yes\">Mute notifications</button>",
+  "after": "<button type=\"button\" aria-pressed=\"true\">Mute notifications</button>",
+  "doc": false,
+  "whyItMatters": "An invalid value is ignored or misread, so a control can announce the opposite of what it shows. This is a WCAG 4.1.2 Level A requirement (Name, Role, Value), the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan. In your browser's accessibility inspector, select the element and confirm its state matches what you see on screen, then change it and check again.",
+  "related": [
+    "aria-valid-attr",
+    "aria-allowed-attr",
+    "aria-required-attr",
+    "aria-conditional-attr",
+    "aria-roles",
+    "aria-hidden-focus"
+  ]
+}

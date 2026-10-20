@@ -1,0 +1,26 @@
+{
+  "id": "aria-valid-attr",
+  "title": "ARIA attributes must be spelled correctly",
+  "typicalImpact": "critical",
+  "summary": "An attribute starting with aria- is not a real ARIA attribute, often a typo such as aria-pressd. Correct the name so it takes effect.",
+  "problem": "An element has an attribute that begins with aria- but is not defined in WAI-ARIA, for example aria-pressd instead of aria-pressed. Browsers ignore unknown attributes, so the state or label you meant to expose never reaches assistive technology.",
+  "whoItAffects": "Screen reader users miss the information the attribute was meant to carry, such as whether a button is on or off. The page looks and works correctly for sighted users, so the mistake is easy to ship unnoticed.",
+  "steps": [
+    "Find the element and the misspelled attribute in the scan result.",
+    "Compare the name with the list of states and properties in the WAI-ARIA specification. Names are lowercase and use no hyphens beyond the aria- prefix, such as aria-labeledby and aria-describedby.",
+    "Correct the name and keep its value in sync with the visible state of the control.",
+    "If the attribute came from a framework or plugin, check whether it should be a data- attribute instead, since data-* names are not subject to this rule."
+  ],
+  "before": "<button type=\"button\" aria-pressd=\"true\">Mute notifications</button>",
+  "after": "<button type=\"button\" aria-pressed=\"true\">Mute notifications</button>",
+  "doc": false,
+  "whyItMatters": "A misspelled attribute fails silently, so a control can look finished while telling assistive technology nothing. This is a WCAG 4.1.2 Level A requirement (Name, Role, Value), the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan, then select the element in your browser's accessibility inspector and confirm the state or property you intended is listed.",
+  "related": [
+    "aria-valid-attr-value",
+    "aria-allowed-attr",
+    "aria-roles",
+    "aria-required-attr",
+    "aria-prohibited-attr"
+  ]
+}

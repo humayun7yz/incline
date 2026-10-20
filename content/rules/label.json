@@ -1,0 +1,28 @@
+{
+  "id": "label",
+  "title": "Form fields need labels",
+  "typicalImpact": "critical",
+  "summary": "A form field has no label, so screen readers announce only \"edit text\". Connect a visible label to the field with for and id.",
+  "problem": "An input, select or textarea has no label element, aria-label or other text that names it. Placeholder text is not a dependable label. A screen reader then announces only the field type, such as \"edit text\", with no hint of what to type.",
+  "whoItAffects": "People who use screen readers cannot tell which field is for an email address and which is for a phone number. Voice control users cannot say the name of a field to jump to it, and people with limited mobility get a tiny click target when the label is missing.",
+  "whyItMatters": "Forms are where visitors sign up, check out or contact you. A field with no name blocks that step for people who cannot see the layout. This is a failure of WCAG 4.1.2 at Level A, which requires every control to expose a name.",
+  "steps": [
+    "Find the field named in the scan result and check whether visible text sits next to it.",
+    "Add a <label> element with a for attribute that matches the field's id, so clicking the text also focuses the field.",
+    "If the design truly has no room for visible text, add an aria-label to the field. A visible label is better because it helps everyone.",
+    "Do not rely on placeholder text as the label. It disappears as soon as someone types.",
+    "Make sure each id on the page is used once, otherwise the label connects to the wrong field."
+  ],
+  "before": "<form>\n  <input type=\"email\" name=\"email\">\n  <button type=\"submit\">Subscribe</button>\n</form>",
+  "after": "<form>\n  <label for=\"email\">Email address</label>\n  <input type=\"email\" id=\"email\" name=\"email\">\n  <button type=\"submit\">Subscribe</button>\n</form>",
+  "doc": false,
+  "howToCheck": "Select the field in your browser's accessibility inspector and read its Name. If the Name is empty, the label is missing. Clicking the label text should also move focus into the field.",
+  "related": [
+    "select-name",
+    "label-title-only",
+    "form-field-multiple-labels",
+    "autocomplete-valid",
+    "aria-input-field-name",
+    "input-button-name"
+  ]
+}

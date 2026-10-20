@@ -1,0 +1,27 @@
+{
+  "id": "scrollable-region-focusable",
+  "title": "Scrollable areas must be reachable by keyboard",
+  "typicalImpact": "serious",
+  "summary": "A scrollable box has no focusable content, so keyboard users cannot scroll it. Make it focusable with tabindex=\"0\" and a role and name.",
+  "problem": "An element scrolls because its content is taller or wider than the box and overflow is set to auto or scroll, but nothing inside it can take focus. Keyboard users have no way to put focus there, so they cannot scroll with the arrow keys.",
+  "whoItAffects": "People who cannot use a mouse, including keyboard and switch users and screen reader users, cannot read content that sits below the visible edge of the box, such as delivery terms or a long list.",
+  "steps": [
+    "Find the scrollable element in the scan result.",
+    "Add tabindex=\"0\" so it joins the tab order and can be scrolled with arrow keys.",
+    "Give it a role such as role=\"region\" and a short aria-label, so screen readers announce what it contains.",
+    "If the box contains links, buttons or fields, those may already be focusable and scroll it, so check that the content can still be reached.",
+    "Make sure the focus outline is visible, and do not remove it with CSS."
+  ],
+  "before": "<div style=\"height: 80px; width: 300px; overflow: auto;\">\n  <p>Orders placed before noon ship the same day.</p>\n  <p>Orders placed after noon ship the next working day.</p>\n  <p>Delivery takes two to four working days.</p>\n  <p>Tracking is emailed when your parcel leaves.</p>\n</div>",
+  "after": "<div role=\"region\" aria-label=\"Delivery terms\" tabindex=\"0\" style=\"height: 80px; width: 300px; overflow: auto;\">\n  <p>Orders placed before noon ship the same day.</p>\n  <p>Orders placed after noon ship the next working day.</p>\n  <p>Delivery takes two to four working days.</p>\n  <p>Tracking is emailed when your parcel leaves.</p>\n</div>",
+  "doc": false,
+  "whyItMatters": "Content that only a mouse can reach is lost to anyone without one. This relates to WCAG 2.1.1 (Keyboard) at Level A, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Put your mouse aside and press Tab. You should be able to focus the box and scroll it with the arrow keys. If focus skips it, the problem remains.",
+  "related": [
+    "aria-hidden-focus",
+    "nested-interactive",
+    "focus-order-semantics",
+    "tabindex",
+    "region"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "accesskeys",
+  "title": "Access keys must be unique",
+  "typicalImpact": "serious",
+  "summary": "Two elements use the same accesskey value, so the shortcut is ambiguous. Give each shortcut a different key or remove them.",
+  "problem": "Two or more elements on the page have the same accesskey attribute value. When a person presses that shortcut, the browser can only act on one of them, so the other is unreachable by that key.",
+  "whoItAffects": "Keyboard users who rely on access key shortcuts reach the wrong element or none at all. Access keys can also clash with shortcuts in screen readers and browsers, which is why many sites avoid them.",
+  "steps": [
+    "Search your templates for accesskey attributes and list every value in use on a page.",
+    "Give each element a different value, or remove the attribute from the duplicate.",
+    "Consider removing access keys altogether. They often collide with browser and screen reader shortcuts and are not announced to users.",
+    "If you keep them, document the shortcuts on a visible page."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <a href=\"/shop\" accesskey=\"s\">Shop</a>\n    <a href=\"/sale\" accesskey=\"s\">Sale</a>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <a href=\"/shop\" accesskey=\"s\">Shop</a>\n    <a href=\"/sale\" accesskey=\"l\">Sale</a>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. Duplicate shortcuts make behavior unpredictable, and the fix is a one-character change or removing the attribute.",
+  "howToCheck": "Search the page source for accesskey and compare the values. Each one should appear once per page.",
+  "related": [
+    "tabindex",
+    "bypass",
+    "skip-link"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "page-has-heading-one",
+  "title": "Pages need a level-one heading",
+  "typicalImpact": "moderate",
+  "summary": "The page has no h1, so people who navigate by headings have no clear starting point. Add one h1 that names what the page is about.",
+  "problem": "The page has no <h1> element. Headings give a page its outline, and the h1 is the title of that outline: it tells a visitor what this page is about before they read anything else.",
+  "whoItAffects": "Screen reader users often move through a page by jumping between headings, and an h1 gives them a clear place to start. Without one they have to listen from the top to work out where they are. Search engines also use headings to understand a page's topic.",
+  "steps": [
+    "Decide what the page is about and put that in one short heading, such as the product name or the article title.",
+    "Mark it up as an h1 inside the main content area, before any other headings.",
+    "If your design already shows a large title in a div or span, change that element to an h1 and keep the look with CSS.",
+    "Use h2 to h6 for the sections below it, in order, and check that every page type in your theme or template outputs its h1."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Spring sale | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h2>Spring sale</h2>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Spring sale | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "Without an h1, assistive technology users and search engines both have a harder time telling what the page is for. This is a best practice rather than a WCAG failure, but a clear title heading is one of the cheapest structure fixes you can make.",
+  "howToCheck": "Search the page source for <h1, or use your browser's accessibility inspector to view the heading outline. There should be one h1, near the top of the main content.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "Most themes print the page or post title as an h1. If yours does not, edit the theme template that outputs the title so it is wrapped in an h1."
+    }
+  ],
+  "related": ["heading-order", "empty-heading", "landmark-one-main", "document-title", "p-as-heading"]
+}

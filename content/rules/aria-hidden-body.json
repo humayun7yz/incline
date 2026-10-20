@@ -1,0 +1,25 @@
+{
+  "id": "aria-hidden-body",
+  "title": "The body must not have aria-hidden=\"true\"",
+  "typicalImpact": "critical",
+  "summary": "The body element has aria-hidden=\"true\", which hides the whole page from screen readers. Remove it from the body.",
+  "problem": "The <body> element has aria-hidden=\"true\". That removes everything on the page from the accessibility tree, so assistive technology sees an empty page. It is usually left behind by a modal or overlay script that failed to clean up.",
+  "whoItAffects": "Screen reader users can find nothing to read or operate on the page. Content that sighted users see and use is invisible to them.",
+  "steps": [
+    "Find where aria-hidden is set on the body: in your HTML, theme or a script.",
+    "Remove the attribute from <body>.",
+    "If a modal is open and you want to hide the page behind it, set aria-hidden on the individual sections outside the modal, or use the inert attribute, and not on the body.",
+    "Make sure your overlay script removes the attribute when the modal closes."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Opening hours | Harbor Bakery</title>\n</head>\n<body aria-hidden=\"true\">\n  <main>\n    <h1>Opening hours</h1>\n    <p>Open Tuesday to Sunday, 7am to 3pm.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Opening hours | Harbor Bakery</title>\n</head>\n<body>\n  <main>\n    <h1>Opening hours</h1>\n    <p>Open Tuesday to Sunday, 7am to 3pm.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "A page hidden from assistive technology is unusable for the people who depend on it. Because the cause is often a script state, it can appear only after a certain interaction, so it is easy to miss in manual testing. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Inspect the body element in your browser and confirm there is no aria-hidden attribute, including after opening and closing any modal. Then re-run the scan.",
+  "related": [
+    "aria-hidden-focus",
+    "aria-dialog-name",
+    "region",
+    "landmark-one-main"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "aria-command-name",
+  "title": "ARIA buttons, links and menu items need names",
+  "typicalImpact": "serious",
+  "summary": "An element with role button, link or menuitem has no accessible name. Add visible text or an aria-label so people know what it does.",
+  "problem": "An element with role=\"button\", role=\"link\" or role=\"menuitem\" has no accessible name. It usually holds only an icon, so assistive technology can announce its role but not its purpose.",
+  "whoItAffects": "Screen reader users hear that a control exists but not what it does, so they must guess or skip it. Voice control users cannot say the name of a control that has none.",
+  "steps": [
+    "Find the element in the scan result. It is a non-native control with a command role.",
+    "Give it a name. Visible text inside it is best. For an icon-only control, add aria-label with a short action, such as \"Close\".",
+    "Hide the decorative icon itself from assistive technology with aria-hidden=\"true\" so it does not add noise.",
+    "Better still, replace the element with a native <button> or <a href>, which also adds keyboard support."
+  ],
+  "before": "<div role=\"button\" tabindex=\"0\" class=\"icon-btn\">\n  <svg aria-hidden=\"true\" width=\"16\" height=\"16\"><path d=\"M2 2l12 12M14 2L2 14\" stroke=\"#333\"/></svg>\n</div>",
+  "after": "<div role=\"button\" tabindex=\"0\" class=\"icon-btn\" aria-label=\"Close\">\n  <svg aria-hidden=\"true\" width=\"16\" height=\"16\"><path d=\"M2 2l12 12M14 2L2 14\" stroke=\"#333\"/></svg>\n</div>",
+  "doc": false,
+  "whyItMatters": "A control with no name cannot be used with confidence, and icon-only close and menu buttons are often the way out of a task. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select the element in your browser's accessibility inspector and confirm its Name is not empty. A screen reader should announce the name along with the role.",
+  "related": [
+    "button-name",
+    "link-name",
+    "aria-input-field-name",
+    "aria-toggle-field-name",
+    "aria-tab-name",
+    "input-button-name"
+  ]
+}

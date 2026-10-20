@@ -1,0 +1,24 @@
+{
+  "id": "valid-lang",
+  "title": "Language changes inside a page need valid codes",
+  "typicalImpact": "serious",
+  "summary": "A lang attribute on an element inside the page holds an invalid language code. Use a valid code such as fr so screen readers pronounce it correctly.",
+  "problem": "An element inside the page has a lang attribute with a value that is not a valid language code, such as \"french\" instead of \"fr\". It is meant to mark a passage in another language.",
+  "whoItAffects": "Screen reader users, whose software switches voice for marked passages. With an invalid code it keeps the page voice and reads the foreign phrase with the wrong pronunciation.",
+  "whyItMatters": "A correct code lets speech software pronounce a phrase properly. This is a WCAG 3.1.2 failure at Level AA, the level that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Find the element with the invalid lang value in the scan result.",
+    "Replace it with a valid BCP 47 code, such as fr, de or es-MX.",
+    "Mark only passages that are in a different language from the page. Names and borrowed words that are widely known do not need it.",
+    "Also fix any xml:lang attribute on the same element."
+  ],
+  "before": "<p>Our motto is <q lang=\"french\">joie de vivre</q>, which means enjoying life.</p>",
+  "after": "<p>Our motto is <q lang=\"fr\">joie de vivre</q>, which means enjoying life.</p>",
+  "doc": false,
+  "howToCheck": "Search the page source for lang= and check each value. Every one should be a short code such as fr or es-MX, not a language name.",
+  "related": [
+    "html-has-lang",
+    "html-lang-valid",
+    "html-xml-lang-mismatch"
+  ]
+}

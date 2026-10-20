@@ -1,0 +1,26 @@
+{
+  "id": "region",
+  "title": "All page content should sit inside landmarks",
+  "typicalImpact": "moderate",
+  "summary": "Some content sits outside any landmark such as header, main or footer. Wrap it in the right landmark so screen reader users can find it.",
+  "problem": "Some visible content is not inside a landmark region such as <header>, <nav>, <main> or <footer>. In the example the closing notice sits after main, so it belongs to no region at all.",
+  "whoItAffects": "Screen reader users can jump between landmarks to move around a page. Content outside every landmark is skipped by that way of navigating, so they may never reach it, or reach it only after listening to everything else.",
+  "steps": [
+    "Find the content the scan flagged. It is usually a banner, notice, cookie message or block added by a plugin or script.",
+    "Decide where it belongs: inside <main> if it is part of the page content, in <header> or <footer> if it is site-wide, or in <aside> if it is supporting material.",
+    "Move the markup into that landmark, or change its wrapper element to the right one.",
+    "Make sure the page still has only one main, and that header, nav and footer sit outside it."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <nav aria-label=\"Main\">\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <div class=\"notice\">Orders placed after 3pm ship the next day.</div>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <nav aria-label=\"Main\">\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n    <p>Orders placed after 3pm ship the next day.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. Landmarks act as a table of contents for people using assistive technology, and content outside them is easy to miss. Notices and cookie banners are the usual cause.",
+  "howToCheck": "Run a landmarks view in a browser extension, or tab through the page with a screen reader landmark list open. Anything that is not listed under a landmark is outside every region.",
+  "related": [
+    "landmark-one-main",
+    "bypass",
+    "landmark-unique",
+    "landmark-banner-is-top-level",
+    "landmark-contentinfo-is-top-level"
+  ]
+}

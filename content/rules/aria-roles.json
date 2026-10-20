@@ -1,0 +1,26 @@
+{
+  "id": "aria-roles",
+  "title": "ARIA roles must be valid values",
+  "typicalImpact": "critical",
+  "summary": "An element has a role value that is not a real ARIA role, often a typo. Correct the value or use a native HTML element.",
+  "problem": "An element has a role attribute whose value is not defined in WAI-ARIA, for example a misspelled role=\"buton\". Browsers ignore an unknown role, so the element loses the meaning you meant to give it.",
+  "whoItAffects": "Screen reader users hear a plain element instead of the control they should get. A custom button with a typo in its role is not announced as a button at all.",
+  "steps": [
+    "Find the element and the invalid role in the scan result.",
+    "Check the spelling against the list of roles in the WAI-ARIA specification. Role names are lowercase.",
+    "Use a native element where possible. A <button> needs no role and brings keyboard support.",
+    "Remove the role if it was invented or copied from a library that uses its own names."
+  ],
+  "before": "<div role=\"buton\" tabindex=\"0\">Add to basket</div>",
+  "after": "<button type=\"button\">Add to basket</button>",
+  "doc": false,
+  "whyItMatters": "A role that does not exist does nothing, and typos are hard to spot in review. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan, then check the element in your browser's accessibility inspector. It should show a real role such as button.",
+  "related": [
+    "aria-allowed-role",
+    "aria-deprecated-role",
+    "aria-valid-attr",
+    "aria-allowed-attr",
+    "aria-command-name"
+  ]
+}

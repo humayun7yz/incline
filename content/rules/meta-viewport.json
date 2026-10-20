@@ -1,0 +1,30 @@
+{
+  "id": "meta-viewport",
+  "title": "Do not disable zooming in the viewport tag",
+  "typicalImpact": "critical",
+  "summary": "The viewport meta tag stops users from zooming, for example with user-scalable=no. Remove the setting so people can pinch to zoom.",
+  "problem": "The <meta name=\"viewport\"> tag contains a setting such as user-scalable=no, or a maximum-scale that is too low, that stops mobile users from zooming the page. The browser's own pinch-to-zoom is blocked.",
+  "whoItAffects": "People with low vision who zoom in on a phone or tablet to read text. Without zoom they cannot enlarge your text and may not be able to use the page at all. Many other people also zoom to read small print or tap small targets.",
+  "steps": [
+    "Find the <meta name=\"viewport\"> tag in your page template or theme header.",
+    "Delete user-scalable=no (and user-scalable=0 if present).",
+    "Delete maximum-scale, or raise it to at least 2. Leaving it out is the safest choice.",
+    "Use content=\"width=device-width, initial-scale=1\" and test on a phone that pinch zoom works."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "Browsers offer zoom to anyone who needs bigger text, and this tag takes it away. It fails WCAG's resize text criterion at Level AA, the level that accessibility regulations and procurement requirements commonly build on. Layout problems that tempted the block are better fixed in CSS.",
+  "howToCheck": "View the page source and read the viewport tag. On a real phone, or a mobile emulator that supports pinch, check that you can zoom in on the page.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "The viewport tag is normally printed by the theme, in header.php or a block theme template part. Look there, and in any option in your theme settings, for user-scalable=no."
+    }
+  ],
+  "related": [
+    "meta-viewport-large",
+    "avoid-inline-spacing",
+    "css-orientation-lock"
+  ]
+}

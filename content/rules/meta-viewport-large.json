@@ -1,0 +1,24 @@
+{
+  "id": "meta-viewport-large",
+  "title": "Allow users to zoom to at least 500 percent",
+  "typicalImpact": "minor",
+  "summary": "The viewport meta tag caps zoom with a low maximum-scale. Remove the limit, or raise it, so users can enlarge text further.",
+  "problem": "The <meta name=\"viewport\"> tag sets a maximum-scale that limits how far users can zoom. Zooming is still possible but stops early, before some people have enlarged the text enough to read it.",
+  "whoItAffects": "People with low vision who need strong magnification on a phone or tablet. A limit that lets a little zoom through helps some users and still stops those who need more.",
+  "steps": [
+    "Find the <meta name=\"viewport\"> tag in your page template or theme header.",
+    "Remove maximum-scale altogether. That is the best option.",
+    "If you must keep a limit, raise it to at least 5.",
+    "Check on a phone that pinch zoom continues to work and that content stays readable when enlarged."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=3\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Stronger zoom limits are not required for compliance, but removing the cap costs nothing and helps visitors who need more magnification than the minimum.",
+  "howToCheck": "View the page source and read the viewport tag. There should be no maximum-scale, or it should be 5 or higher. On a phone, try zooming in as far as the browser allows.",
+  "related": [
+    "meta-viewport",
+    "avoid-inline-spacing",
+    "css-orientation-lock"
+  ]
+}

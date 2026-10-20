@@ -1,0 +1,26 @@
+{
+  "id": "landmark-no-duplicate-contentinfo",
+  "title": "Use only one contentinfo landmark per page",
+  "typicalImpact": "moderate",
+  "summary": "The page has more than one contentinfo landmark. Keep one site-wide footer and change any other footer to a non-landmark element.",
+  "problem": "The page exposes two or more contentinfo landmarks. A <footer> that is not inside <article>, <aside>, <main>, <nav> or <section> is treated as the page's contentinfo landmark, as is any element with role=\"contentinfo\". A page should have only one.",
+  "whoItAffects": "Screen reader users who jump between landmarks expect one contentinfo area for site-wide details such as contact information and legal links. Two of them make the landmark list ambiguous and cost extra time to sort out.",
+  "steps": [
+    "List every <footer> and every role=\"contentinfo\" in the page source and decide which one is the real site footer.",
+    "Keep that one as the only top-level <footer>.",
+    "Move any other footer inside the <article> or <section> it belongs to, where it describes only that content, or change it to a <div>.",
+    "Check that included templates and plugins do not each print their own top-level footer."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>Prices include VAT.</p>\n  </footer>\n  <footer>\n    <p>Fernwood Garden Supply, 12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n    <div class=\"note\">\n      <p>Prices include VAT.</p>\n    </div>\n  </main>\n  <footer>\n    <p>Fernwood Garden Supply, 12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. Landmarks act as a map of the page for assistive technology, and duplicates make that map less reliable. It often also reveals a template that outputs its footer twice.",
+  "howToCheck": "Search the rendered page source for <footer and role=\"contentinfo\". Only one should sit outside of main, article, aside, nav and section. A landmarks extension should list a single contentinfo.",
+  "related": [
+    "landmark-no-duplicate-banner",
+    "landmark-contentinfo-is-top-level",
+    "landmark-one-main",
+    "landmark-unique",
+    "region"
+  ]
+}

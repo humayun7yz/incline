@@ -1,0 +1,27 @@
+{
+  "id": "role-img-alt",
+  "title": "Elements with role=\"img\" need a text label",
+  "typicalImpact": "serious",
+  "summary": "An element marked role=\"img\" has no accessible name, so a screen reader has nothing to announce. Add an aria-label that says what it shows.",
+  "problem": "An element such as a <span> or <div> has role=\"img\", which tells assistive technology to treat it as a picture. It has no aria-label, aria-labeledby or title, so the picture has no name. This is common with icon fonts and emoji.",
+  "whoItAffects": "Screen reader users are told there is an image but not what it shows, or the element is skipped. A star rating, a status icon or a warning symbol then conveys nothing to them.",
+  "steps": [
+    "Find elements with role=\"img\" in your templates. The scan result shows the exact markup.",
+    "Add an aria-label that says what the picture means, such as aria-label=\"Rated 4 out of 5 stars\".",
+    "If the picture sits next to visible text that already says the same thing, remove role=\"img\" and add aria-hidden=\"true\" so it is skipped.",
+    "Keep the label short and describe the meaning, not the shape."
+  ],
+  "before": "<span role=\"img\" class=\"rating\">&#9733;&#9733;&#9733;&#9733;&#9734;</span>",
+  "after": "<span role=\"img\" class=\"rating\" aria-label=\"Rated 4 out of 5 stars\">&#9733;&#9733;&#9733;&#9733;&#9734;</span>",
+  "doc": false,
+  "whyItMatters": "Non-text content needs a text alternative under WCAG 1.1.1, a Level A criterion. Without one, information such as a customer rating or a status icon is available only to people who can see it.",
+  "howToCheck": "Open the browser accessibility inspector, select the element and read its Name. An empty Name on an element with role img means the label is missing.",
+  "related": [
+    "image-alt",
+    "svg-img-alt",
+    "input-image-alt",
+    "aria-hidden-focus",
+    "aria-allowed-role",
+    "object-alt"
+  ]
+}

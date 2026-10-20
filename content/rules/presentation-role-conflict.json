@@ -1,0 +1,26 @@
+{
+  "id": "presentation-role-conflict",
+  "title": "Decorative elements must not be focusable",
+  "typicalImpact": "minor",
+  "summary": "An element with role=\"presentation\" or \"none\" also has tabindex or a global ARIA attribute, so the role may be ignored. Remove the extra.",
+  "problem": "An element has role=\"presentation\" or role=\"none\", which tells assistive technology to ignore its meaning. It also has a focusable tabindex or a global ARIA attribute, which makes browsers keep the element meaningful and ignore the role instead.",
+  "whoItAffects": "Screen reader users hear a decorative element that was meant to be silent, and keyboard users can tab to something that does nothing.",
+  "steps": [
+    "Find the element in the scan result and the tabindex or ARIA attribute that conflicts with its presentation role.",
+    "If the element is truly decorative, remove tabindex and any aria-* attributes from it.",
+    "For a decorative image, use an empty alt (alt=\"\") instead of a role, which is shorter and widely supported.",
+    "If the element should be interactive or announced, remove the presentation role and give it a proper role and name."
+  ],
+  "before": "<img src=\"/images/divider.png\" alt=\"\" role=\"presentation\" tabindex=\"0\">",
+  "after": "<img src=\"/images/divider.png\" alt=\"\">",
+  "doc": false,
+  "whyItMatters": "This is a recommended practice, not a WCAG failure. When the role is silently dropped, people hear and tab to clutter that was meant to be invisible to them.",
+  "howToCheck": "Tab through the page. Decorative elements must never receive focus. In the accessibility inspector, the element should show as ignored or presentational.",
+  "related": [
+    "aria-allowed-role",
+    "aria-prohibited-attr",
+    "aria-roles",
+    "image-alt",
+    "aria-hidden-focus"
+  ]
+}

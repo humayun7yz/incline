@@ -1,0 +1,25 @@
+{
+  "id": "aria-tooltip-name",
+  "title": "ARIA tooltips need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "An element with role tooltip has no accessible name, so it conveys nothing. Put the tooltip text inside it or add aria-label.",
+  "problem": "An element with role=\"tooltip\" has no accessible name. A tooltip gets its name from its content, so an empty tooltip, or one holding only an icon, gives assistive technology nothing to announce.",
+  "whoItAffects": "Screen reader users who focus the control the tooltip describes hear no extra help. The hint exists only for people who can see it.",
+  "steps": [
+    "Find the tooltip element in the scan result.",
+    "Put the hint text inside the tooltip element, so its content is the name.",
+    "If the tooltip is filled by script, check that the text is present when it is shown.",
+    "Connect it to its trigger with aria-describedby, and keep the tooltip reachable on keyboard focus as well as on hover."
+  ],
+  "before": "<button type=\"button\" aria-describedby=\"tip-1\">Promo code</button>\n<div role=\"tooltip\" id=\"tip-1\"></div>",
+  "after": "<button type=\"button\" aria-describedby=\"tip-1\">Promo code</button>\n<div role=\"tooltip\" id=\"tip-1\">Codes are on your order confirmation email.</div>",
+  "doc": false,
+  "whyItMatters": "Tooltip text often holds guidance people need to complete a task. If it is empty for assistive technology, those users go without. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select the tooltip in your browser's accessibility inspector and check that its Name is set. Focus the trigger with the keyboard and confirm the hint is available.",
+  "related": [
+    "aria-command-name",
+    "aria-dialog-name",
+    "aria-valid-attr-value",
+    "aria-input-field-name"
+  ]
+}

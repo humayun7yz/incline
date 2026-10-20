@@ -1,0 +1,26 @@
+{
+  "id": "landmark-main-is-top-level",
+  "title": "Keep the main landmark at the top level",
+  "typicalImpact": "moderate",
+  "summary": "The main landmark sits inside another landmark such as a region or aside. Move main out so it is a direct part of the page body.",
+  "problem": "A <main> element (or role=\"main\") is nested inside another landmark, such as <nav>, <aside>, <header> or a labeled <section>. The main landmark is meant to be a top-level landmark that marks the primary content of the page, not a part of something else.",
+  "whoItAffects": "Screen reader users often list a page's landmarks and jump straight to the main content. When main is nested inside another landmark, that list shows a confusing hierarchy and it is harder to tell what is the primary content and what is the wrapper around it.",
+  "steps": [
+    "Find the <main> element in your template and look at the elements around it. The scan result shows which one is the offending parent.",
+    "Remove the wrapping landmark (a <nav>, <aside>, <header>, labeled <section> or an element with a landmark role), or move <main> out of it so it is not a descendant of any other landmark.",
+    "If the wrapper is only there for layout, use a plain <div> instead, since a <div> is not a landmark.",
+    "Keep only one <main> on the page, and put the header, navigation and footer landmarks beside it, not around it."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <section aria-label=\"Store\">\n    <main>\n      <h1>Spring sale</h1>\n      <p>Free delivery on raised beds until the end of May.</p>\n    </main>\n  </section>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <div class=\"store\">\n    <main>\n      <h1>Spring sale</h1>\n      <p>Free delivery on raised beds until the end of May.</p>\n    </main>\n  </div>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. A clean landmark structure still helps people who navigate by landmarks find the primary content quickly, and it keeps your page template predictable for everyone who maintains it.",
+  "howToCheck": "Open your browser's accessibility inspector or a landmarks extension and check that main appears at the top level of the landmark list, not indented under another landmark.",
+  "related": [
+    "landmark-one-main",
+    "landmark-no-duplicate-main",
+    "landmark-unique",
+    "region",
+    "page-has-heading-one"
+  ]
+}

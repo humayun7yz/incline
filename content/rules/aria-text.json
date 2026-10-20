@@ -1,0 +1,26 @@
+{
+  "id": "aria-text",
+  "title": "role=\"text\" must not wrap links or buttons",
+  "typicalImpact": "serious",
+  "summary": "An element with role=\"text\" contains a link or other focusable item. Remove the role or move the link out of it.",
+  "problem": "An element has role=\"text\", a value meant to make some screen readers read a run of text as one phrase. It also contains a focusable descendant, such as a link. The role hides what is inside from the accessibility tree in a way that conflicts with that link.",
+  "whoItAffects": "Screen reader users, mainly on Safari with VoiceOver, may be unable to tell a link is inside the sentence, or hear it merged with the surrounding words.",
+  "steps": [
+    "Find the element with role=\"text\" in the scan result and the focusable item inside it.",
+    "Remove role=\"text\" from the container. Plain paragraphs and spans with a link read correctly without it.",
+    "If you need role=\"text\" for split text styling, apply it only to a span that holds text and no links, buttons or inputs.",
+    "Re-check with VoiceOver that the link is still announced as a link."
+  ],
+  "before": "<p><span role=\"text\">Read our <a href=\"/returns\">returns policy</a> today</span></p>",
+  "after": "<p>Read our <a href=\"/returns\">returns policy</a> today</p>",
+  "doc": false,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure. Links need to stay discoverable inside a sentence, and role=\"text\" gets in the way of that.",
+  "howToCheck": "Re-run the scan, then listen with VoiceOver on Safari. The link should be announced as a link when you reach it.",
+  "related": [
+    "nested-interactive",
+    "aria-roles",
+    "aria-allowed-role",
+    "aria-hidden-focus",
+    "link-name"
+  ]
+}

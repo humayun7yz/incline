@@ -1,0 +1,27 @@
+{
+  "id": "aria-treeitem-name",
+  "title": "Tree items need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "An element with role=\"treeitem\" has no text or label. Give each tree item visible text or an aria-label so screen readers can announce it.",
+  "problem": "An element with role=\"treeitem\", such as an entry in a file browser or nested menu, has no text content, aria-label or aria-labeledby. Assistive technology can announce its position in the tree but not what it is.",
+  "whoItAffects": "Screen reader users moving through a tree hear \"tree item\" with no name, so they cannot tell folders or pages apart. Voice control users cannot name an item to select it.",
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure, because many tree widgets name their items already. Where one does not, the whole tree becomes unusable for people who rely on names to navigate it.",
+  "steps": [
+    "Find the element with role=\"treeitem\" in the scan result.",
+    "Put the item's text inside it, such as the folder or page name. That text becomes its name.",
+    "If the visible text sits elsewhere, point to it with aria-labeledby, or add an aria-label to the item.",
+    "Check that icons inside the item have aria-hidden=\"true\" so only the name is announced."
+  ],
+  "before": "<ul role=\"tree\" aria-label=\"Files\">\n  <li role=\"treeitem\" aria-selected=\"false\"></li>\n</ul>",
+  "after": "<ul role=\"tree\" aria-label=\"Files\">\n  <li role=\"treeitem\" aria-selected=\"false\">Documents</li>\n</ul>",
+  "doc": false,
+  "howToCheck": "Select each tree item in the browser accessibility inspector and read its Name. Every item should have a distinct, meaningful name. An empty Name means the item is unnamed.",
+  "related": [
+    "aria-required-children",
+    "aria-required-parent",
+    "aria-allowed-role",
+    "aria-command-name",
+    "aria-input-field-name",
+    "aria-toggle-field-name"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "avoid-inline-spacing",
+  "title": "Do not lock text spacing with important",
+  "typicalImpact": "serious",
+  "summary": "Inline letter or word spacing marked !important cannot be overridden, so people cannot adjust text spacing. Remove the !important.",
+  "problem": "An element has an inline style that sets letter-spacing or word-spacing with !important. An inline !important declaration cannot be overridden by a user's own stylesheet or bookmarklet, so people cannot change the spacing.",
+  "whoItAffects": "People with dyslexia or low vision often use a custom stylesheet or browser extension to increase line, letter and word spacing so that text is easier to read. An inline !important blocks that and leaves them with your spacing.",
+  "steps": [
+    "Search your templates and CMS content for style attributes that contain letter-spacing or word-spacing together with !important.",
+    "Remove the !important from each one.",
+    "Move the spacing rule into a stylesheet class where it can be overridden, and apply the class instead.",
+    "Check that text still reads well when spacing is increased, with no clipped or overlapping text."
+  ],
+  "before": "<p style=\"letter-spacing: 0.02em !important\">Free delivery on raised beds until the end of May.</p>",
+  "after": "<p class=\"intro\">Free delivery on raised beds until the end of May.</p>\n<style>.intro { letter-spacing: 0.02em; }</style>",
+  "doc": false,
+  "whyItMatters": "WCAG's text spacing criterion at Level AA requires that users can increase spacing without losing content or function. An unoverridable inline style prevents that. Accessibility regulations and procurement requirements commonly build on this level.",
+  "howToCheck": "Search your source for !important inside style attributes. To test, apply a text spacing bookmarklet or extension and check that the paragraph changes spacing and nothing is cut off.",
+  "related": [
+    "meta-viewport",
+    "css-orientation-lock",
+    "color-contrast"
+  ]
+}

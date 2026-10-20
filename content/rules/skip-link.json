@@ -1,0 +1,25 @@
+{
+  "id": "skip-link",
+  "title": "Skip links must point to a real target",
+  "typicalImpact": "moderate",
+  "summary": "A skip link points to an id that does not exist on the page, so it does nothing. Make the link and the target match.",
+  "problem": "A link such as <a href=\"#content\"> is meant to skip to the main content, but no element on the page has id=\"content\". Activating it does not move the keyboard focus anywhere.",
+  "whoItAffects": "Keyboard users who press Tab at the top of the page and use the skip link expect to land on the main content. A broken link leaves them stuck in the menu, and they may not trust skip links on the site again.",
+  "steps": [
+    "Find the skip link, usually the first link in the page, and note the id in its href.",
+    "Check that exactly one element has that id. If it is missing, add it to your main content element, for example <main id=\"content\">.",
+    "If the id exists but has a different spelling or case, correct either the link or the id so they match exactly.",
+    "Test with the keyboard: press Tab, activate the link with Enter and confirm the next Tab stop is inside the main content."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n  <style>\n    .skip-link { position: absolute; left: -9999px; }\n    .skip-link:focus { left: 8px; top: 8px; background: #fff; padding: 8px; }\n  </style>\n</head>\n<body>\n  <a class=\"skip-link\" href=\"#content\">Skip to main content</a>\n  <header>\n    <nav aria-label=\"Main\">\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main>\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n  <style>\n    .skip-link { position: absolute; left: -9999px; }\n    .skip-link:focus { left: 8px; top: 8px; background: #fff; padding: 8px; }\n  </style>\n</head>\n<body>\n  <a class=\"skip-link\" href=\"#content\">Skip to main content</a>\n  <header>\n    <nav aria-label=\"Main\">\n      <a href=\"/shop\">Shop</a>\n      <a href=\"/advice\">Advice</a>\n    </nav>\n  </header>\n  <main id=\"content\">\n    <h1>Spring sale</h1>\n    <p>Raised beds, compost and tools.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure, but a skip link that goes nowhere defeats its purpose. The fix is usually adding or correcting one id attribute.",
+  "howToCheck": "Reload the page, press Tab once to reveal the skip link, press Enter, then press Tab again. Focus should move to the first link or control inside the main content, not back to the menu.",
+  "related": [
+    "bypass",
+    "landmark-one-main",
+    "region",
+    "page-has-heading-one"
+  ]
+}

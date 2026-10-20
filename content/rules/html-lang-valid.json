@@ -1,0 +1,24 @@
+{
+  "id": "html-lang-valid",
+  "title": "The page language code must be valid",
+  "typicalImpact": "serious",
+  "summary": "The lang attribute on the html element is not a real language code, so tools cannot use it. Replace it with a valid code such as en.",
+  "problem": "The lang attribute on <html> holds a value that is not a valid language code, such as \"english\" instead of \"en\". Browsers and screen readers cannot match it to a language.",
+  "whoItAffects": "Screen reader users, whose software chooses a voice from this code. With an invalid code it may fall back to the wrong voice. Translation tools and spell checkers cannot rely on it either.",
+  "whyItMatters": "A wrong language code gives the same poor result as a missing one. This is a WCAG 3.1.1 failure at Level A, the baseline that accessibility regulations and procurement requirements commonly build on.",
+  "steps": [
+    "Find the opening <html> tag in your template or theme.",
+    "Replace the lang value with a valid code from BCP 47: a two or three letter language code, such as en, fr or de.",
+    "Add a region subtag only if it matters, such as en-GB or pt-BR. Use hyphens, not underscores.",
+    "Do not write the language name, such as english, in the attribute."
+  ],
+  "before": "<!doctype html>\n<html lang=\"english\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Returns policy | Fernwood Garden Supply</title>\n</head>\n<body>\n  <main>\n    <h1>Returns policy</h1>\n    <p>You can return unused items within thirty days.</p>\n  </main>\n</body>\n</html>",
+  "doc": true,
+  "howToCheck": "View the page source and read the lang value on <html>. It should be a short code such as en or en-GB, not a language name or a made-up value.",
+  "related": [
+    "html-has-lang",
+    "valid-lang",
+    "html-xml-lang-mismatch"
+  ]
+}

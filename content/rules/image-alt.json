@@ -1,0 +1,31 @@
+{
+  "id": "image-alt",
+  "title": "Images need alternative text",
+  "typicalImpact": "critical",
+  "summary": "An image has no alt attribute, so screen readers skip it or read out the file name. Add alt text that says what the image shows or does.",
+  "problem": "An <img> element has no alt attribute. Without it, a screen reader has nothing useful to announce, so it often reads the file name aloud (something like \"IMG_4021.jpg\") or skips the image altogether.",
+  "whoItAffects": "People who are blind or have low vision and use a screen reader never learn what the image shows, whether that is a product photo, a chart or an icon that works as a button. The same text appears when an image fails to load, and search engines read it to understand what the image is.",
+  "steps": [
+    "Find the image in your theme, template or CMS. The scan result shows the exact markup.",
+    "If the image carries information, or sits inside a link or button, add a short alt phrase that says what it shows or where it leads, such as alt=\"Navy cotton shirt, front view\".",
+    "If the image is purely decorative, add an empty alt (alt=\"\") so screen readers skip it. Leaving the attribute off is not the same thing.",
+    "Leave out phrases like \"image of\" or \"photo of\". Screen readers already announce that it is an image.",
+    "For charts and diagrams, put the main takeaway in the alt text and give the full data in nearby text or a table."
+  ],
+  "before": "<img src=\"/images/shirt-navy.jpg\" width=\"400\" height=\"500\">",
+  "after": "<img src=\"/images/shirt-navy.jpg\" width=\"400\" height=\"500\" alt=\"Navy cotton shirt, front view\">",
+  "doc": false,
+  "whyItMatters": "A shopper who cannot see your product photos has no way to tell what you sell, so they leave. Missing alt text is a failure of WCAG 1.1.1 at Level A, the baseline that accessibility laws and procurement requirements commonly build on.",
+  "howToCheck": "Open your browser's accessibility inspector, select the image, and read its Name. An empty Name means the alt text is missing. A screen reader such as VoiceOver or NVDA will show you the same thing in practice.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "Open the image in the Media Library and fill in the Alternative Text field. Images added in theme code need the alt attribute added to the template."
+    },
+    {
+      "platform": "Shopify",
+      "note": "In the product editor, click the image and choose Add alt text. For images in theme files, set the alt attribute in the Liquid template."
+    }
+  ],
+  "related": ["input-image-alt", "role-img-alt", "svg-img-alt", "area-alt", "image-redundant-alt", "object-alt"]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "aria-required-attr",
+  "title": "ARIA roles need their required attributes",
+  "typicalImpact": "critical",
+  "summary": "An element has an ARIA role but is missing an attribute the role requires, such as aria-checked on a checkbox. Add the required attribute.",
+  "problem": "An element has a role that requires certain ARIA attributes, and one is missing. For example, role=\"checkbox\" requires aria-checked. Without it, assistive technology cannot report the state of the control.",
+  "whoItAffects": "Screen reader users hear a role with no state, such as a checkbox that is neither checked nor unchecked. They cannot tell what they have chosen, and keyboard-only users depend on that same information.",
+  "steps": [
+    "Find the element and the missing attribute in the scan result.",
+    "Look up the role in the WAI-ARIA specification to see which attributes it requires.",
+    "Add the attribute with its current value, and keep it in sync with the visual state in your script.",
+    "If you can, use a native control such as <input type=\"checkbox\">, which exposes its state without ARIA."
+  ],
+  "before": "<div role=\"checkbox\" tabindex=\"0\">Remember my details</div>",
+  "after": "<div role=\"checkbox\" tabindex=\"0\" aria-checked=\"false\">Remember my details</div>",
+  "doc": false,
+  "whyItMatters": "A control whose state is not exposed cannot be used with confidence, and people often get checkout or sign-in forms wrong because of it. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select the element in your browser's accessibility inspector and check that its state is shown. Toggle it and confirm the state changes.",
+  "related": [
+    "aria-allowed-attr",
+    "aria-valid-attr-value",
+    "aria-roles",
+    "aria-toggle-field-name",
+    "aria-required-children"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "aria-deprecated-role",
+  "title": "Deprecated ARIA roles must not be used",
+  "typicalImpact": "minor",
+  "summary": "An element uses an ARIA role that has been deprecated, such as directory, so support is not guaranteed. Remove it or use a current role.",
+  "problem": "An element has a role value that the WAI-ARIA specification has deprecated, for example role=\"directory\". Deprecated roles may be dropped by browsers and assistive technology, so they cannot be relied on to convey meaning.",
+  "whoItAffects": "People using assistive technology may get no role information, or different information depending on their software. The structure you meant to expose can silently disappear.",
+  "steps": [
+    "Find the element and its role in the scan result.",
+    "Check what the role was meant to express. A directory was a list of links, so a plain <ul> or <ol> already says that.",
+    "Replace the role with a current one or a native element, or remove it if the native element already carries the meaning.",
+    "Check other pages and templates for the same role, since it is often copied across a theme."
+  ],
+  "before": "<ul role=\"directory\">\n  <li><a href=\"/stores/leeds\">Leeds</a></li>\n  <li><a href=\"/stores/bristol\">Bristol</a></li>\n</ul>",
+  "after": "<ul>\n  <li><a href=\"/stores/leeds\">Leeds</a></li>\n  <li><a href=\"/stores/bristol\">Bristol</a></li>\n</ul>",
+  "doc": false,
+  "whyItMatters": "Deprecated roles are a maintenance risk: behavior that works today can stop working as software changes. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Re-run the scan, then search your templates for the role name. In the accessibility inspector, the element should now show its native role, such as list.",
+  "related": [
+    "aria-roles",
+    "aria-allowed-role",
+    "aria-allowed-attr",
+    "aria-valid-attr"
+  ]
+}

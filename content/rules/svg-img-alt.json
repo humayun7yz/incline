@@ -1,0 +1,27 @@
+{
+  "id": "svg-img-alt",
+  "title": "Inline SVG images need a text label",
+  "typicalImpact": "serious",
+  "summary": "An <svg> with role=\"img\" has no accessible text, so screen readers cannot describe it. Add an aria-label or a <title> inside the SVG.",
+  "problem": "An inline <svg> element has role=\"img\" but contains no <title> and has no aria-label or aria-labeledby. Assistive technology treats it as an image with no name, so the drawing is either skipped or announced with no description.",
+  "whoItAffects": "Screen reader users cannot tell what a logo, icon or chart drawn with SVG represents. When the SVG is the only content of a link or button, that control has no name at all.",
+  "steps": [
+    "Find inline <svg> elements that have role=\"img\". The scan result shows the exact markup.",
+    "If the graphic carries meaning, add aria-label with a short description, or add a <title> as the first child of the SVG.",
+    "If it is decoration beside visible text, remove role=\"img\" and add aria-hidden=\"true\" so it is skipped.",
+    "For a complex chart, keep the label short and put the full data in a nearby table or paragraph."
+  ],
+  "before": "<svg role=\"img\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"#0b5cad\"/>\n</svg>",
+  "after": "<svg role=\"img\" aria-label=\"Fernwood Garden Supply logo\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"#0b5cad\"/>\n</svg>",
+  "doc": false,
+  "whyItMatters": "Graphics that carry meaning need a text alternative under WCAG 1.1.1, a Level A criterion. A logo or chart with no name hides its message from anyone who cannot see it.",
+  "howToCheck": "Open the browser accessibility inspector, select the <svg> and read its Name. An empty Name means the label is missing. A screen reader should read your description.",
+  "related": [
+    "image-alt",
+    "role-img-alt",
+    "input-image-alt",
+    "object-alt",
+    "aria-hidden-focus",
+    "link-name"
+  ]
+}

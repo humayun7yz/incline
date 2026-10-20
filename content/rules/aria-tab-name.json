@@ -1,0 +1,26 @@
+{
+  "id": "aria-tab-name",
+  "title": "ARIA tabs need an accessible name",
+  "typicalImpact": "serious",
+  "summary": "An element with role tab has no accessible name, so people cannot tell tabs apart. Add visible text or an aria-label.",
+  "problem": "An element with role=\"tab\" has no accessible name. This often happens when a tab holds only an icon. A screen reader announces the role and position but not what the tab shows.",
+  "whoItAffects": "Screen reader users hear a row of tabs with no way to tell them apart. Voice control users cannot name a tab to select it.",
+  "steps": [
+    "Find the tab in the scan result.",
+    "Put visible text in each tab. This is the best fix for everyone.",
+    "If a tab must be icon-only, add aria-label with a short name and set aria-hidden=\"true\" on the icon.",
+    "Check that every tab in the tablist has a distinct name."
+  ],
+  "before": "<div role=\"tablist\">\n  <div role=\"tab\" id=\"tab-1\" aria-selected=\"true\" aria-controls=\"panel-1\" tabindex=\"0\"><span class=\"icon-returns\"></span></div>\n</div>\n<div role=\"tabpanel\" id=\"panel-1\" aria-labelledby=\"tab-1\">Free returns within 30 days.</div>",
+  "after": "<div role=\"tablist\">\n  <div role=\"tab\" id=\"tab-1\" aria-selected=\"true\" aria-controls=\"panel-1\" tabindex=\"0\"><span class=\"icon-returns\" aria-hidden=\"true\"></span>Returns</div>\n</div>\n<div role=\"tabpanel\" id=\"panel-1\" aria-labelledby=\"tab-1\">Free returns within 30 days.</div>",
+  "doc": false,
+  "whyItMatters": "Tabs that cannot be told apart make tabbed content unusable for people who rely on names. This is a WCAG Level A requirement, the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Select each tab in your browser's accessibility inspector and check its Name. A screen reader should announce each tab by name.",
+  "related": [
+    "aria-command-name",
+    "aria-toggle-field-name",
+    "aria-input-field-name",
+    "button-name",
+    "aria-required-children"
+  ]
+}

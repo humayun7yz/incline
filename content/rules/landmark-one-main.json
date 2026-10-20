@@ -1,0 +1,32 @@
+{
+  "id": "landmark-one-main",
+  "title": "Pages need one main landmark",
+  "typicalImpact": "moderate",
+  "summary": "The page has no main landmark. Wrap the primary content in one main element so people can skip straight to it.",
+  "problem": "The page has no <main> element and no element with role=\"main\". Without it, assistive technology cannot tell where the primary content of the page starts, so everything looks like one undifferentiated block.",
+  "whoItAffects": "Screen reader users can usually jump straight to the main landmark and skip the header and navigation. Without one they have to move through all the repeated content on every page. Keyboard users of some assistive tools rely on landmarks in the same way.",
+  "steps": [
+    "Find the container that holds the unique content of the page, not the header, navigation or footer.",
+    "Change it to a <main> element, or add role=\"main\" if you cannot change the tag.",
+    "Use exactly one main per page and do not nest it inside another landmark.",
+    "Keep the header, navigation and footer outside main, as <header>, <nav> and <footer>."
+  ],
+  "before": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <p>Fernwood Garden Supply</p>\n  </header>\n  <div class=\"content\">\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </div>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "after": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Fernwood Garden Supply</title>\n</head>\n<body>\n  <header>\n    <p>Fernwood Garden Supply</p>\n  </header>\n  <main class=\"content\">\n    <h1>Spring sale</h1>\n    <p>Free delivery on raised beds until the end of May.</p>\n  </main>\n  <footer>\n    <p>12 Mill Lane</p>\n  </footer>\n</body>\n</html>",
+  "doc": true,
+  "whyItMatters": "This is a best practice, not a WCAG failure. A main landmark works as a built-in skip link for people using assistive technology, and it is a one-word change to your template.",
+  "howToCheck": "Search the rendered page source for <main. There should be exactly one. A landmarks extension or the browser accessibility inspector should show a main landmark.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "Many themes already print a main element in their page templates. If yours does not, edit the template files (such as index.php, page.php or single.php) so the content area is wrapped in <main>."
+    }
+  ],
+  "related": [
+    "landmark-no-duplicate-main",
+    "landmark-main-is-top-level",
+    "region",
+    "bypass",
+    "page-has-heading-one"
+  ]
+}

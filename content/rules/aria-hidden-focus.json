@@ -1,0 +1,27 @@
+{
+  "id": "aria-hidden-focus",
+  "title": "Hidden content must not be keyboard focusable",
+  "typicalImpact": "serious",
+  "summary": "Something marked aria-hidden still contains a link or button that keyboard users can tab to. Hide it fully or make it unfocusable.",
+  "problem": "An element has aria-hidden=\"true\", which removes it from what screen readers announce, but it contains something focusable such as a link, button or input. The keyboard can still land on it even though assistive technology has been told it does not exist.",
+  "whoItAffects": "Keyboard users tab onto a control that a screen reader says nothing about, so a blind user hears silence or a vague label while focus moves. Sighted keyboard users can also lose their place if the hidden control is off screen.",
+  "steps": [
+    "Find the aria-hidden element in the scan result and note which link, button or field inside it can take focus.",
+    "If the content is meant to be hidden for everyone, such as a closed menu or an off-screen panel, hide it from all users with the hidden attribute or display: none, which also removes it from the tab order.",
+    "If the content should stay visible but unannounced, add the inert attribute to the container so nothing inside can be focused or clicked.",
+    "If the control should be usable, remove aria-hidden from it and from every ancestor.",
+    "When a panel opens or closes with script, update the hiding method at the same moment so the open state is never aria-hidden."
+  ],
+  "before": "<div id=\"side-menu\" aria-hidden=\"true\">\n  <a href=\"/shop\">Shop</a>\n</div>",
+  "after": "<div id=\"side-menu\" hidden>\n  <a href=\"/shop\">Shop</a>\n</div>",
+  "doc": false,
+  "whyItMatters": "Focus landing on something that is announced as nothing breaks the link between what a person hears and where they are. This is a WCAG 4.1.2 Level A requirement (Name, Role, Value), the level that accessibility regulations and procurement requirements commonly build on.",
+  "howToCheck": "Press Tab repeatedly through the page and watch where focus goes. If it enters an area that should be closed or hidden, or a screen reader stays silent while focus moves, the problem is present.",
+  "related": [
+    "aria-hidden-body",
+    "focus-order-semantics",
+    "nested-interactive",
+    "tabindex",
+    "scrollable-region-focusable"
+  ]
+}
