@@ -37,6 +37,27 @@ const AI_CONFIG = {
 
 const PAGE_CACHE = "public, max-age=3600";
 
+// Sitemap lists every public page so search engines can find the guides.
+// No <lastmod>: guide files are rewritten on every deploy, so a date taken
+// from them would claim changes that never happened.
+const sitemapXml =
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  [`${SITE_URL}/`, `${SITE_URL}/guides`, ...guideIndex.all.map((g) => `${SITE_URL}/guides/${encodeURIComponent(g.id)}`)]
+    .map((loc) => `  <url><loc>${loc.replace(/&/g, "&amp;")}</loc></url>`)
+    .join("\n") +
+  "\n</urlset>\n";
+
+const robotsTxt = `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+
+app.get("/sitemap.xml", (req, res) => {
+  res.set("Cache-Control", PAGE_CACHE).type("application/xml").send(sitemapXml);
+});
+
+app.get("/robots.txt", (req, res) => {
+  res.set("Cache-Control", PAGE_CACHE).type("text/plain").send(robotsTxt);
+});
+
 app.get("/guides", (req, res) => {
   res.set("Cache-Control", PAGE_CACHE).type("html").send(guidesIndexHtml);
 });
@@ -79,6 +100,8 @@ app.post("/api/scan", scanLimits, async (req, res) => {
       impact: v.impact,
       help: v.help,
       helpUrl: v.helpUrl,
+      // Link to our own plain-English guide when we have one for this rule.
+      guideUrl: guideIndex.byId.has(v.id) ? `/guides/${encodeURIComponent(v.id)}` : null,
       nodeCount: v.nodes.length,
       exampleHtml: v.nodes[0]?.html || "",
       explain: explanations[v.id]?.explain || "",

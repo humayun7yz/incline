@@ -440,6 +440,17 @@
     margin-top: 16px;
   }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
   .finding-meta a { text-decoration: none; }
   .finding-meta a:hover { text-decoration: underline; }
 
@@ -639,14 +650,23 @@ function render(data) {
       parts.push("</div>");
     }
 
+    // Only same-site guide paths are linked, whatever the server sends.
+    const guideLink =
+      typeof v.guideUrl === "string" && /^\/guides\/[a-z0-9-]+$/.test(v.guideUrl)
+        ? ' &middot; <a href="' +
+          v.guideUrl +
+          '" target="_blank" rel="noopener">Full fix guide<span class="visually-hidden"> (opens in a new tab)</span></a>'
+        : "";
+
     parts.push(
       '<div class="finding-meta">Found on ' +
         v.nodeCount +
         " element" +
         (v.nodeCount === 1 ? "" : "s") +
+        guideLink +
         ' &middot; <a href="' +
-        v.helpUrl +
-        '" target="_blank" rel="noopener">WCAG reference</a></div>'
+        escapeHtml(v.helpUrl) +
+        '" target="_blank" rel="noopener">WCAG reference<span class="visually-hidden"> (opens in a new tab)</span></a></div>'
     );
 
     parts.push("</div>"); // .finding right column
