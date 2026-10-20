@@ -2,9 +2,14 @@ const express = require("express");
 const path = require("path");
 const { scanUrl } = require("./scan");
 const { explainAndFix } = require("./report");
+const { assertPublicUrl } = require("./urlsafety");
+const { scanLimits } = require("./limits");
 
 const app = express();
-app.use(express.json());
+// Render puts one proxy in front of the app; trusting exactly one hop makes
+// req.ip the real visitor address, which the rate limiter relies on.
+app.set("trust proxy", 1);
+app.use(express.json({ limit: "10kb" }));
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 // Server-side AI config: this is the hosted-SaaS model, not Mark's
@@ -16,19 +21,15 @@ const AI_CONFIG = {
   model: process.env.A11Y_AI_MODEL || "",
 };
 
-function isValidHttpUrl(value) {
-  try {
-    const u = new URL(value);
-    return u.protocol === "http:" || u.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-app.post("/api/scan", async (req, res) => {
+app.post("/api/scan", scanLimits, async (req, res) => {
   const { url } = req.body || {};
-  if (!url || !isValidHttpUrl(url)) {
+  if (!url || typeof url !== "string" || url.length > 2048) {
     return res.status(400).json({ error: "Please provide a valid http(s) URL." });
+  }
+  try {
+    await assertPublicUrl(url);
+  } catch (urlErr) {
+    return res.status(400).json({ error: urlErr.message });
   }
 
   try {
@@ -70,7 +71,12 @@ app.post("/api/scan", async (req, res) => {
       aiAvailable: Boolean(AI_CONFIG.apiKey),
     });
   } catch (err) {
-    res.status(500).json({ error: String(err.message || err) });
+    // Log the real error for us, but don't send browser/internal details
+    // (file paths, stack hints) back to the visitor.
+    console.error("Scan failed:", err.message || err);
+    res.status(500).json({
+      error: "We couldn't scan that page. It may be down, blocking automated visitors, or too slow to load.",
+    });
   }
 });
 

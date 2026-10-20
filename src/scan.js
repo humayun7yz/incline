@@ -8,6 +8,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
+const { assertPublicUrl } = require("./urlsafety");
 
 const axeSource = fs.readFileSync(
   require.resolve("axe-core/axe.min.js"),
@@ -25,7 +26,10 @@ const NAV_TIMEOUT_MS = 20000;
 // the pre-installed browser revision's auto-discovery path, so we point
 // directly at the known-good Chromium binary instead of letting Playwright
 // guess (which would otherwise try to download a new browser build).
-const CHROMIUM_PATH = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
+// Set CHROMIUM_PATH in the environment to override (for example on a host
+// with a different browser install).
+const CHROMIUM_PATH =
+  process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
 async function scanUrl(url) {
   const launchOptions = { headless: true };
@@ -34,10 +38,36 @@ async function scanUrl(url) {
   }
   const browser = await chromium.launch(launchOptions);
   try {
-    const page = await browser.newPage({
+    const context = await browser.newContext({
       viewport: { width: 1280, height: 900 },
+      serviceWorkers: "block", // service workers would bypass request routing
     });
+    const page = await context.newPage();
     page.setDefaultNavigationTimeout(NAV_TIMEOUT_MS);
+
+    // Safety net behind the up-front URL check: every request the browser
+    // makes (the page itself, redirects, scripts, images) is re-checked, so
+    // a public page can't bounce us to, or pull from, an internal address.
+    // Verdicts are cached per host so a page with many assets stays fast.
+    const hostVerdicts = new Map();
+    await page.route("**/*", async (route) => {
+      const reqUrl = route.request().url();
+      if (!/^https?:/i.test(reqUrl)) return route.continue(); // data:, blob:, about:
+      let host;
+      try {
+        host = new URL(reqUrl).host;
+      } catch {
+        return route.abort("blockedbyclient");
+      }
+      if (!hostVerdicts.has(host)) {
+        hostVerdicts.set(
+          host,
+          assertPublicUrl(reqUrl).then(() => true, () => false)
+        );
+      }
+      if (await hostVerdicts.get(host)) return route.continue();
+      return route.abort("blockedbyclient");
+    });
 
     await page.goto(url, { waitUntil: "load" });
 
