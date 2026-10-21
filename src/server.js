@@ -4,6 +4,7 @@ const { scanUrl } = require("./scan");
 const { explainAndFix } = require("./report");
 const { assertPublicUrl } = require("./urlsafety");
 const { scanLimits } = require("./limits");
+const { waitlistRoute } = require("./waitlist");
 const { loadGuides, buildIndex } = require("./guides");
 const { guidePage, indexPage, notFoundPage } = require("./pages");
 
@@ -67,6 +68,8 @@ app.get("/guides/:id", (req, res) => {
   if (!html) return res.status(404).type("html").send(notFoundHtml);
   res.set("Cache-Control", PAGE_CACHE).type("html").send(html);
 });
+
+app.post("/api/waitlist", ...waitlistRoute);
 
 app.post("/api/scan", scanLimits, async (req, res) => {
   const { url } = req.body || {};
