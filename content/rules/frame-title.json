@@ -1,0 +1,34 @@
+{
+  "id": "frame-title",
+  "title": "Embedded frames need a title",
+  "typicalImpact": "serious",
+  "summary": "An iframe has no title, so screen reader users hear only \"frame\" and cannot tell what it holds. Add a short title that describes its purpose.",
+  "problem": "An iframe shows another page inside yours, such as a map, a video or a booking form. Without a title attribute it has no accessible name, so assistive technology announces a generic frame with no hint of what is inside.",
+  "whoItAffects": "People who use a screen reader often list the frames on a page and jump between them. With no titles they hear a row of identical unnamed frames and have to enter each one to find out what it is.",
+  "steps": [
+    "Find the iframe named in the scan result. It is usually an embed code pasted in from a map, video or form provider.",
+    "Add a title attribute that says what the frame contains, such as title=\"Map showing our shop at 12 Mill Lane\".",
+    "Keep the title short and specific. Words like iframe, embed or content tell the listener nothing.",
+    "If the page has several frames, give each its own title so they can be told apart."
+  ],
+  "before": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12\" width=\"600\" height=\"400\"></iframe>",
+  "after": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12\" width=\"600\" height=\"400\" title=\"Map showing Fernwood Garden Supply at 12 Mill Lane\"></iframe>",
+  "doc": false,
+  "whyItMatters": "This is a WCAG 4.1.2 failure at Level A, Name, Role, Value. Embedded maps, videos and chat widgets are common places for it, because the embed code a provider gives you often has no title.",
+  "howToCheck": "Inspect the iframe in your browser's developer tools and confirm it has a title that describes its content. The accessibility panel should show the same text as the frame's name.",
+  "platformNotes": [
+    {
+      "platform": "WordPress",
+      "note": "If you paste an embed code into a Custom HTML block, add the title attribute to the iframe tag in that code, then update the page."
+    },
+    {
+      "platform": "Shopify",
+      "note": "Embed codes usually live in a Custom Liquid section or a theme file. Add the title attribute to the iframe tag there."
+    }
+  ],
+  "related": [
+    "object-alt",
+    "image-alt",
+    "document-title"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "td-headers-attr",
+  "title": "Table cells must point to real header cells",
+  "typicalImpact": "serious",
+  "summary": "A data cell's headers attribute names an id that is not a cell in the same table, so screen readers announce the wrong header or none.",
+  "problem": "The headers attribute links a data cell to the header cells that describe it, using their id values. Here at least one value does not match any cell in the same table, so the link is broken.",
+  "whoItAffects": "Screen reader users who move through a table cell by cell hear each header read out with its data. A broken headers link means they hear the wrong header or none, so a time or a price is read without saying what it belongs to.",
+  "steps": [
+    "Find the table and the cell named in the scan result, then read the value of its headers attribute.",
+    "Check that every id in that value belongs to a header cell in the same table. Typos, extra spaces and ids copied from another table are the usual causes.",
+    "Correct the id on the header cell or the value in the headers attribute so they match exactly, including capital letters.",
+    "If the table has one row of column headers and one column of row labels, remove the headers attributes and put scope=\"col\" or scope=\"row\" on the header cells. That is easier to keep correct.",
+    "Make sure each id appears only once on the page."
+  ],
+  "before": "<table>\n  <caption>Shop opening hours</caption>\n  <tr>\n    <th id=\"day\">Day</th>\n    <th id=\"open\">Opens</th>\n    <th id=\"close\">Closes</th>\n  </tr>\n  <tr>\n    <td headers=\"day\">Saturday</td>\n    <td headers=\"open\">9:00</td>\n    <td headers=\"closes\">17:00</td>\n  </tr>\n</table>",
+  "after": "<table>\n  <caption>Shop opening hours</caption>\n  <tr>\n    <th id=\"day\">Day</th>\n    <th id=\"open\">Opens</th>\n    <th id=\"close\">Closes</th>\n  </tr>\n  <tr>\n    <td headers=\"day\">Saturday</td>\n    <td headers=\"open\">9:00</td>\n    <td headers=\"close\">17:00</td>\n  </tr>\n</table>",
+  "doc": false,
+  "whyItMatters": "This is a WCAG 1.3.1 failure at Level A, Info and Relationships. Tables with merged cells or two levels of headers depend on the headers attribute, so a wrong id makes the table misleading and not only incomplete.",
+  "howToCheck": "Inspect the cell, copy each id from its headers attribute and search the table's markup for it. Every id should match one header cell. With a screen reader, the right header should be read when you move into the cell.",
+  "related": [
+    "scope-attr-valid",
+    "empty-table-header",
+    "table-duplicate-name"
+  ]
+}

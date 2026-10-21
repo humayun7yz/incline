@@ -1,0 +1,24 @@
+{
+  "id": "empty-table-header",
+  "title": "Table headers need text",
+  "typicalImpact": "minor",
+  "summary": "A table header cell is empty, so screen readers announce no label for that column or row. Add text, or visually hidden text if it must look blank.",
+  "problem": "A header cell (th) has no text. Screen readers use header cells as labels for the data in their column or row, so an empty one gives no label at all. It often happens with a corner cell, or a column of buttons with no heading.",
+  "whoItAffects": "Screen reader users who move through the table hear each cell's header read out with its data. An empty header means that column or row is read with no label, and they have to guess its meaning from context.",
+  "steps": [
+    "Find the empty th cell named in the scan result.",
+    "Type a short label for what the column or row holds, such as Workshop for a column of workshop names.",
+    "If the design needs the header to look blank, put the label in a span styled with a visually hidden CSS class. Do not use display none, because that hides the text from screen readers as well.",
+    "If a corner cell has nothing to label, use a td element instead of a th."
+  ],
+  "before": "<table>\n  <caption>Weekend workshops</caption>\n  <tr>\n    <th></th>\n    <th>Saturday</th>\n    <th>Sunday</th>\n  </tr>\n  <tr>\n    <th>Pottery</th>\n    <td>10:00</td>\n    <td>Full</td>\n  </tr>\n</table>",
+  "after": "<table>\n  <caption>Weekend workshops</caption>\n  <tr>\n    <th>Workshop</th>\n    <th>Saturday</th>\n    <th>Sunday</th>\n  </tr>\n  <tr>\n    <th>Pottery</th>\n    <td>10:00</td>\n    <td>Full</td>\n  </tr>\n</table>",
+  "doc": false,
+  "whyItMatters": "This is a recommended practice rather than a WCAG failure, but a column with no label is harder to understand, and some screen readers read the gap awkwardly. Adding a label takes one line.",
+  "howToCheck": "Look at the table's header row and first column in your browser's developer tools and confirm no th element is empty. With a screen reader, move into each column and listen for its label.",
+  "related": [
+    "td-headers-attr",
+    "scope-attr-valid",
+    "table-duplicate-name"
+  ]
+}
