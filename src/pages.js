@@ -3,8 +3,20 @@
 // rules the scanner checks for (landmarks, skip link, heading order, text
 // labels next to colors).
 
-const FONTS_HREF =
-  "https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap";
+// One stylesheet per font, so a single failed request can't take the others
+// down with it. Same fonts as the landing page.
+const FONT_LINKS = [
+  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap",
+]
+  .map((href) => `<link href="${href}" rel="stylesheet">`)
+  .join("\n");
+
+const LOGO_SVG = `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <rect x="2" y="2" width="26" height="26" rx="8" fill="none" stroke="#4f3fe8" stroke-width="3"/>
+        <path d="M8.5 21.5 L21.5 8.5 M13.5 8.5 H21.5 V16.5" fill="none" stroke="#1b2230" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`;
 
 const IMPACT_LABEL = { critical: "Critical", serious: "Serious", moderate: "Moderate", minor: "Minor" };
 
@@ -39,24 +51,37 @@ function layout({ title, description, canonical, current, body, jsonLd }) {
 <meta property="og:url" content="${esc(canonical)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="${FONTS_HREF}" rel="stylesheet">
+${FONT_LINKS}
+<link rel="stylesheet" href="/site.css">
 <link rel="stylesheet" href="/guides.css">
 ${jsonLd ? jsonLdScript(jsonLd) : ""}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="topbar">
-  <a class="wordmark" href="/">Incline</a>
-  <nav class="topnav" aria-label="Main">
-    <a href="/">Scan a site</a>
-    <a href="/guides"${current === "guides" ? ' aria-current="page"' : ""}>Fix guides</a>
-  </nav>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="Incline, home">
+      ${LOGO_SVG}
+      Incline
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav-extra" href="/#how">How it works</a>
+      <a class="nav-guides" href="/guides"${current === "guides" ? ' aria-current="page"' : ""}>Fix guides</a>
+      <a class="nav-extra" href="/#pricing">Pricing</a>
+      <a class="nav-extra" href="/#faq">FAQ</a>
+      <a class="btn btn-primary btn-small" href="/#scan">Scan a site</a>
+    </nav>
+  </div>
 </header>
 <main id="main">
 ${body}
 </main>
-<footer>
-  <p>Incline checks pages with axe-core. A clean scan is a strong signal, not a legal guarantee of WCAG compliance, and these guides are general advice, not legal advice.</p>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-legal" style="margin-top:0">
+      <p>Incline checks pages with axe-core. A clean scan is a strong signal, not a legal guarantee of WCAG compliance, and these guides are general advice, not legal advice.</p>
+    </div>
+  </div>
 </footer>
 </body>
 </html>`;
@@ -149,7 +174,7 @@ ${g.steps.map((s) => `    <li>${esc(s)}</li>`).join("\n")}
 <aside class="cta" aria-labelledby="cta-title">
   <h2 id="cta-title">Does your site have this problem?</h2>
   <p>Paste a page address and Incline scans it in a real browser, then explains every issue it finds in plain English.</p>
-  <a class="button" href="/">Scan your site free</a>
+  <a class="btn btn-primary" href="/#scan">Scan your site free</a>
 </aside>`;
 
   const jsonLd = {
@@ -226,7 +251,7 @@ ${sections}
 <aside class="cta" aria-labelledby="cta-title">
   <h2 id="cta-title">Not sure which of these your site has?</h2>
   <p>Paste a page address and Incline finds the real problems on it, then links each one to a fix.</p>
-  <a class="button" href="/">Scan your site free</a>
+  <a class="btn btn-primary" href="/#scan">Scan your site free</a>
 </aside>`;
 
   const jsonLd = {
@@ -252,7 +277,7 @@ ${sections}
 function notFoundPage(siteUrl) {
   const body = `<h1>We couldn't find that guide</h1>
 <p class="lead">It may have moved, or the address may have a typo.</p>
-<p><a class="button" href="/guides">Browse all fix guides</a></p>`;
+<p><a class="btn btn-primary" href="/guides">Browse all fix guides</a></p>`;
   return layout({
     title: "Guide not found | Incline",
     description: "That guide could not be found.",
