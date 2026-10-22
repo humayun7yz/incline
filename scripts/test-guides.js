@@ -63,7 +63,7 @@ const hostile = {
 const html = guidePage(hostile, SITE);
 check(!html.includes("<img src=x"), "hostile: raw <img> tag leaked through");
 check(!html.includes("<script>alert(2)"), "hostile: raw <script> leaked through");
-check((html.match(/<script/g) || []).length === 1, "hostile: unexpected extra script tag (only JSON-LD allowed)");
+check((html.match(/<script(?![^>]*\ssrc=)/g) || []).length === 1, "hostile: unexpected inline script tag (only JSON-LD allowed)");
 const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1];
 check(!/<\/script/i.test(ld), "hostile: JSON-LD could close its own script tag");
 

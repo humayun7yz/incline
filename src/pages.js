@@ -83,6 +83,7 @@ ${body}
     </div>
   </div>
 </footer>
+<script src="/nav.js" defer></script>
 </body>
 </html>`;
 }

@@ -1,9 +1,11 @@
-// Scan form, report rendering and waitlist form for the landing page.
-// Everything that comes back from the server is escaped before it is
-// written into the page.
+// Scan form and waitlist form for the landing page. Reports are drawn by
+// report.js; the header sign-in link and auth state come from nav.js.
 
 (function () {
   "use strict";
+
+  var IR = window.InclineReport;
+  var escapeHtml = IR.escapeHtml;
 
   var form = document.getElementById("scanForm");
   var urlInput = document.getElementById("urlInput");
@@ -11,12 +13,11 @@
   var output = document.getElementById("output");
   var live = document.getElementById("liveStatus");
 
-  var SEVERITY_ORDER = ["critical", "serious", "moderate", "minor"];
-  var IMPACT_LABEL = { critical: "Critical", serious: "Serious", moderate: "Moderate", minor: "Minor" };
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  // Filled in by nav.js once it knows whether accounts are on and who is signed in.
+  var auth = { accountsEnabled: false, user: null };
+  if (window.inclineAuthReady) {
+    window.inclineAuthReady.then(function (state) {
+      auth = state;
     });
   }
 
@@ -27,6 +28,20 @@
   function showOutput() {
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     output.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }
+
+  // The line under the report heading: saved, or an invitation to sign up.
+  function reportNote(data) {
+    if (data.saved === true) {
+      return 'Saved to your account. <a href="/account">See your saved reports</a>';
+    }
+    if (data.saved === false) {
+      return "We couldn't save this report to your account, but your results are below.";
+    }
+    if (auth.accountsEnabled && !auth.user) {
+      return '<a href="/signup">Create a free account</a> to save your reports, or <a href="/login">log in</a>.';
+    }
+    return "";
   }
 
   if (form) {
@@ -45,6 +60,7 @@
       try {
         var res = await fetch("/api/scan", {
           method: "POST",
+          credentials: "same-origin",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url: url }),
         });
@@ -55,7 +71,8 @@
           say(msg);
           return;
         }
-        render(data);
+        output.innerHTML = IR.renderReport(data, { note: reportNote(data) });
+        IR.wireReport(output);
         say(
           data.violationCount === 0
             ? "Scan finished. No issues found."
@@ -70,104 +87,6 @@
         scanBtn.disabled = false;
       }
     });
-  }
-
-  function tally(violations) {
-    var counts = { critical: 0, serious: 0, moderate: 0, minor: 0 };
-    violations.forEach(function (v) {
-      counts[SEVERITY_ORDER.indexOf(v.impact) > -1 ? v.impact : "minor"]++;
-    });
-    var items = SEVERITY_ORDER.filter(function (k) {
-      return counts[k] > 0;
-    })
-      .map(function (k) {
-        return (
-          '<span class="tally-item ' + k + '"><span class="tally-dot" aria-hidden="true"></span>' +
-          counts[k] + " " + IMPACT_LABEL[k] + "</span>"
-        );
-      })
-      .join("");
-    return '<div class="tally">' + items + "</div>";
-  }
-
-  function render(data) {
-    var parts = [];
-    parts.push('<section class="report" aria-label="Scan report">');
-
-    parts.push('<div class="report-head"><div>');
-    parts.push('<h2 class="site-title">' + escapeHtml(data.title || "Scan result") + "</h2>");
-    parts.push('<p class="site-url">' + escapeHtml(data.url) + "</p></div>");
-    parts.push('<div class="report-actions">');
-    if (data.violationCount === 0) {
-      parts.push('<span class="pill-clean">All clear: 0 issues found</span>');
-    } else {
-      parts.push(tally(data.violations));
-      parts.push('<button class="btn btn-quiet btn-small" id="printBtn" type="button">Print report</button>');
-    }
-    parts.push("</div></div>");
-
-    if (!data.aiAvailable && data.violationCount > 0) {
-      parts.push(
-        '<div class="ai-note">The plain-English explanations are switched off on this server, so these are the raw axe-core findings.</div>'
-      );
-    }
-
-    data.violations.forEach(function (v) {
-      var sev = SEVERITY_ORDER.indexOf(v.impact) > -1 ? v.impact : "minor";
-      parts.push('<article class="finding"><div class="finding-body">');
-      parts.push('<div class="finding-title-row">');
-      parts.push('<h3 class="finding-title">' + escapeHtml(v.help) + "</h3>");
-      parts.push('<span class="sev-badge ' + sev + '">' + IMPACT_LABEL[sev] + "</span></div>");
-
-      if (v.explain) parts.push('<p class="finding-explain">' + escapeHtml(v.explain) + "</p>");
-
-      if (v.steps && v.steps.length) {
-        parts.push('<div class="finding-section"><p class="section-label">How to fix it</p><ol class="fix-steps">');
-        v.steps.forEach(function (s) {
-          parts.push("<li>" + escapeHtml(s) + "</li>");
-        });
-        parts.push("</ol></div>");
-      }
-
-      var code = v.fix || v.exampleHtml;
-      if (code) {
-        parts.push(
-          '<div class="finding-section"><p class="section-label">' +
-            (v.fix ? "Suggested fix" : "Markup on your page") +
-            '</p><pre class="fix" tabindex="0"><code>' +
-            escapeHtml(code) +
-            "</code></pre></div>"
-        );
-      }
-
-      if (v.risk) {
-        parts.push(
-          '<div class="finding-section"><p class="section-label">Why it matters for your business</p><p class="risk-note">' +
-            escapeHtml(v.risk) +
-            "</p></div>"
-        );
-      }
-      if (v.also) parts.push('<div class="finding-section"><p class="also-note">' + escapeHtml(v.also) + "</p></div>");
-
-      // Only same-site guide paths are linked, whatever the server sends.
-      var guideLink =
-        typeof v.guideUrl === "string" && /^\/guides\/[a-z0-9-]+$/.test(v.guideUrl)
-          ? ' &middot; <a href="' + v.guideUrl + '" target="_blank" rel="noopener">Full fix guide<span class="visually-hidden"> (opens in a new tab)</span></a>'
-          : "";
-      parts.push(
-        '<p class="finding-meta">Found on ' + v.nodeCount + " element" + (v.nodeCount === 1 ? "" : "s") +
-          guideLink +
-          ' &middot; <a href="' + escapeHtml(v.helpUrl) +
-          '" target="_blank" rel="noopener">WCAG reference<span class="visually-hidden"> (opens in a new tab)</span></a></p>'
-      );
-      parts.push("</div></article>");
-    });
-
-    parts.push("</section>");
-    output.innerHTML = parts.join("");
-
-    var printBtn = document.getElementById("printBtn");
-    if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
   }
 
   // ---------- waitlist ----------

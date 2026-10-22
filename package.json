@@ -5,11 +5,15 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node scripts/test-urlsafety.js && node scripts/test-guides.js"
+    "test": "node scripts/test-urlsafety.js && node scripts/test-guides.js && node scripts/test-accounts.js"
   },
   "dependencies": {
-    "playwright": "^1.48.0",
     "axe-core": "^4.10.0",
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "pg": "^8.23.1",
+    "playwright": "^1.48.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11"
   }
 }

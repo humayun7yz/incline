@@ -7,6 +7,9 @@ const { scanLimits } = require("./limits");
 const { waitlistRoute } = require("./waitlist");
 const { loadGuides, buildIndex } = require("./guides");
 const { guidePage, indexPage, notFoundPage } = require("./pages");
+const db = require("./db");
+const { authRouter, attachUser } = require("./auth");
+const { reportsRouter, saveReport } = require("./reports");
 
 // Public address of the site, used for canonical links and the sitemap.
 // Set SITE_URL on Render when a custom domain is connected.
@@ -25,7 +28,14 @@ const app = express();
 // req.ip the real visitor address, which the rate limiter relies on.
 app.set("trust proxy", 1);
 app.use(express.json({ limit: "10kb" }));
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "..", "public"), { extensions: ["html"] }));
+
+// Accounts. attachUser only runs for API calls, so pages and images never
+// touch the database. If no database is configured these routes answer
+// "Accounts aren't available yet" and the rest of the site works as before.
+app.use("/api", attachUser);
+app.use("/api/auth", authRouter);
+app.use("/api/reports", reportsRouter);
 
 // Server-side AI config: this is the hosted-SaaS model, not Mark's
 // bring-your-own-key extension model. WE pay the AI cost per scan, so the
@@ -114,14 +124,30 @@ app.post("/api/scan", scanLimits, async (req, res) => {
       also: explanations[v.id]?.also || "",
     }));
 
-    res.json({
+    const payload = {
       url: scanResult.url,
       title: scanResult.title,
       scannedAt: new Date().toISOString(),
       violationCount: violations.length,
       violations,
       aiAvailable: Boolean(AI_CONFIG.apiKey),
-    });
+    };
+
+    // Signed-in users get the report saved to their account. Failing to save
+    // must never fail the scan, so the visitor still sees their results.
+    if (req.user) {
+      try {
+        const saved = await saveReport(req.user, payload);
+        payload.saved = true;
+        payload.reportId = saved.id;
+        payload.savedLimit = saved.limit;
+      } catch (saveErr) {
+        console.error("Saving report failed:", saveErr.message || saveErr);
+        payload.saved = false;
+      }
+    }
+
+    res.json(payload);
   } catch (err) {
     // Log the real error for us, but don't send browser/internal details
     // (file paths, stack hints) back to the visitor.
@@ -132,7 +158,16 @@ app.post("/api/scan", scanLimits, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3300;
-app.listen(PORT, () => {
-  console.log(`a11y-scanner listening on http://localhost:${PORT}`);
-});
+// Start listening straight away and connect to the database in the
+// background, so a slow or missing database can't stop the scanner loading.
+// db.init() never throws: on failure accounts stay off and the reason is logged.
+const ready = db.init();
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 3300;
+  app.listen(PORT, () => {
+    console.log(`a11y-scanner listening on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = { app, ready };
